@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.Capstone.plantmana">
+    <!--사진 다운로드 시 필요-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--사진 업로드 시 필요-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--카메라로 사진 업로드 시 필요 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- 물리적 하드웨어 확인용-->
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera2"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 어플리케이션 구동시 보이는 첫 화면-->
+
+        <activity android:name=".SplashActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 식물관리 메인 액티비티 -->
+
+        <activity android:name=".MainActivity">
+
+        </activity>
+    </application>
+
+</manifest>
