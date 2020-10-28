@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity" >
+    <!--Cardview 1
+    imageview 1-->
+    <!--Cardview 1
+        textview 4 imageview 2 button 1-->
+    <!--Cardview 1
+        textview 8-->
+    <!--button 1-->
+</LinearLayout>
+

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Capstone.plantmana">
-    <!--사진 다운로드 시 필요-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    package="com.capstone.plantplant">
+    <!--식물정보 다운로드 시 필요??-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--사진 업로드 시 필요-->
+    <!--파일 다운로드 시 필요-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--파일 업로드 시 필요-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--카메라로 사진 업로드 시 필요 -->
     <uses-permission android:name="android.permission.CAMERA"/>
 
-    <!-- 물리적 하드웨어 확인용-->
+    <!--블루투스 기능 사용시 필요 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
+    <!-- 물리적 하드웨어 확인용-->
     <uses-feature android:name="android.hardware.camera"
         android:required="false"/>
     <uses-feature android:name="android.hardware.camera2"
-        android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"
         android:required="false"/>
 
     <application
@@ -29,7 +31,7 @@
 
         <!-- 어플리케이션 구동시 보이는 첫 화면-->
 
-        <activity android:name=".SplashActivity"
+        <activity android:name="com.capstone.plantplant.SplashActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -37,11 +39,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <!--사용자 식물 등록할 수 있는 액티비티 -->
+        <activity android:name="com.capstone.plantplant.RegiPlantActivity"/>
         <!-- 식물관리 메인 액티비티 -->
-        <activity android:name=".MainActivity">
+        <activity android:name="com.capstone.plantplant.MainActivity"/>
+        <!-- 급수 컨트롤 액티비티 -->
+        <activity android:name="com.capstone.plantplant.ControlActivity"/>
+        <!-- 식물정보를 보여주는 액티비티 -->
+        <activity android:name="com.capstone.plantplant.PlantInfoActivity"
+            android:theme="@style/PopUpActivityTheme">
 
         </activity>
+
     </application>
 
 </manifest>

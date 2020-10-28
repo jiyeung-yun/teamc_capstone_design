@@ -1,4 +1,4 @@
-package com.Capstone.plantmana;
+package com.capstone.plantplant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,8 +24,9 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 //등록된 식물이 있을 경우
-                Intent mintent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent mintent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mintent);
+                finish();
             }
         },1500);
     }

@@ -1,4 +1,4 @@
-package com.Capstone.plantmana;
+package com.capstone.plantplant;
 
 import org.junit.Test;
 
