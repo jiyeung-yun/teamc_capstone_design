@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 //등록된 식물이 있을 경우
-                Intent mintent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent mintent = new Intent(getApplicationContext(), RegiPlantActivity.class);
                 startActivity(mintent);
                 finish();
             }

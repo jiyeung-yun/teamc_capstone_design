@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">꽃부기</string>
+    <string name="plant">식물</string>
+    <string name="soil">토양</string>
+    <string name="register">등록</string>
+    <string name="pot">화분</string>
+    <string name="state">상태</string>
+    <string name="watering">급수</string>
+
+    <string name="of_kind">의 종류</string>
+    <string name="of_image">의 사진</string>
+    <string name="regi_pot_size">화분 사이즈</string>
+    <string name="check_connect">모듈 연결</string>
+
+    <string name="info">정보</string>
+
+    <string name="block_title_humidity">토양 습도</string>
+    <string name="title_supply_prev">지난 물 보급</string>
+    <string name="title_supply_next">다음 물 보급</string>
+    <string name="title_user_watersize">사용자지정 물의 양</string>
+
 </resources>

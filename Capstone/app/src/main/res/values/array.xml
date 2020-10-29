@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pot_array">
+        <item>13cm</item>
+        <item>17cm</item>
+        <item>24cm</item>
+        <item>31cm</item>
+        <item>39cm</item>
+    </string-array>
+    <string-array name="soil_array">
+        <item>배양토</item>
+        <item>세척마사토</item>
+        <item>피트모스</item>
+        <item>질석</item>
+        <item>산야초</item>
+    </string-array>
+</resources>
