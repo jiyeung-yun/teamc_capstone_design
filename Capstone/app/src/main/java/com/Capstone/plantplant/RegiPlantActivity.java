@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
+
 public class RegiPlantActivity extends AppCompatActivity {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     SharedPreferences prefs;
@@ -35,7 +37,7 @@ public class RegiPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
 
-        prefs = getApplicationContext().getSharedPreferences(SplashActivity.PREFERENCES_NAME, Context.MODE_PRIVATE);
+        prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         eb_kindplant = findViewById(R.id.eb_kindplant);
         btn_connect = findViewById(R.id.btn_connect);

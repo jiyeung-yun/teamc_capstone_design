@@ -25,7 +25,6 @@ public class SplashActivity extends AppCompatActivity {
         * 식물 정보 있다 > 메인화면
         * 식물 정보 없다 > 등록화면
         * */
-
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         new Handler().postDelayed(new Runnable() {
