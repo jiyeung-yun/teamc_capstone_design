@@ -7,7 +7,7 @@
 
     <string name="pot">화분</string>
     <string name="state">상태</string>
-    <string name="watering">급수</string>
+    <string name="watering">물 주기</string>
 
     <string name="of_kind">의 종류</string>
     <string name="of_image">의 사진</string>
@@ -17,8 +17,8 @@
     <string name="info">정보</string>
 
     <string name="block_title_humidity">토양 습도</string>
-    <string name="title_supply_prev">지난 물 보급</string>
-    <string name="title_supply_next">다음 물 보급</string>
+    <string name="title_supply_prev">최근 급수</string>
+    <string name="title_supply_next">다음 급수</string>
     <string name="title_user_watersize">사용자지정 물의 양</string>
 
     <string name="title_plant_kind">식물 종류</string>
