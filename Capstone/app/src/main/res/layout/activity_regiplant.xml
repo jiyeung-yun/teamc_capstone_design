@@ -1,14 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-    <!--toolbar -->
-    <!--Cardview 1
-        textview 1 editbox 1-->
-    <!--Cardview 1
-        textview 1 imageview 1 button 1-->
-    <!--button -->
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            android:theme="?attr/actionBarTheme" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="시작하기"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/activity_title_font_size" />
+        </androidx.appcompat.widget.Toolbar>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_kindplant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            app:cardCornerRadius="@dimen/block_edge"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/plant"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/activity_title_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/of_kind"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="정확한 명칭으로 입력해주세요"
+                    android:textColor="#AFAFAF"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/eb_kindplant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blank_back"
+                    android:ems="10"
+                    android:hint="식물의 종류를 입력해주세요"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/editbox_padding" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            app:cardCornerRadius="@dimen/block_edge"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/plant"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/activity_title_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/of_image"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="아래화면을 눌러 사진을 등록해주세요"
+                    android:textColor="#AFAFAF"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/reg_plant_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blank_back"
+                    android:padding="@dimen/editbox_padding"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/icon_plant_green" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_potsize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            app:cardCornerRadius="@dimen/block_edge"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/regi_pot_size"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/activity_title_font_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="식물의 화분 지름을 선택해주세요."
+                    android:textColor="#AFAFAF"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_pot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blank_back"
+                    android:entries="@array/pot_array"
+                    android:padding="@dimen/editbox_padding" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_soil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            app:cardCornerRadius="@dimen/block_edge"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/soil"
+                        android:textColor="@color/colorSolid"
+                        android:textSize="@dimen/activity_title_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/of_kind"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="토양의 종류를 선택해주세요."
+                    android:textColor="#AFAFAF"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_soil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blank_back"
+                    android:entries="@array/soil_array"
+                    android:padding="@dimen/editbox_padding" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_connect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            app:cardCornerRadius="@dimen/block_edge"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/check_connect"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/activity_title_font_size" />
+
+                <ToggleButton
+                    android:id="@+id/btn_connect"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/btn_connect"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textOff="연결시도"
+                    android:textOn="연결됨" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_regi"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/side_padding"
+            android:background="@drawable/btn_vaild"
+            android:text="@string/register"
+            android:textColor="@color/colorButtonFont"
+            android:textSize="@dimen/activity_title_font_size"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</ScrollView>
