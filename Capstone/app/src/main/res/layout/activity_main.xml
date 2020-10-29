@@ -29,6 +29,19 @@
             android:orientation="vertical"
             android:padding="@dimen/side_padding">
 
+            <Button
+                android:id="@+id/btn_setting"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_title_font_size"
+                android:background="@drawable/btn_vaild"
+                android:gravity="center"
+                android:text="@string/setting"
+                android:textColor="@color/colorButtonFont"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/view_watering"
                 android:layout_width="match_parent"
@@ -50,13 +63,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/block_inside_padding"
                         android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_opacity_24px"
-                            app:tint="@color/colorAccent" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -99,6 +105,8 @@
                                 android:id="@+id/txt_prev_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_today_24px"
+                                android:drawableTint="@color/colorTitleFont"
                                 android:gravity="right|end"
                                 android:text="2020-00-00"
                                 android:textColor="@color/colorTitleFont"
@@ -108,6 +116,7 @@
                                 android:id="@+id/txt_prev_vol"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/block_title_padding"
                                 android:gravity="right|end"
                                 android:text="50ml"
                                 android:textColor="@color/colorAccentDark"
@@ -119,6 +128,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_inside_padding"
                         android:orientation="horizontal">
 
                         <TextView
@@ -133,6 +143,8 @@
                             android:id="@+id/txt_next_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_today_24px"
+                            android:drawableTint="@color/colorTitleFont"
                             android:gravity="right|end"
                             android:text="2020-00-00"
                             android:textColor="@color/colorTitleFont"
@@ -142,6 +154,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_inside_padding"
                         android:orientation="horizontal">
 
                         <TextView
@@ -168,19 +181,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/btn_setting"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_title_font_size"
-                android:background="@drawable/btn_vaild"
-                android:gravity="center"
-                android:text="공급 설정"
-                android:textColor="@color/colorButtonFont"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/view_plantstate"
@@ -204,18 +204,11 @@
                         android:layout_marginBottom="@dimen/block_inside_padding"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_eco_24px"
-                            app:tint="@color/colorPrimaryDark" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/state"
-                            android:textColor="@color/colorTitleFont"
+                            android:textColor="@color/colorSolid"
                             android:textSize="@dimen/activity_title_font_size"
                             android:textStyle="bold" />
 
@@ -228,13 +221,67 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <TextView
+                    <!-- 이런식으로 표현하는 것을 구현할 지 고민해보기-->
+                    <LinearLayout
+                        android:id="@+id/group_drop_icon"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/block_title_humidity"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/block_title_humidity"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/block_content_font_size"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/main_drop1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_opacity_24px"
+                            app:tint="@color/colorAccentNoVaild" />
+
+                        <ImageView
+                            android:id="@+id/main_drop2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_opacity_24px"
+                            app:tint="@color/colorAccentNoVaild" />
+
+                        <ImageView
+                            android:id="@+id/main_drop3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_opacity_24px"
+                            app:tint="@color/colorAccentNoVaild" />
+
+                        <ImageView
+                            android:id="@+id/main_drop4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_opacity_24px"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:id="@+id/main_drop5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_opacity_24px"
+                            app:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:id="@+id/main_txt_humity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="40%"
+                            android:textColor="@color/colorAccentDark"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -260,23 +307,17 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ly_main_pot_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/block_inside_padding"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_spa_24px"
-                            app:tint="@color/colorSolid" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pot"
-                            android:textColor="@color/colorTitleFont"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/activity_title_font_size"
                             android:textStyle="bold" />
 
@@ -290,16 +331,17 @@
 
                     </LinearLayout>
 
-                    <androidx.gridlayout.widget.GridLayout
+                    <LinearLayout
+                        android:id="@+id/ly_main_pot_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:columnCount="2">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="식물 이름 "
+                            android:text="@string/title_plant_kind"
                             android:textColor="@color/colorTitleFont"
                             android:textStyle="bold" />
 
@@ -311,11 +353,20 @@
                             android:textSize="@dimen/block_content_font_size"
                             app:layout_gravity="right|end" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_main_pot_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_inside_padding"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="등록한 날짜"
+                            android:text="@string/title_regi_date"
                             android:textColor="@color/colorTitleFont"
                             android:textStyle="bold" />
 
@@ -326,12 +377,20 @@
                             android:textColor="@color/colorTitleFont"
                             android:textSize="@dimen/block_content_font_size"
                             app:layout_gravity="right|end" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_main_pot_potsize"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_inside_padding"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="화분 사이즈"
+                            android:text="@string/title_pot_size"
                             android:textColor="@color/colorTitleFont"
                             android:textStyle="bold" />
 
@@ -342,12 +401,20 @@
                             android:textColor="@color/colorTitleFont"
                             android:textSize="@dimen/block_content_font_size"
                             app:layout_gravity="right|end" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_main_pot_soil"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_inside_padding"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="토양의 종류"
+                            android:text="@string/title_soild_kind"
                             android:textColor="@color/colorTitleFont"
                             android:textStyle="bold" />
 
@@ -358,8 +425,7 @@
                             android:textColor="@color/colorTitleFont"
                             android:textSize="@dimen/block_content_font_size"
                             app:layout_gravity="right|end" />
-
-                    </androidx.gridlayout.widget.GridLayout>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"

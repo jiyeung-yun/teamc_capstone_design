@@ -3,7 +3,7 @@
     <dimen name="side_padding">18dp</dimen>
     <dimen name="block_inside_padding">15dp</dimen>
     <dimen name="block_title_padding">5dp</dimen>
-    <dimen name="block_edge">8dp</dimen>
+    <dimen name="block_edge">10dp</dimen>
     <dimen name="editbox_padding">10dp</dimen>
     <dimen name="activity_title_font_size">17sp</dimen>
     <dimen name="block_content_font_size">15sp</dimen>

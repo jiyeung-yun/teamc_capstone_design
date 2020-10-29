@@ -1,11 +1,13 @@
 package com.capstone.plantplant;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PlantInfoActivity extends AppCompatActivity {
 
     ImageButton btn_info_close;
+    TextView plantinfo_kind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,5 +38,13 @@ public class PlantInfoActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Intent intent = getIntent();
+        String plant_kind = intent.getStringExtra("plant_kind");
+        if(plant_kind==null){
+            finish();
+        }
+        plantinfo_kind = findViewById(R.id.plantinfo_kind);
+        plantinfo_kind.setText(plant_kind);
     }
 }

@@ -1,6 +1,8 @@
 package com.capstone.plantplant;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import java.util.Date;
 
 public class RegiPlantActivity extends AppCompatActivity {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SharedPreferences prefs;
 
     EditText eb_kindplant;
     Spinner spinner_pot,spinner_soil;
@@ -31,6 +34,8 @@ public class RegiPlantActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
+
+        prefs = getApplicationContext().getSharedPreferences(SplashActivity.PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         eb_kindplant = findViewById(R.id.eb_kindplant);
         btn_connect = findViewById(R.id.btn_connect);
@@ -50,27 +55,41 @@ public class RegiPlantActivity extends AppCompatActivity {
         btn_regi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SharedPreferences.Editor editor= prefs.edit();
+
                 Intent reg = new Intent(getApplicationContext(),MainActivity.class);
+
                 String plant_kind = eb_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 reg.putExtra("plant_kind",plant_kind);
+                editor.putString("plant_kind",plant_kind);
 
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
-                reg.putExtra("pot_size",spinner_pot.getSelectedItem().toString());
+                String pot_size = spinner_pot.getSelectedItem().toString();
+                reg.putExtra("pot_size",pot_size);
+                editor.putString("pot_size",pot_size);
 
                 //토양의 종류
                 spinner_soil = findViewById(R.id.spinner_soil);
-                reg.putExtra("soil_kind",spinner_soil.getSelectedItem().toString());
+                String soil_kind = spinner_soil.getSelectedItem().toString();
+                reg.putExtra("soil_kind",soil_kind);
+                editor.putString("soil_kind",soil_kind);
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 regi_date = new Date();
-                reg.putExtra("reg_date",dateFormat.format(regi_date));
+                String reg_date = dateFormat.format(regi_date);
+                reg.putExtra("reg_date",reg_date);
+                editor.putString("reg_date",reg_date);
 
-                spinner_pot.getSelectedItem().toString();
+                //기기에 식물을 등록한 여부
+                editor.putBoolean("register",true);
+
+                editor.apply();
 
                 startActivity(reg);
                 finish();
@@ -78,6 +97,7 @@ public class RegiPlantActivity extends AppCompatActivity {
         });
         checkConnectState(btn_connect.isChecked());
     }
+    //모듈과의 연결이 확인되면 등록버튼 활성화
     private void checkConnectState(boolean check){
         if(check){
             btn_regi.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_vaild));

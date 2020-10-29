@@ -2,7 +2,9 @@
     <string name="app_name">꽃부기</string>
     <string name="plant">식물</string>
     <string name="soil">토양</string>
-    <string name="register">등록</string>
+    <string name="register">START</string>
+    <string name="setting">SETTING</string>
+
     <string name="pot">화분</string>
     <string name="state">상태</string>
     <string name="watering">급수</string>
@@ -18,5 +20,10 @@
     <string name="title_supply_prev">지난 물 보급</string>
     <string name="title_supply_next">다음 물 보급</string>
     <string name="title_user_watersize">사용자지정 물의 양</string>
+
+    <string name="title_plant_kind">식물 종류</string>
+    <string name="title_regi_date">등록한 날짜</string>
+    <string name="title_pot_size">화분사이즈</string>
+    <string name="title_soild_kind">토양 종류</string>
 
 </resources>
