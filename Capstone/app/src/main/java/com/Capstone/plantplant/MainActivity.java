@@ -38,11 +38,23 @@ public class MainActivity extends AppCompatActivity {
     String plant_kind;
     TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size;
     CardView view_potplant,view_plantstate;
+    ImageButton btn_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        btn_setting = findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent set = new Intent(getApplicationContext(),ControlActivity.class);
+                startActivity(set);
+            }
+        });
+
 
         //메모리에 저장된 데이터 불러오기
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);

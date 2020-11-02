@@ -98,7 +98,6 @@ public class StorageActivity extends AppCompatActivity {
                         setResult(RESULT_OK);
                         finish();
                         return;
-
                     }catch(Exception e){
                         e.printStackTrace();
                     }

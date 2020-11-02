@@ -20,7 +20,6 @@ public class WaterActivity extends AppCompatActivity {
     TextView txt_next_date,txt_next_vol;
     TextView txt_prev_date,txt_prev_vol;
 
-    Button btn_setting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,16 +39,6 @@ public class WaterActivity extends AppCompatActivity {
 
         LoadPrevData();
         LoadNextData();
-
-        btn_setting = findViewById(R.id.btn_setting);
-        btn_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent set = new Intent(getApplicationContext(),ControlActivity.class);
-                startActivity(set);
-                finish();
-            }
-        });
 
     }
     //최근 모듈이 물 주기를 수행한 날짜와 용량

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -53,6 +52,16 @@ public class ControlActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        // 기기 전원
+
+        // 물 공급량
+
+        // 물 주는 시간을 입력받는 기능 => 0시 ~ 24시(스피너)
+
+        // 물 주는 기간 입력받는 기능 => 입력박스
+
+
     }
     //기기 내 메모리 데이터 초기화하기
     private boolean clearDeviceData(){

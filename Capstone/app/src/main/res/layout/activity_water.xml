@@ -222,19 +222,5 @@
 
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/btn_setting"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_title_font_size"
-            android:background="@drawable/btn_vaild"
-            android:gravity="center"
-            android:text="@string/setting"
-            android:textColor="@color/colorButtonFont"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-
     </LinearLayout>
 </FrameLayout>
