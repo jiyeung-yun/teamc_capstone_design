@@ -140,6 +140,7 @@
                     android:layout_height="300dp"
                     android:layout_gravity="center"
                     android:background="@drawable/blank_back"
+                    android:clickable="true"
                     android:padding="@dimen/editbox_padding"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/icon_plant_green" />

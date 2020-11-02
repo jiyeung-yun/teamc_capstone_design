@@ -24,17 +24,17 @@ public class SplashActivity extends AppCompatActivity {
         * 등록된 식물 정보가 있는지 확인 후 넘겨줘야 할 화면 결정
         * 식물 정보 있다 > 메인화면
         * 식물 정보 없다 > 등록화면
-        * */
+        */
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(prefs.getBoolean("register", DEFAULT_VALUE_BOOLEAN)){
-                    //등록된 식물이 있을 경우
+                    //등록된 데이터가 있을 경우
                     mintent = new Intent(getApplicationContext(), MainActivity.class);
                 }else {
-                    //등록된 식물이 없을 경우
+                    //등록된 데이터가 없을 경우
                     mintent = new Intent(getApplicationContext(), RegiPlantActivity.class);
                 }
                 startActivity(mintent);

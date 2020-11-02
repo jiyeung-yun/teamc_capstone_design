@@ -3,11 +3,16 @@ package com.capstone.plantplant;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -22,10 +27,13 @@ import java.util.Date;
 import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
 
 public class RegiPlantActivity extends AppCompatActivity {
+    private static final int REQUEST_IMAGE = 1011;
+
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     SharedPreferences prefs;
 
     EditText eb_kindplant;
+    ImageView reg_plant_image;
     Spinner spinner_pot,spinner_soil;
     ToggleButton btn_connect;
     Button btn_regi;
@@ -40,6 +48,17 @@ public class RegiPlantActivity extends AppCompatActivity {
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         eb_kindplant = findViewById(R.id.eb_kindplant);
+
+        reg_plant_image = findViewById(R.id.reg_plant_image);
+        reg_plant_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent img = new Intent(getApplicationContext(),StorageActivity.class);
+                startActivityForResult(img,REQUEST_IMAGE);
+            }
+        });
+
+
         btn_connect = findViewById(R.id.btn_connect);
         btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -107,5 +126,18 @@ public class RegiPlantActivity extends AppCompatActivity {
             btn_regi.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_invaild));
         }
         btn_regi.setClickable(check);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_IMAGE){
+            if(resultCode==RESULT_OK){
+                Uri uri = MediaStore.Images.Media.getContentUri("user_plant_image");
+                Bitmap image = BitmapFactory.decodeFile(String.valueOf(uri));
+                reg_plant_image.setImageBitmap(image);
+            }
+        }
     }
 }

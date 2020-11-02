@@ -1,13 +1,9 @@
 package com.capstone.plantplant;
 
-import android.content.ClipData;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,24 +12,25 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstone.plantplant.control.TipAdapter;
 import com.capstone.plantplant.model.ItemTip;
 
-import java.util.ArrayList;
+import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
 
 /*
 *
-* 사용자가 입력한 식물의 사진과 종류를 받아서 저장하는 코드 작성
+* 사용자가 입력한 식물의 종류를 받아서 저장하는 코드 작성
 *
 * */
 public class PlantInfoActivity extends AppCompatActivity {
+    private final String DEFAULT_VALUE_STRING = "";
 
     ImageButton btn_info_close;
-    TextView plantinfo_kind;
+    TextView txt_plantinfo_kind,txt_plantinfo_soil;
     RecyclerView rv_tip;
 
     @Override
@@ -56,13 +53,16 @@ public class PlantInfoActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String plant_kind = intent.getStringExtra("plant_kind");
-        if(plant_kind==null){
-            finish();
-        }
-        plantinfo_kind = findViewById(R.id.plantinfo_kind);
-        plantinfo_kind.setText(plant_kind);
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        String  plant_kind = prefs.getString("plant_kind",DEFAULT_VALUE_STRING);
+        txt_plantinfo_kind = findViewById(R.id.txt_plantinfo_kind);
+        txt_plantinfo_kind.setText(plant_kind);
+
+        String  soil_kind = prefs.getString("soil_kind",DEFAULT_VALUE_STRING);
+        txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
+        txt_plantinfo_soil.setText(soil_kind);
     }
     //tip 내용 초기화하는 메소드
     private void initRecyclerView(){
@@ -70,7 +70,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         rv_tip.setLayoutManager(layoutManager);
 
-        //Recyclerview의 연속 스크롤을 막음
+        //Recyclerview의 연속 스크롤을 막아 주는 헬퍼
         LinearSnapHelper snapHelper = new LinearSnapHelper() {
             @Override
             public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {

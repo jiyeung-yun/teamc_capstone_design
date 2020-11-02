@@ -45,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //메모리에 저장된 데이터 불러오기
-        SharedPreferences refs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        plant_kind = refs.getString("plant_kind",DEFAULT_VALUE_STRING);
+        plant_kind = prefs.getString("plant_kind",DEFAULT_VALUE_STRING);
         main_plant_name = findViewById(R.id.main_plant_name);
         main_plant_name.setText(plant_kind);
         main_regi_date = findViewById(R.id.main_regi_date);
-        main_regi_date.setText(refs.getString("reg_date",DEFAULT_VALUE_STRING));
+        main_regi_date.setText(prefs.getString("reg_date",DEFAULT_VALUE_STRING));
         main_soil_kind = findViewById(R.id.main_soil_kind);
-        main_soil_kind.setText(refs.getString("soil_kind",DEFAULT_VALUE_STRING));
+        main_soil_kind.setText(prefs.getString("soil_kind",DEFAULT_VALUE_STRING));
         main_pot_size = findViewById(R.id.main_pot_size);
-        main_pot_size.setText(refs.getString("pot_size",DEFAULT_VALUE_STRING));
+        main_pot_size.setText(prefs.getString("pot_size",DEFAULT_VALUE_STRING));
 
         view_potplant = findViewById(R.id.view_potplant);
         view_potplant.setOnClickListener(new View.OnClickListener() {

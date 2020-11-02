@@ -1,4 +1,4 @@
-package com.capstone.plantplant;
+package com.capstone.plantplant.control;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstone.plantplant.R;
 import com.capstone.plantplant.model.ItemTip;
 
 import java.util.ArrayList;

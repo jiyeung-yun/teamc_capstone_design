@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.capstone.plantplant">
+
     <!--식물정보 다운로드 시 필요??-->
     <uses-permission android:name="android.permission.INTERNET" />
-
     <!--파일 다운로드 시 필요-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--파일 업로드 시 필요-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <!--카메라로 사진 업로드 시 필요 -->
     <uses-permission android:name="android.permission.CAMERA"/>
-
     <!--블루투스 기능 사용시 필요 -->
     <uses-permission android:name="android.permission.BLUETOOTH"/>
 
@@ -39,21 +37,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!--사용자 식물 등록할 수 있는 액티비티 -->
         <activity android:name="com.capstone.plantplant.RegiPlantActivity"/>
+
         <!-- 식물관리 메인 액티비티 -->
         <activity android:name="com.capstone.plantplant.MainActivity"/>
+
         <!-- 급수정보를 보여주는 액티비티 -->
         <activity android:name="com.capstone.plantplant.WaterActivity"
             android:theme="@style/PopUpActivityTheme"/>
 
         <!-- 급수 컨트롤 액티비티 -->
         <activity android:name="com.capstone.plantplant.ControlActivity"/>
+
         <!-- 식물정보를 보여주는 액티비티 -->
         <activity android:name="com.capstone.plantplant.PlantInfoActivity"
             android:theme="@style/PopUpActivityTheme">
-
         </activity>
+
+        <!--기기로부터 사진을 불러오는 기능-->
+        <activity
+            android:name=".StorageActivity"
+            android:theme="@style/PopUpActivityTheme">
+        </activity>
+
+        <provider
+            android:authorities="com.capstone.plantplant.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/external"/>
+        </provider>
 
     </application>
 

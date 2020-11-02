@@ -24,6 +24,8 @@ public class ControlActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+
+
         dialog = new AlertDialog.Builder(this);
         dialog.setTitle("데이터초기화");
         dialog.setMessage("정말로 초기화하시겠습니까? 모든 정보는 삭제됩니다.");
@@ -43,6 +45,7 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
         dialog.create();
+
         btn_reset_data = findViewById(R.id.btn_reset_data);
         btn_reset_data.setOnClickListener(new View.OnClickListener() {
             @Override

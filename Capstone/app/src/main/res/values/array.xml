@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pot_array">
-        <item>13cm</item>
-        <item>17cm</item>
-        <item>24cm</item>
-        <item>31cm</item>
-        <item>39cm</item>
+        <item>5호(용량:1L)</item>
+        <item>6호(용량:2.5L)</item>
+        <item>7호(용량:3.5L)</item>
+        <item>8호(용량:6L)</item>
     </string-array>
     <string-array name="soil_array">
-        <item>배양토</item>
-        <item>세척마사토</item>
-        <item>피트모스</item>
-        <item>질석</item>
-        <item>산야초</item>
+        <item>혼합 인공 배양 상토</item>
+        <item>피트모스(인공배양토)</item>
+        <item>펄라이트(인공배양토)</item>
+        <item>경석</item>
+        <item>마사토</item>
+        <item>녹소토</item>
+        <item>재배용 수태</item>
     </string-array>
 </resources>

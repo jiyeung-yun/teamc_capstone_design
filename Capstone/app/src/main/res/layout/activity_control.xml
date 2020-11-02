@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStart="0dp"
+        android:theme="?attr/actionBarTheme" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="설정하기"
+            android:textColor="@color/colorTitleFont"
+            android:textSize="@dimen/activity_title_font_size" />
+    </androidx.appcompat.widget.Toolbar>
 
     <Button
         android:id="@+id/btn_reset_data"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="데이터초기화" />
-</FrameLayout>
+        android:layout_height="35dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/btn_reset"
+        android:drawableLeft="@drawable/ic_error_24px"
+        android:drawableTint="@color/colorIcon"
+        android:text="데이터초기화"
+        android:textColor="@color/colorIcon"
+        android:textSize="13sp" />
+</LinearLayout>
