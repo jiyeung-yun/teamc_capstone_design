@@ -27,7 +27,7 @@ public class ControlActivity extends AppCompatActivity {
 
         dialog = new AlertDialog.Builder(this);
         dialog.setTitle("데이터초기화");
-        dialog.setMessage("정말로 초기화하시겠습니까? 모든 정보는 삭제됩니다.");
+        dialog.setMessage("정말로 초기화하시겠습니까?\n해당 식물에 대한 정보는 모두 삭제됩니다.");
         dialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
