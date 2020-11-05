@@ -119,17 +119,17 @@
 
                         <Spinner
                             android:id="@+id/control_spinner"
-                            android:layout_width="93dp"
+                            android:layout_width="107dp"
                             android:layout_height="match_parent" />
 
                         <EditText
                             android:id="@+id/editTextTextPersonName3"
-                            android:layout_width="65dp"
+                            android:layout_width="45dp"
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:enabled="true"
                             android:gravity="right"
-                            android:inputType="textPersonName"
+                            android:inputType="number"
                             android:text="0" />
 
                         <TextView
@@ -174,7 +174,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:gravity="right"
-                            android:inputType="textPersonName"
+                            android:inputType="number"
                             android:text="1"
                             android:enabled="true"/>
 
