@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:background="@null"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/example_image" />
+                    app:srcCompat="@null" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
