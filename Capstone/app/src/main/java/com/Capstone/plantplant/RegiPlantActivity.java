@@ -56,7 +56,6 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
 
-
         btn_connect = findViewById(R.id.btn_connect);
         btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
