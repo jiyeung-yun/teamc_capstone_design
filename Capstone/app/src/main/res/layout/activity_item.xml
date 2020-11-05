@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    tools:context=".MainActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".ItemActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,13 +17,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="@dimen/side_padding">
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
-                app:contentInsetStart="0dp"
-                android:theme="?attr/actionBarTheme" >
+                android:theme="?attr/actionBarTheme"
+                app:contentInsetStart="0dp">
 
                 <ImageButton
                     android:id="@+id/btn_setting"
@@ -34,7 +35,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:src="@drawable/ic_settings_24px"
-                    android:tint="@color/colorTitleFont" />
+                    android:tint="@color/colorButtonFont" />
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.cardview.widget.CardView
@@ -366,7 +367,7 @@
                             android:layout_height="wrap_content"
                             android:button="@drawable/ckb_water"
                             android:buttonTint="@color/colorAccentDark"
-                            android:checked="false"
+                            android:checked="true"
                             android:clickable="false"
                             android:text="물이 충분해요!"
                             android:textColor="@color/colorTitleFont"

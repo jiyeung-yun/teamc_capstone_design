@@ -38,8 +38,6 @@ public class RegiPlantActivity extends AppCompatActivity {
     ToggleButton btn_connect;
     Button btn_regi;
 
-    Date regi_date;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,40 +77,35 @@ public class RegiPlantActivity extends AppCompatActivity {
 
                 SharedPreferences.Editor editor= prefs.edit();
 
-                Intent reg = new Intent(getApplicationContext(),MainActivity.class);
-
                 String plant_kind = eb_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                reg.putExtra("plant_kind",plant_kind);
-                editor.putString("plant_kind",plant_kind);
+
+                //기기에 등록된 식물의 갯수에 +1
+                int count =  prefs.getInt("register", 0) + 1;
+                editor.putInt("register",count);
+
+                editor.putString("plant_kind"+count,plant_kind);
 
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
                 String pot_size = spinner_pot.getSelectedItem().toString();
-                reg.putExtra("pot_size",pot_size);
-                editor.putString("pot_size",pot_size);
+                editor.putString("pot_size"+count,pot_size);
 
                 //토양의 종류
                 spinner_soil = findViewById(R.id.spinner_soil);
                 String soil_kind = spinner_soil.getSelectedItem().toString();
-                reg.putExtra("soil_kind",soil_kind);
-                editor.putString("soil_kind",soil_kind);
+                editor.putString("soil_kind"+count,soil_kind);
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
-                regi_date = new Date();
-                String reg_date = dateFormat.format(regi_date);
-                reg.putExtra("reg_date",reg_date);
-                editor.putString("reg_date",reg_date);
+                String reg_date = dateFormat.format(new Date());
+                editor.putString("reg_date"+count,reg_date);
 
-                //기기에 식물을 등록한 여부
-                editor.putBoolean("register",true);
 
                 editor.apply();
-
-                startActivity(reg);
+                setResult(RESULT_OK);
                 finish();
             }
         });

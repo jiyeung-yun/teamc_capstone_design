@@ -1,6 +1,7 @@
 package com.capstone.plantplant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -53,14 +54,12 @@ public class PlantInfoActivity extends AppCompatActivity {
             }
         });
 
-
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-        String  plant_kind = prefs.getString("plant_kind",DEFAULT_VALUE_STRING);
+        Intent intent = getIntent();
+        String  plant_kind = intent.getStringExtra("plant_kind");
         txt_plantinfo_kind = findViewById(R.id.txt_plantinfo_kind);
         txt_plantinfo_kind.setText(plant_kind);
 
-        String  soil_kind = prefs.getString("soil_kind",DEFAULT_VALUE_STRING);
+        String  soil_kind = intent.getStringExtra("soil_kind");
         txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soil_kind);
     }

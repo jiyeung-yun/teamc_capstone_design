@@ -41,8 +41,11 @@
         <!--사용자 식물 등록할 수 있는 액티비티 -->
         <activity android:name="com.capstone.plantplant.RegiPlantActivity"/>
 
-        <!-- 식물관리 메인 액티비티 -->
-        <activity android:name="com.capstone.plantplant.MainActivity"/>
+        <!-- 식물 리스트 액티비티 -->
+        <activity android:name="com.capstone.plantplant.ListActivity"/>
+
+        <!-- 식물 아이템 상세 액티비티 -->
+        <activity android:name="com.capstone.plantplant.ItemActivity"/>
 
         <!-- 급수정보를 보여주는 액티비티 -->
         <activity android:name="com.capstone.plantplant.WaterActivity"

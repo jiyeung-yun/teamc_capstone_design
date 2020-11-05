@@ -14,7 +14,6 @@ public class SplashActivity extends AppCompatActivity {
     private final boolean DEFAULT_VALUE_BOOLEAN = false;
 
     SharedPreferences prefs;
-    Intent mintent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,14 +29,8 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(prefs.getBoolean("register", DEFAULT_VALUE_BOOLEAN)){
-                    //등록된 데이터가 있을 경우
-                    mintent = new Intent(getApplicationContext(), MainActivity.class);
-                }else {
-                    //등록된 데이터가 없을 경우
-                    mintent = new Intent(getApplicationContext(), RegiPlantActivity.class);
-                }
-                startActivity(mintent);
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
                 finish();
             }
         },1500);
