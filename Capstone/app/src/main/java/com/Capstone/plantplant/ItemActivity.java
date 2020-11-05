@@ -1,14 +1,18 @@
 package com.capstone.plantplant;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
@@ -17,15 +21,16 @@ public class ItemActivity extends AppCompatActivity {
     private final String DEFAULT_VALUE_STRING = "";
 
     String plant_kind,soil_kind;
-    TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size;
+    TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size,main_txt_humity;
     CardView view_potplant,view_plantstate;
     ImageButton btn_setting;
+    CheckBox ckb_waterlevel;
 
+    ImageView main_drop1,main_drop2,main_drop3,main_drop4,main_drop5; //토양습도 물방을
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-
 
         btn_setting = findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +71,10 @@ public class ItemActivity extends AppCompatActivity {
                 startActivity(info);
             }
         });
-
+        initStateBlock();
+    }
+    //상태정보 블록을 초기화하는 메소드
+    private void initStateBlock(){
         view_plantstate = findViewById(R.id.view_plantstate);
         view_plantstate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,5 +83,57 @@ public class ItemActivity extends AppCompatActivity {
                 startActivity(info);
             }
         });
+        main_txt_humity = findViewById(R.id.main_txt_humity);
+        main_drop1 = findViewById(R.id.main_drop1);
+        main_drop2 = findViewById(R.id.main_drop2);
+        main_drop3 = findViewById(R.id.main_drop3);
+        main_drop4 = findViewById(R.id.main_drop4);
+        main_drop5 = findViewById(R.id.main_drop5);
+
+        //토양 습도 센서로부터 받은 값
+        int humity = 63;
+
+        main_txt_humity.setText(Integer.toString(humity)+"%");
+        viewDropImage(humity);
+
+        //수위 센서로부터 받은 값
+        boolean isEnough = false;
+
+        ckb_waterlevel = findViewById(R.id.ckb_waterlevel);
+        ckb_waterlevel.setChecked(isEnough);
+        if(isEnough){
+            ckb_waterlevel.setText("물이 충분해요!");
+        }else {
+            ckb_waterlevel.setText("물이 부족해요ㅠ");
+        }
+
+    }
+
+    //토양습도를 물방울 이미지로 표현하는 메소드
+    private void viewDropImage(int percent){
+        int invaild = ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3);
+        main_drop1.setColorFilter(invaild);
+        main_drop2.setColorFilter(invaild);
+        main_drop3.setColorFilter(invaild);
+        main_drop4.setColorFilter(invaild);
+        main_drop5.setColorFilter(invaild);
+
+        int vaild = ContextCompat.getColor(getApplicationContext(),R.color.colorAccent);
+       if(percent>=20){
+           main_drop5.setColorFilter(vaild);
+       }
+       if(percent>=40){
+           main_drop4.setColorFilter(vaild);
+       }
+       if(percent>=60){
+           main_drop3.setColorFilter(vaild);
+       }
+       if(percent>=80){
+           main_drop2.setColorFilter(vaild);
+       }
+       if(percent>=100){
+           main_drop1.setColorFilter(vaild);
+
+       }
     }
 }

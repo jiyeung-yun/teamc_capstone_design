@@ -9,20 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="#FFFFFF"
             android:minHeight="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            android:theme="?attr/actionBarTheme" >
+            android:theme="?attr/actionBarTheme"
+            app:contentInsetStart="0dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="시작하기"
+                android:text="등록하기"
                 android:textColor="@color/colorTitleFont"
                 android:textSize="@dimen/activity_title_font_size" />
         </androidx.appcompat.widget.Toolbar>
