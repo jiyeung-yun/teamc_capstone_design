@@ -25,6 +25,7 @@ public class ControlActivity extends AppCompatActivity {
 
     Button btn_reset_data;
     Spinner cont_spinner_time;
+    Button btn_save;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,8 +77,11 @@ public class ControlActivity extends AppCompatActivity {
 
         // 물 주는 기간 입력받는 기능 => 입력박스
 
-
+        // 설정 저장
+        btn_save = (Button)findViewById(R.id.control_btn_save);
     }
+
+
     //기기 내 메모리 데이터 초기화하기
     private boolean clearDeviceData(){
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
