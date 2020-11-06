@@ -46,7 +46,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder>{
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tip_title,tip_content;
+        TextView tip_title,tip_content,tip_page;
         ImageView tip_image;
 
         public ViewHolder(View itemView) {
@@ -55,12 +55,15 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder>{
             tip_title = itemView.findViewById(R.id.tip_title);
             tip_image = itemView.findViewById(R.id.tip_image);
             tip_content = itemView.findViewById(R.id.tip_content);
+            tip_page = itemView.findViewById(R.id.tip_page);
+
         }
         public void setItem(final ItemTip item) {
             tip_title.setText(item.getTitle());
             tip_image.setImageResource(item.getRes());
             tip_image.setColorFilter(item.getColor());
             tip_content.setText(item.getContent());
+            tip_page.setText(item.getPage());
         }
     }
 

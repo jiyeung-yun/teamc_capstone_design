@@ -34,14 +34,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/block_inside_padding"
             android:layout_marginRight="@dimen/block_title_padding"
-            app:srcCompat="@drawable/ic_opacity_24px"
-            app:tint="@color/colorAccent" />
+            app:srcCompat="@drawable/ic_today_24px"
+            app:tint="@color/colorTitleFont" />
 
         <TextView
             android:id="@+id/txt_listitem_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccentDark"
+            android:textColor="@color/colorTitleFont"
             android:textSize="@dimen/block_content_font_size"
             android:textStyle="bold" />
 

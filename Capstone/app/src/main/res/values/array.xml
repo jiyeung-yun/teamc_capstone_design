@@ -5,6 +5,7 @@
         <item>6호(용량:2.5L)</item>
         <item>7호(용량:3.5L)</item>
         <item>8호(용량:6L)</item>
+        <item>기타</item>
     </string-array>
     <string-array name="soil_array">
         <item>혼합 인공 배양 상토</item>
@@ -14,5 +15,6 @@
         <item>마사토</item>
         <item>녹소토</item>
         <item>재배용 수태</item>
+        <item>기타</item>
     </string-array>
 </resources>

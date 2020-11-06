@@ -19,22 +19,43 @@
             android:paddingBottom="@dimen/side_padding">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbar_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:contentInsetStart="0dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btn_setting"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:src="@drawable/ic_settings_24px"
-                    android:tint="@color/colorButtonFont" />
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_local_florist_24px"
+                        app:tint="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MY "
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PLANT"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.cardview.widget.CardView
@@ -52,7 +73,7 @@
                     android:layout_gravity="center"
                     android:background="@null"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@null" />
+                    app:srcCompat="@drawable/example_image" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -368,6 +389,10 @@
                             android:buttonTint="@color/colorAccentDark"
                             android:checked="true"
                             android:clickable="false"
+                            android:contextClickable="false"
+                            android:enabled="false"
+                            android:focusable="false"
+                            android:stateListAnimator="@null"
                             android:text="물이 충분해요!"
                             android:textColor="@color/colorTitleFont"
                             android:textStyle="bold" />

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -19,6 +20,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +34,8 @@ public class RegiPlantActivity extends AppCompatActivity {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     SharedPreferences prefs;
 
+    Toolbar toolbar_regiplant;
+
     EditText eb_kindplant;
     ImageView reg_plant_image;
     Spinner spinner_pot,spinner_soil;
@@ -42,6 +46,14 @@ public class RegiPlantActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
+
+        toolbar_regiplant = findViewById(R.id.toolbar_regiplant);
+        setSupportActionBar(toolbar_regiplant);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_keyboard_backspace_24px));
+
 
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
@@ -131,5 +143,13 @@ public class RegiPlantActivity extends AppCompatActivity {
                 reg_plant_image.setImageBitmap(image);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
