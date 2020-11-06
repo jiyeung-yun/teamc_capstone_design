@@ -1,8 +1,6 @@
 package com.capstone.plantplant;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,23 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.plantplant.control.TipAdapter;
-import com.capstone.plantplant.model.ItemTip;
-
-import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
 
 /*
 *
 * 사용자가 입력한 식물의 종류를 받아서 저장하는 코드 작성
 *
-* */
+*/
 public class PlantInfoActivity extends AppCompatActivity {
-    private final String DEFAULT_VALUE_STRING = "";
-
     ImageButton btn_info_close;
     TextView txt_plantinfo_kind,txt_plantinfo_soil;
 
@@ -42,7 +31,6 @@ public class PlantInfoActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.TRANSPARENT);
 
         setContentView(R.layout.activtiy_plantinfo);
-
 
         btn_info_close = findViewById(R.id.btn_info_close);
         btn_info_close.setOnClickListener(new View.OnClickListener() {
@@ -62,5 +50,12 @@ public class PlantInfoActivity extends AppCompatActivity {
         txt_plantinfo_soil.setText(soil_kind);
 
     }
-    //토양 정보를 저장해두는 DB 생성
+    //토양 정보를 저장해두는 DB 생성한 후 로드
+    private void LoadSoilInformation(String soild_name){
+
+    }
+    //식물 종류에 따른 종류를 api에서 응답받아 로드
+    private void LoadPlantInformation(String plant_name){
+
+    }
 }

@@ -47,13 +47,14 @@ public class RegiPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
 
+        /*상단 툴바 기본 설정 초기화*/
         toolbar_regiplant = findViewById(R.id.toolbar_regiplant);
         setSupportActionBar(toolbar_regiplant);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_keyboard_backspace_24px));
-
+        /*상단 툴바 기본 설정 초기화*/
 
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 

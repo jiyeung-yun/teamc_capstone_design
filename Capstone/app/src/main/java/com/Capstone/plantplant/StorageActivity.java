@@ -1,10 +1,11 @@
 package com.capstone.plantplant;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,17 +15,22 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StorageActivity extends AppCompatActivity {
+    private final int REQUEST_CODE = 3333;
+
     private static final int REQUEST_SELECT_PICTURE = 501;
     private static final int REQUEST_CODE_TAKE_PICTURE = 502;
 
@@ -47,6 +53,9 @@ public class StorageActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.TRANSPARENT);
 
         setContentView(R.layout.activity_storage);
+
+        //카메라 권한 체크 및 요청
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE);
 
         btn_camera = findViewById(R.id.btn_camera);
         btn_camera.setOnClickListener(new View.OnClickListener() {
@@ -111,5 +120,16 @@ public class StorageActivity extends AppCompatActivity {
         }
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 권한이 거절된 상태
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getApplicationContext(),"식물 사진을 등록하기 위해서는 권한허용이 필요합니다.",Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
+        }
     }
 }
