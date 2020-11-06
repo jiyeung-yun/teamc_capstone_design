@@ -71,19 +71,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/block_title_padding"
-                    android:text="정확한 명칭으로 입력해주세요"
+                    android:text="아래 입력창을 선택해주세요"
                     android:textColor="#AFAFAF"
                     android:textSize="12sp" />
 
-                <EditText
-                    android:id="@+id/eb_kindplant"
+                <TextView
+                    android:id="@+id/txt_kindplant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/blank_back"
+                    android:clickable="true"
                     android:ems="10"
                     android:hint="식물의 종류를 입력해주세요"
-                    android:inputType="textPersonName"
                     android:padding="@dimen/editbox_padding" />
 
             </LinearLayout>

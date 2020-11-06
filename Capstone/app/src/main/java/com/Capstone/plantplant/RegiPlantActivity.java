@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,13 +32,15 @@ import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
 
 public class RegiPlantActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 1011;
+    private static final int REQUEST_PLANT_KIND = 1012;
+
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     SharedPreferences prefs;
 
     Toolbar toolbar_regiplant;
 
-    EditText eb_kindplant;
+    TextView txt_kindplant;
     ImageView reg_plant_image;
     Spinner spinner_pot,spinner_soil;
     ToggleButton btn_connect;
@@ -58,7 +62,14 @@ public class RegiPlantActivity extends AppCompatActivity {
 
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        eb_kindplant = findViewById(R.id.eb_kindplant);
+        txt_kindplant = findViewById(R.id.txt_kindplant);
+        txt_kindplant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent kind  = new Intent(getApplicationContext(),SearchPlantActivity.class);
+                startActivityForResult(kind,REQUEST_PLANT_KIND);
+            }
+        });
 
         reg_plant_image = findViewById(R.id.reg_plant_image);
         reg_plant_image.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +100,7 @@ public class RegiPlantActivity extends AppCompatActivity {
 
                 SharedPreferences.Editor editor= prefs.edit();
 
-                String plant_kind = eb_kindplant.getText().toString();
+                String plant_kind = txt_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
@@ -136,13 +147,23 @@ public class RegiPlantActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_IMAGE){
-            if(resultCode==RESULT_OK){
-                Uri uri = MediaStore.Images.Media.getContentUri("user_plant_image");
-                Bitmap image = BitmapFactory.decodeFile(String.valueOf(uri));
-                reg_plant_image.setImageBitmap(image);
+        switch (requestCode){
+            case REQUEST_IMAGE:{
+                if(resultCode==RESULT_OK){
+                    Uri uri = MediaStore.Images.Media.getContentUri("user_plant_image");
+                    Bitmap image = BitmapFactory.decodeFile(String.valueOf(uri));
+                    reg_plant_image.setImageBitmap(image);
+                }
+                break;
             }
+            case REQUEST_PLANT_KIND:{
+                if(resultCode==RESULT_OK){
+                    String  result_kind = data.getStringExtra("result_kind");
+                    txt_kindplant.setText(result_kind);
+                }
+                break;
+            }
+
         }
     }
 
