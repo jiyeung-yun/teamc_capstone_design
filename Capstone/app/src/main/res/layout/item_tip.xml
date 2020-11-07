@@ -43,7 +43,7 @@
             android:paddingLeft="@dimen/block_inside_padding"
             android:paddingRight="@dimen/block_inside_padding"
             android:textColor="@color/colorTitleFont"
-            android:textSize="@dimen/block_content_font_size" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tip_page"

@@ -61,8 +61,7 @@
                         android:checked="false"
                         android:text="모듈 ON/OFF"
                         android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/activity_title_font_size"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/activity_title_font_size" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -85,9 +84,10 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ly_control_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/editbox_padding"
                         android:orientation="horizontal">
 
                         <TextView
@@ -96,8 +96,7 @@
                             android:gravity="center"
                             android:text="물"
                             android:textColor="@color/colorAccentDark"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/activity_title_font_size" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -105,8 +104,7 @@
                             android:layout_weight="1"
                             android:text=" 공급 설정"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/activity_title_font_size" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switch_module_water"
@@ -119,208 +117,325 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ly_control_humity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/block_title_padding"
+                                app:srcCompat="@drawable/ic_opacity_24px"
+                                app:tint="@color/colorAccent" />
+
+                            <TextView
+                                android:id="@+id/control_wateramount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:text="기준 습도"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/blank_background"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/editbox_padding">
+
+                            <EditText
+                                android:id="@+id/editText_waterhumidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:ems="10"
+                                android:enabled="true"
+                                android:gravity="right"
+                                android:inputType="number"
+                                android:text="50"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="@dimen/block_title_padding"
+                                android:gravity="center"
+                                android:text="%"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_control_date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/block_title_padding"
+                                app:srcCompat="@drawable/ic_today_24px"
+                                app:tint="@color/colorTitleFont" />
+
+                            <TextView
+                                android:id="@+id/control_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="물 주는 기간"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/blank_background"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/editbox_padding">
+
+                            <EditText
+                                android:id="@+id/editText_waterdate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:ems="10"
+                                android:enabled="true"
+                                android:gravity="right"
+                                android:inputType="number"
+                                android:text="3"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="@dimen/block_title_padding"
+                                android:gravity="center"
+                                android:text="일"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_control_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/block_title_padding"
+                                app:srcCompat="@drawable/ic_schedule_24px"
+                                app:tint="@color/colorPrimary2" />
+
+                            <TextView
+                                android:id="@+id/control_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="물 주는 시간"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/blank_background"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/editbox_padding">
+
+                            <Spinner
+                                android:id="@+id/control_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <EditText
+                                android:id="@+id/editText_watertime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:enabled="true"
+                                android:gravity="right|center_vertical"
+                                android:inputType="number"
+                                android:text="8"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="@dimen/block_title_padding"
+                                android:gravity="center"
+                                android:text="시"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/view_init_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="18dp"
+                android:clickable="true"
+                app:cardCornerRadius="@dimen/block_edge"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/block_inside_padding"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ly_control_title2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/editbox_padding"
                         android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/editbox_padding"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:text="초기 설정 변경"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/activity_title_font_size" />
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/block_title_padding"
-                                android:orientation="horizontal">
+                    </LinearLayout>
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="@dimen/block_title_padding"
-                                    app:srcCompat="@drawable/ic_schedule_24px"
-                                    app:tint="@color/colorPrimary2" />
-
-                                <TextView
-                                    android:id="@+id/control_time"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="물 주는 시간"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/blank_back"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/editbox_padding">
-
-                                <Spinner
-                                    android:id="@+id/control_spinner"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1" />
-
-                                <EditText
-                                    android:id="@+id/editText_watertime"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:enabled="true"
-                                    android:gravity="right|center_vertical"
-                                    android:inputType="number"
-                                    android:text="8"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_margin="@dimen/block_title_padding"
-                                    android:gravity="center"
-                                    android:text="시"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/block_inside_padding"
-                                android:layout_marginBottom="@dimen/block_title_padding"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="@dimen/block_title_padding"
-                                    app:srcCompat="@drawable/ic_today_24px"
-                                    app:tint="@color/colorTitleFont" />
-
-                                <TextView
-                                    android:id="@+id/control_date"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="물 주는 기간"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/blank_back"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/editbox_padding">
-
-                                <EditText
-                                    android:id="@+id/editText_waterdate"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:background="@null"
-                                    android:ems="10"
-                                    android:enabled="true"
-                                    android:gravity="right"
-                                    android:inputType="number"
-                                    android:text="3"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_margin="@dimen/block_title_padding"
-                                    android:gravity="center"
-                                    android:text="일"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ly_control_soil"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/editbox_padding"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:orientation="horizontal">
 
-                            <LinearLayout
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/block_title_padding"
-                                android:gravity="center"
-                                android:orientation="horizontal">
+                                android:text="@string/soil"
+                                android:textColor="@color/colorSolid"
+                                android:textSize="@dimen/block_content_font_size" />
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginRight="@dimen/block_title_padding"
-                                    app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorAccent" />
-
-                                <TextView
-                                    android:id="@+id/control_wateramount"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center"
-                                    android:text="기준 습도"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/blank_back"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/editbox_padding">
-
-                                <EditText
-                                    android:id="@+id/editText_waterhumidity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:background="@null"
-                                    android:ems="10"
-                                    android:enabled="true"
-                                    android:gravity="right"
-                                    android:inputType="number"
-                                    android:text="50"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <TextView
-                                    android:id="@+id/textView7"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_margin="@dimen/block_title_padding"
-                                    android:gravity="center"
-                                    android:text="%"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+                                android:text="@string/of_kind"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
                         </LinearLayout>
+
+                        <Spinner
+                            android:id="@+id/spinner_control_soil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blank_background"
+                            android:entries="@array/soil_array"
+                            android:padding="@dimen/editbox_padding" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_control_pot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/regi_pot_size"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+
+                        </LinearLayout>
+
+                        <Spinner
+                            android:id="@+id/spinner_control_pot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blank_background"
+                            android:entries="@array/pot_array"
+                            android:padding="@dimen/editbox_padding" />
 
                     </LinearLayout>
 

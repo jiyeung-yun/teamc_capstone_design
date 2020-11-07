@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/side_padding"
-            android:background="@drawable/blank_back"
+            android:background="@drawable/blank_background"
             android:queryHint="식물의 종류를 입력해주세요" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/side_padding"
-            android:background="@drawable/blank_back" />
+            android:background="@drawable/blank_background" />
     </LinearLayout>
 
 

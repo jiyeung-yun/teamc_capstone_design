@@ -2,7 +2,6 @@ package com.capstone.plantplant;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ public class ItemActivity extends AppCompatActivity {
 
     String plant_kind,soil_kind;
     TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size,main_txt_humity;
-    CardView view_potplant,view_plantstate;
+    ImageButton btn_information,btn_water_information,btn_setting;
     CheckBox ckb_waterlevel;
 
     ImageView main_drop1,main_drop2,main_drop3,main_drop4,main_drop5; //토양습도 물방을
@@ -64,8 +64,8 @@ public class ItemActivity extends AppCompatActivity {
         main_pot_size = findViewById(R.id.main_pot_size);
         main_pot_size.setText(prefs.getString("pot_size"+count,DEFAULT_VALUE_STRING));
 
-        view_potplant = findViewById(R.id.view_potplant);
-        view_potplant.setOnClickListener(new View.OnClickListener() {
+        btn_information = findViewById(R.id.btn_information);
+        btn_information.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent info = new Intent(getApplicationContext(),PlantInfoActivity.class);
@@ -74,12 +74,23 @@ public class ItemActivity extends AppCompatActivity {
                 startActivity(info);
             }
         });
+
+        btn_setting = findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent set = new Intent(getApplicationContext(),ControlActivity.class);
+                set.putExtra("count",count);
+                startActivity(set);
+            }
+        });
+
         initStateBlock(48,true);
     }
     //상태정보 블록을 초기화하는 메소드
     private void initStateBlock(int humity,boolean isEnough){
-        view_plantstate = findViewById(R.id.view_plantstate);
-        view_plantstate.setOnClickListener(new View.OnClickListener() {
+        btn_water_information = findViewById(R.id.btn_water_information);
+        btn_water_information.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent info = new Intent(getApplicationContext(),WaterActivity.class);
@@ -136,24 +147,10 @@ public class ItemActivity extends AppCompatActivity {
        }
     }
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.item_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:{
                 finish();
-                break;
-            }
-            case R.id.btn_setting:{
-                Intent set = new Intent(getApplicationContext(),ControlActivity.class);
-                set.putExtra("count",count);
-                startActivity(set);
                 break;
             }
         }

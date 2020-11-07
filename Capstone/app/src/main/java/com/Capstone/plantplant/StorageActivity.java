@@ -6,17 +6,22 @@ import android.app.Activity;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.HalfFloat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,7 +49,7 @@ public class StorageActivity extends AppCompatActivity {
     Intent request;
 
     ImageButton btn_camera,btn_gallery,btn_storage_cancel;
-
+    ImageView img_preview;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,10 @@ public class StorageActivity extends AppCompatActivity {
         });
 
         request = getIntent();
+
+        //테스트를 위한 이밎 뷰
+        img_preview= findViewById(R.id.img_preview);
+        img_preview.setVisibility(View.INVISIBLE);
     }
 
     public void openCamera() {
@@ -110,8 +120,18 @@ public class StorageActivity extends AppCompatActivity {
                 if (data.getData() != null) {
                     try{
                         //사진 등록 방식 결정 후 코드 설계
-                        setResult(RESULT_OK);
-                        finish();
+                        InputStream in = getContentResolver().openInputStream(data.getData());
+
+                        Bitmap img = BitmapFactory.decodeStream(in);
+                        img_preview.setImageBitmap(img);
+                        img_preview.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        },1000);
                         return;
                     }catch(Exception e){
                         e.printStackTrace();
