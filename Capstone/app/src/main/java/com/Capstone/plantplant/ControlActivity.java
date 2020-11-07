@@ -35,6 +35,10 @@ public class ControlActivity extends AppCompatActivity {
 
     EditText editText_watertime,editText_waterdate,editText_waterhumidity;
     String watertime="",waterdate="",waterhumidity="";
+
+    Spinner spinner_control_soil,spinner_control_pot;
+    int count;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,22 @@ public class ControlActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
         cont_spinner_time.setAdapter(adapter);
+
+        Intent intent = getIntent();
+        count = intent.getIntExtra("count",0);
+        if(count==0){
+            finish();
+        }
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        spinner_control_soil = findViewById(R.id.spinner_control_soil);
+        int soil_kind_pos = prefs.getInt("soil_kind_pos"+count,0);
+        spinner_control_soil.setSelection(soil_kind_pos);
+
+        spinner_control_pot = findViewById(R.id.spinner_control_pot);
+        int pot_size_pos = prefs.getInt("pot_size_pos"+count,0);
+        spinner_control_pot.setSelection(pot_size_pos);
 
         btn_control_save = findViewById(R.id.btn_control_save);
         btn_control_save.setOnClickListener(new View.OnClickListener() {
@@ -176,8 +196,8 @@ public class ControlActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = prefs.edit();
         edit.remove("plant_kind"+count);
         edit.remove("reg_date"+count);
-        edit.remove("soil_kind"+count);
-        edit.remove("pot_size"+count);
+        edit.remove("soil_kind_pos"+count);
+        edit.remove("pot_size_pos"+count);
         edit.commit();
         return true;
     }

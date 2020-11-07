@@ -110,17 +110,17 @@ public class RegiPlantActivity extends AppCompatActivity {
                 int count =  prefs.getInt("register", 0) + 1;
                 editor.putInt("register",count);
 
-                editor.putString("plant_kind"+count,plant_kind);
+                editor.putString("plant_kind"+count,plant_kind+count);
 
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
-                String pot_size = spinner_pot.getSelectedItem().toString();
-                editor.putString("pot_size"+count,pot_size);
+                int pot_size = spinner_pot.getSelectedItemPosition();
+                editor.putInt("pot_size_pos"+count,pot_size);
 
                 //토양의 종류
                 spinner_soil = findViewById(R.id.spinner_soil);
-                String soil_kind = spinner_soil.getSelectedItem().toString();
-                editor.putString("soil_kind"+count,soil_kind);
+                int soil_kind = spinner_soil.getSelectedItemPosition();
+                editor.putInt("soil_kind_pos"+count,soil_kind);
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 String reg_date = dateFormat.format(new Date());

@@ -85,7 +85,7 @@ public class ListActivity extends AppCompatActivity {
                 }
                 item.setName(kind);
 
-                String date = "2020-11-05";
+                String date =  prefs.getString("reg_date"+i,DEFAULT_VALUE_STRING);;
                 item.setDate(date);
 
                 adapter.addItem(item);
@@ -101,13 +101,13 @@ public class ListActivity extends AppCompatActivity {
 
         TipAdapter adapter = new TipAdapter();
         adapter.addItem(new ItemTip("물은 적당히!",R.drawable.ic_opacity_24px,
-                "화초가 물에 잠기지 않도록 물을 줘야 해요\n화분의 흙을 젖어있는 상태가 아닌 촉촉한 정도로만 유지해도 됩니다",
+                "화초가 물에 잠기지 않도록 물을 줘야 해요\n화분의 흙은 촉촉한 정도로만 유지해도 됩니다",
                 Color.parseColor("#FF6989B2"),"- 1 -"));
         adapter.addItem(new ItemTip("화분의 위치도 중요!",R.drawable.ic_wb_sunny_24px,
                 "집안에 비치는 방향을 파악해서 햇볕이 드는 곳, 그늘이 지는 곳, 습도와 온도에 맞춰서 화분을 놓으세요",
                 Color.parseColor("#FFF29661"),"- 2 -"));
         adapter.addItem(new ItemTip("생장에 알맞은 환경이 필요",R.drawable.ic_local_florist_24px,
-                "분갈이 시 식물에 맞지 않는 큰 화분에 옮기지 마세요.\n지금 화분의 한 사이즈 큰 것이면 됩니다.",
+                "분갈이 시 식물에 맞지 않는 큰 화분에 옮기지 마세요.\n지금 화분의 한 사이즈 큰 것을 사용하시면 됩니다.",
                 Color.parseColor("#FF508221"),"- 3 -"));
         rv_tip.setAdapter(adapter);
 

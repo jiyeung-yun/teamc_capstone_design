@@ -119,8 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/side_padding"
                 android:background="@drawable/blank_background"
-                android:padding="@dimen/editbox_padding"
-                android:text="식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳식물에 대한 설명이 보이는 곳" />
+                android:padding="@dimen/editbox_padding" />
 
             <LinearLayout
                 android:id="@+id/ly_title_soil"
@@ -185,8 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/side_padding"
                 android:background="@drawable/blank_background"
-                android:padding="@dimen/editbox_padding"
-                android:text="토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳.토양에 대한 설명이 보이는 곳." />
+                android:padding="@dimen/editbox_padding" />
 
         </LinearLayout>
     </ScrollView>

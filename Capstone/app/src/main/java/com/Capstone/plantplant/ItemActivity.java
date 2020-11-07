@@ -56,13 +56,21 @@ public class ItemActivity extends AppCompatActivity {
         plant_kind = prefs.getString("plant_kind"+count,DEFAULT_VALUE_STRING);
         main_plant_name = findViewById(R.id.main_plant_name);
         main_plant_name.setText(plant_kind);
+
         main_regi_date = findViewById(R.id.main_regi_date);
         main_regi_date.setText(prefs.getString("reg_date"+count,DEFAULT_VALUE_STRING));
+
         main_soil_kind = findViewById(R.id.main_soil_kind);
-        soil_kind = prefs.getString("soil_kind"+count,DEFAULT_VALUE_STRING);
+        int soil_kind_pos = prefs.getInt("soil_kind_pos"+count,0);
+        String[] arr = getResources().getStringArray(R.array.soil_array);
+        soil_kind = arr[soil_kind_pos];
         main_soil_kind.setText(soil_kind);
+
         main_pot_size = findViewById(R.id.main_pot_size);
-        main_pot_size.setText(prefs.getString("pot_size"+count,DEFAULT_VALUE_STRING));
+        int pot_size_pos = prefs.getInt("pot_size_pos"+count,0);
+        String[] arr2 = getResources().getStringArray(R.array.pot_array);
+        String pot_size = arr2[pot_size_pos];
+        main_pot_size.setText(pot_size);
 
         btn_information = findViewById(R.id.btn_information);
         btn_information.setOnClickListener(new View.OnClickListener() {

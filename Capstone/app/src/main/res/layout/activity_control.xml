@@ -154,7 +154,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/blank_background"
+                            android:background="@drawable/blank_dot_background"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:padding="@dimen/editbox_padding">
@@ -162,12 +162,12 @@
                             <EditText
                                 android:id="@+id/editText_waterhumidity"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:enabled="true"
-                                android:gravity="right"
+                                android:gravity="right|center_vertical"
                                 android:inputType="number"
                                 android:text="50"
                                 android:textColor="@color/colorTitleFont"
@@ -221,7 +221,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/blank_background"
+                            android:background="@drawable/blank_dot_background"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:padding="@dimen/editbox_padding">
@@ -229,12 +229,12 @@
                             <EditText
                                 android:id="@+id/editText_waterdate"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:enabled="true"
-                                android:gravity="right"
+                                android:gravity="right|center_vertical"
                                 android:inputType="number"
                                 android:text="3"
                                 android:textColor="@color/colorTitleFont"
@@ -289,7 +289,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/blank_background"
+                            android:background="@drawable/blank_dot_background"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:padding="@dimen/editbox_padding">
@@ -303,7 +303,7 @@
                             <EditText
                                 android:id="@+id/editText_watertime"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:enabled="true"
@@ -468,7 +468,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/btn_vaild"
+        android:background="@color/colorAccent"
         android:padding="@dimen/side_padding"
         android:text="저장하기"
         android:textColor="@color/colorButtonFont"
