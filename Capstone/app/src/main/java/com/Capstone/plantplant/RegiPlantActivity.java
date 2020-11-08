@@ -137,9 +137,9 @@ public class RegiPlantActivity extends AppCompatActivity {
     //모듈과의 연결이 확인되면 등록버튼 활성화
     private void checkConnectState(boolean check){
         if(check){
-            btn_regi.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_vaild));
+            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
         }else{
-            btn_regi.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_invaild));
+            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
         }
         btn_regi.setClickable(check);
     }

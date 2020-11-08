@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_control"
@@ -332,6 +333,7 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/view_init_control"
                 android:layout_width="match_parent"
@@ -469,7 +471,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorAccent"
-        android:padding="@dimen/side_padding"
+        android:padding="@dimen/editbox_padding"
         android:text="저장하기"
         android:textColor="@color/colorButtonFont"
         android:textSize="@dimen/activity_title_font_size"
