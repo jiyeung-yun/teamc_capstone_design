@@ -12,14 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.URLEncoder;
-
-
-/*
-*
-* 사용자가 입력한 식물의 종류를 받아서 저장하는 코드 작성
-*
-*/
 public class PlantInfoActivity extends AppCompatActivity {
     ImageButton btn_info_close;
     TextView txt_plantinfo_kind,txt_plant_content,txt_plantinfo_soil,txt_soil_content;
@@ -27,9 +19,11 @@ public class PlantInfoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*상단 작업표시줄 투명하게 만드는 코드*/
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
+        /*상단 작업표시줄 투명하게 만드는 코드*/
 
         setContentView(R.layout.activtiy_plantinfo);
 

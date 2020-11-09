@@ -22,11 +22,16 @@ public class WaterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*상단 작업표시줄 투명하게 만드는 코드*/
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
+        /*상단 작업표시줄 투명하게 만드는 코드*/
+
         setContentView(R.layout.activity_water);
 
+        //닫기 버튼
         btn_info_close2 = findViewById(R.id.btn_info_close2);
         btn_info_close2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +40,10 @@ public class WaterActivity extends AppCompatActivity {
             }
         });
 
+        //최근 모듈이 물 주기를 수행한 날짜와 용량
         LoadPrevData();
+
+        //다음 번에 모듈이 물 주기를 수행한 날짜와 용량
         LoadNextData();
 
     }
@@ -44,7 +52,7 @@ public class WaterActivity extends AppCompatActivity {
         /*
         * DB에서 저장된 기록 불러오기?
         * 서버에 가장 최신의 데이터만 저장하여 저장된 기록 불러오기?
-        * */
+        */
 
         txt_prev_date = findViewById(R.id.txt_prev_date);
         txt_prev_date.setText("2020-10-30");

@@ -27,8 +27,6 @@ public class ListActivity extends AppCompatActivity {
     private final int REGI_PLANT_REQUEST_CODE = 2011;
     private final String DEFAULT_VALUE_STRING = null;
 
-
-    //기기 내 메모리에 변수를 정의하고 값을 저장하는 클래스
     SharedPreferences prefs;
 
     RecyclerView rv_tip;
@@ -41,8 +39,10 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        //tip 내용 초기화하는 메소드
         initRecyclerView();
 
+        //식물리스트에 식물아이템을 추가하는 버튼
         btn_add_item = findViewById(R.id.btn_add_item);
         btn_add_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +52,12 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        //식물 리스트 구성 초기화
         ry_plant_list = findViewById(R.id.ry_plant_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         ry_plant_list.setLayoutManager(layoutManager);
+
+        //식물리스트 새로고침 매소드
         refreshPlantList();
     }
     //식물리스트 새로고침 매소드

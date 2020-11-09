@@ -53,12 +53,15 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*상단 작업표시줄 투명하게 만드는 코드*/
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
+        /*상단 작업표시줄 투명하게 만드는 코드*/
 
         setContentView(R.layout.activity_search_plant);
 
+        //닫기 버튼
         btn_info_close3 = findViewById(R.id.btn_info_close3);
         btn_info_close3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +70,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 finish();
             }
         });
+
+        //식물의 종류를 검색할 수 있는 창
         search_kind = findViewById(R.id.search_kind);
         search_kind.setIconified(false);
         search_kind.setOnQueryTextListener(this);
 
+        //검색된 식물의 결과를 보여주는 리스트
         ry_search_list=findViewById(R.id.ry_search_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         ry_search_list.setLayoutManager(layoutManager);
@@ -92,7 +98,12 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         });
         ry_search_list.setAdapter(kindSearchAdapter);
     }
+
+
+
     InputStream is;
+
+
     //식물 종류리스트 불러오기
     private void LoadPlantKindList(String str) throws XmlPullParserException, IOException {
         if(kindSearchAdapter!=null){
@@ -121,8 +132,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
-        //OpenAPI openAPI = new OpenAPI(queryUrl);
-        //openAPI.execute();
     }
 
     @Override
@@ -139,69 +148,5 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
-    }
-
-
-    class OpenAPI extends AsyncTask<Void, Void, String> {
-
-        private String queryurl="";
-
-        public OpenAPI(String url) {
-            this.queryurl = url;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            StringBuffer buffer=new StringBuffer();
-
-            try{
-
-                URL url = new URL(queryurl);//문자열로 된 요청 url을 URL 객체로 생성.
-                is = url.openStream(); //url위치로 입력스트림 연결
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();//xml파싱을 위한
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput(new InputStreamReader(is, "UTF-8")); //inputstream 으로부터 xml 입력받기
-
-                String tag;
-
-                xpp.next();
-                int eventType= xpp.getEventType();
-                while( eventType != XmlPullParser.END_DOCUMENT ){
-                    switch( eventType ){
-                        case XmlPullParser.START_DOCUMENT:
-                            break;
-
-                        case XmlPullParser.START_TAG:
-                            tag= xpp.getName();//테그 이름 얻어오기
-
-                            if(tag.equals("item")) ;
-                            else if(tag.equals("cntntsSj")){
-                                String name =  xpp.getText().toString();
-                                items.add(name);
-                            }
-                            break;
-
-                        case XmlPullParser.TEXT:
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            break;
-                    }
-                    eventType= xpp.next();
-                }
-
-            } catch (Exception e2){
-                e2.printStackTrace();
-                Toast.makeText(getApplicationContext(),"조회 실패",Toast.LENGTH_SHORT).show();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String str) {
-            super.onPostExecute(str);
-            assert  ry_search_list.getAdapter()!=null;
-            ry_search_list.getAdapter().notifyDataSetChanged();
-        }
     }
 }

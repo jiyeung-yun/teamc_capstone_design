@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashActivity extends AppCompatActivity {
     public static final String PREFERENCES_NAME = "DeviceMem";
 
+    //스플래쉬 화면 유지 시간
+    final long delay = 1500;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +24,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        },1500);
+        },delay);
     }
 }

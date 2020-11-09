@@ -62,6 +62,7 @@ public class RegiPlantActivity extends AppCompatActivity {
 
         prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
+        //식물의 종류를 검색하는 화면 버튼
         txt_kindplant = findViewById(R.id.txt_kindplant);
         txt_kindplant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +72,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
 
+        //식물의 사진을 입력받는 버튼
         reg_plant_image = findViewById(R.id.reg_plant_image);
         reg_plant_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +82,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
 
+        //모듈 연결 확인 버튼
         btn_connect = findViewById(R.id.btn_connect);
         btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -93,6 +96,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
 
+        //식물 아이템 등록 버튼
         btn_regi = findViewById(R.id.btn_regi);
         btn_regi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +140,8 @@ public class RegiPlantActivity extends AppCompatActivity {
     }
     //모듈과의 연결이 확인되면 등록버튼 활성화
     private void checkConnectState(boolean check){
+
+        //모듈 연결 코드 필요
         if(check){
             btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
         }else{

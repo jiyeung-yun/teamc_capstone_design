@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pot_array">
-        <item>5호(용량:1L)</item>
-        <item>6호(용량:2.5L)</item>
-        <item>7호(용량:3.5L)</item>
-        <item>8호(용량:6L)</item>
+        <item>1호(지름:3cm)</item>
+        <item>2호(지름:6cm)</item>
+        <item>3호(지름:9cm)</item>
+        <item>4호(지름:12cm)</item>
+        <item>5호(지름:15cm)</item>
+        <item>6호(지름:18cm)</item>
+        <item>7호(지름:21cm)</item>
+        <item>8호(지름:24cm)</item>
         <item>기타</item>
     </string-array>
     <string-array name="soil_array">
