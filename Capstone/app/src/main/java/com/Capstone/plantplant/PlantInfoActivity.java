@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PlantInfoActivity extends AppCompatActivity {
     ImageButton btn_info_close;
     TextView txt_plantinfo_kind,txt_plant_content,txt_plantinfo_soil,txt_soil_content;
+
+    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
