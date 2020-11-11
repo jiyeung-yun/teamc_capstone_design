@@ -100,6 +100,15 @@ public class ItemActivity extends AppCompatActivity {
                 startActivity(set);
             }
         });
+        //급수 정보 액티비티 버튼
+        btn_water_information = findViewById(R.id.btn_water_information);
+        btn_water_information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent info = new Intent(getApplicationContext(),WaterActivity.class);
+                startActivity(info);
+            }
+        });
     }
     @Override
     protected void onStart() {
@@ -114,20 +123,12 @@ public class ItemActivity extends AppCompatActivity {
 
     //상태정보 블록을 초기화하는 메소드
     private void initStateBlock(int humity,boolean isEnough){
-        //급수 정보 액티비티 버튼
-        btn_water_information = findViewById(R.id.btn_water_information);
-        btn_water_information.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent info = new Intent(getApplicationContext(),WaterActivity.class);
-                startActivity(info);
-            }
-        });
         //토양 습도 센서로부터 받은 값 초기화
         viewDropImage(humity);
 
         //수위 센서로부터 받은 값 초기화
         ckb_waterlevel = findViewById(R.id.ckb_waterlevel);
+        ckb_waterlevel.setClickable(false);
         ckb_waterlevel.setChecked(isEnough);
         if(isEnough){
             ckb_waterlevel.setText("물이 충분해요!");
