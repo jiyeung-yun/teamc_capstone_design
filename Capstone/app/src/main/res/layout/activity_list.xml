@@ -3,55 +3,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
+    android:background="@color/colorBlockBackground"
     android:orientation="vertical">
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:contentInsetStart="0dp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:contentInsetStart="0dp">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="My PLANTS"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/activity_title_font_size"
+                    android:text="꽃"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
-            </androidx.appcompat.widget.Toolbar>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ry_plant_list"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="부기"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:id="@+id/ly_title_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/side_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_attach_file_24px"
+                app:tint="@color/colorTitleFont" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/side_padding" />
+                android:layout_height="wrap_content"
+                android:text="TIP"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/activity_title_font_size"
+                android:textStyle="bold|italic" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/side_padding"
+            android:layout_marginTop="@dimen/block_title_padding"
+            android:layout_marginRight="@dimen/side_padding"
+            android:layout_marginBottom="@dimen/side_padding">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/ly_title_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_background"
+            android:orientation="horizontal"
+            android:padding="@dimen/side_padding">
 
         </LinearLayout>
-    </ScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ry_plant_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/side_padding">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_item"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="56dip"
+        android:layout_height="56dip"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/side_padding"
-        android:backgroundTint="@color/colorPrimary3"
+        android:backgroundTint="@color/colorTitleFont"
         android:clickable="true"
+        android:tint="#FFFFFF"
         app:srcCompat="@drawable/ic_add_24px" />
+
+
 
 </FrameLayout>

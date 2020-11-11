@@ -2,48 +2,79 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height"
-    android:layout_marginBottom="@dimen/block_title_padding"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="@dimen/block_edge"
+    app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/block_inside_padding"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/image_icon_size"
-            android:layout_height="@dimen/image_icon_size"
-            app:srcCompat="@drawable/icon_plant_green" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/ic_spa_24px"
+            app:tint="@color/colorPrimary" />
 
-        <TextView
-            android:id="@+id/txt_listitem_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/block_inside_padding"
+            android:layout_marginLeft="@dimen/block_title_padding"
             android:layout_weight="1"
-            android:textColor="@color/colorTitleFont"
-            android:textSize="@dimen/block_content_font_size"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/block_inside_padding"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_plant_kind"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txt_listitem_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/activity_title_font_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/divide_line_size"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/block_title_padding"
             android:layout_marginRight="@dimen/block_title_padding"
-            app:srcCompat="@drawable/ic_opacity_24px"
-            app:tint="@color/colorAccent" />
+            android:background="@color/colorDeviderLine">
 
-        <TextView
-            android:id="@+id/txt_listitem_date"
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccentDark"
-            android:textSize="@dimen/block_content_font_size"
-            android:textStyle="bold" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_supply_next"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txt_listitem_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/frame_margin_top">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/pop_primary_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/side_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SEARCH PLANT"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/activity_title_font_size"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btn_info_close3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_clear_24px" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_kind"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/side_padding"
+            android:background="@drawable/blank_background"
+            android:queryHint="식물의 종류를 입력해주세요" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ry_search_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/side_padding"
+            android:background="@drawable/blank_background" />
+    </LinearLayout>
+
+
+</FrameLayout>

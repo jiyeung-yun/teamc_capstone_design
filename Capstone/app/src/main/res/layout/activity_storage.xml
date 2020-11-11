@@ -47,4 +47,12 @@
             android:tint="@color/colorIcon" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/img_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/side_padding"
+        tools:srcCompat="@null" />
+
 </FrameLayout>
