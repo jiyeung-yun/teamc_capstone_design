@@ -182,15 +182,6 @@ public class ControlActivity extends AppCompatActivity {
         });
         /*물 주는 기간 입력 edittext 초기화 -끝-*/
 
-<<<<<<< HEAD
-        // 설정 저장
-        btn_save = (Button)findViewById(R.id.control_btn_save);
-    }
-
-
-    //기기 내 메모리 데이터 초기화하기
-    private boolean clearDeviceData(){
-=======
         /*기준 습도 입력 edittext 초기화 -시작-*/
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);
         editText_waterhumidity.addTextChangedListener(new TextWatcher() {
@@ -228,7 +219,6 @@ public class ControlActivity extends AppCompatActivity {
         //모듈과의 연결을 끊어야함
 
         //기기 내 메모리 데이터 초기화하기
->>>>>>> a9fce70ef992d027207d54069415146bd009b11e
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.remove("plant_kind"+count);
