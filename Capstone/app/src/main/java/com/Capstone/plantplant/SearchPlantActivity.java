@@ -160,6 +160,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             rd.close();
             conn.disconnect();
             String result = sb.toString();
+            Log.d("plant_name_result",result);
             return result;
         } catch (Exception e) {
             // TODO Auto-generated catch blocke.printStackTrace();
