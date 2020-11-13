@@ -32,6 +32,7 @@ public class ControlActivity extends AppCompatActivity {
 
     Button btn_control_save,btn_reset_data;
     Spinner cont_spinner_time;
+    Button btn_save;
 
     EditText editText_watertime,editText_waterdate,editText_waterhumidity;
     String watertime="",waterdate="",waterhumidity="";
