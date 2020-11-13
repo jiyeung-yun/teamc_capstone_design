@@ -29,6 +29,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
 
+        <!-- 앱 정보를 보여주는 액티비티 -->
+        <activity android:name="com.capstone.plantplant.InfoActivity"/>
+
         <!-- 어플리케이션 구동시 보이는 첫 화면-->
 
         <activity android:name="com.capstone.plantplant.SplashActivity"
