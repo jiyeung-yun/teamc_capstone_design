@@ -7,100 +7,128 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:contentInsetStart="0dp">
-
-            <LinearLayout
-                android:id="@+id/ly_information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="꽃"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="부기"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/ly_title_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/side_padding"
-            android:layout_marginTop="@dimen/side_padding"
-            android:layout_marginRight="@dimen/side_padding"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_attach_file_24px"
-                app:tint="@color/colorTitleFont" />
-
-            <TextView
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TIP"
-                android:textColor="@color/colorTitleFont"
-                android:textSize="@dimen/activity_title_font_size"
-                android:textStyle="bold|italic" />
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:contentInsetStart="0dp">
+
+                <LinearLayout
+                    android:id="@+id/ly_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="꽃"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="부기"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <LinearLayout
+                android:id="@+id/ly_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ly_title_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/side_padding"
+                    android:layout_marginTop="@dimen/side_padding"
+                    android:layout_marginRight="@dimen/side_padding"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_attach_file_24px"
+                        app:tint="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TIP"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold|italic" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/side_padding"
+                    android:layout_marginTop="@dimen/block_title_padding"
+                    android:layout_marginRight="@dimen/side_padding"
+                    android:layout_marginBottom="@dimen/side_padding">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_title_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_background"
+                android:orientation="horizontal"
+                android:padding="@dimen/side_padding">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/ry_plant_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/side_padding">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/side_padding"
-            android:layout_marginTop="@dimen/block_title_padding"
-            android:layout_marginRight="@dimen/side_padding"
-            android:layout_marginBottom="@dimen/side_padding">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <LinearLayout
-            android:id="@+id/ly_title_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/main_background"
-            android:orientation="horizontal"
-            android:padding="@dimen/side_padding">
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ry_plant_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/side_padding">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_item"

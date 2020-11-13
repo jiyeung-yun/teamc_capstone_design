@@ -224,8 +224,7 @@ public class ControlActivity extends AppCompatActivity {
         //모듈과의 연결을 끊어야함
 
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
-        String[] selectionArgs = {Integer.toString(index)};
-        int count = getContentResolver().delete(uri,"_index=",selectionArgs);
+        int count = getContentResolver().delete(uri,"_index="+index,null);
         Log.d("데이터베이스;식물리스트",  "DELETE 결과 =>"+count+"개의 컬럼이 삭제되었습니다.");
 
         return true;
