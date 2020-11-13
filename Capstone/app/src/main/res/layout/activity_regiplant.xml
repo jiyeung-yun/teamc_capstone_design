@@ -89,8 +89,7 @@
                         android:clickable="true"
                         android:ems="10"
                         android:hint="식물의 종류를 입력해주세요"
-                        android:padding="@dimen/editbox_padding"
-                        android:text="test" />
+                        android:padding="@dimen/editbox_padding" />
 
                 </LinearLayout>
 

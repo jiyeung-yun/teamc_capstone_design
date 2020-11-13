@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,6 +45,8 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ArrayList<String> items = new ArrayList<>();
     RecyclerView ry_search_list;
     KindSearchAdapter kindSearchAdapter;
+    ProgressBar progressBar_plant;
+    FrameLayout fy_progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             @Override
             public void onClick(View view) {
                 setResult(RESULT_CANCELED);
+                loadingPrograss(false);
                 finish();
             }
         });
@@ -79,69 +85,58 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         kindSearchAdapter.setOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
-
                 if(position<items.size()){
                     String result = items.get(position);
                     Intent intent = new Intent(getApplicationContext(),RegiPlantActivity.class);
                     intent.putExtra("result_kind",result);
                     setResult(RESULT_OK,intent);
+                    loadingPrograss(false);
                     finish();
                 }
-
             }
         });
+        kindSearchAdapter.addItem("검색어 결과가 보여지는 곳 입니다.");
         ry_search_list.setAdapter(kindSearchAdapter);
+
+        //프로그래스 바 초기화
+        fy_progressBar = findViewById(R.id.fy_progressBar);
+        progressBar_plant = findViewById(R.id.progressBar_plant);
+        loadingPrograss(false);
     }
-    String data;
-
-    //식물 종류리스트 불러오기
-    private void LoadPlantKindList(final String str) {
-        if(kindSearchAdapter!=null){
-            items.clear();
-            kindSearchAdapter.clear();
+    //xml파일 내 프로그래스바 제어
+    private void loadingPrograss(boolean load){
+        if(load){
+            fy_progressBar.setVisibility(View.VISIBLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }else {
+            fy_progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                data = getXmlData(str);//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
-
-
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                    }
-                });
-
-            }
-        }).start();
-
-
-
+        progressBar_plant.setIndeterminate(load);
     }
 
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
 
     //한 페이지에 아이템 갯수
-    int numOfRows = 15;
+    int numOfRows = 100;
     //로드할 페이지 번호
     int pageNo = 1;
+   //검색어 관련 전체 폐이지갯수
+    int totalPageCount;
 
-   //검색한 전체 페이지 수
-    int totalCount;
-
-    String getXmlData(String str){
+    //태그 확인
+    boolean systemkorname = false;
+    boolean totalcount = false;
+    void getXmlData(String str){
         try {
-            Log.d("API DATA PARSING","!!**********URL 객체 생성**********");
+            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/KpniService/systemSearch?");
+            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
+            urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 1 : 분류군국문명)
+            urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
+            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
 
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/KpniService/systemSearch?"); /*URL*/
-            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); /*Service Key*/
-            urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + URLEncoder.encode("인증키(URL Encode)", "UTF-8")); /*공공데이터포털에서 받은 인증키*/
-            urlBuilder.append("&" + URLEncoder.encode("q1","UTF-8") + "=" + URLEncoder.encode("str", "UTF-8"));
             URL url = new URL(urlBuilder.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -152,33 +147,104 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             } else {
                 rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
+
+            try{
+                XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
+                XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
+                xmlPullParser.setInput(rd);
+
+                int eventType = xmlPullParser.getEventType();
+
+                while (eventType != XmlPullParser.END_DOCUMENT){
+                    switch (eventType){
+                        case XmlPullParser.START_DOCUMENT:{
+                            Log.d("API DATA PARSING","--------------------API 파싱 시작!--------------------");
+
+                            break;
+                        }
+                        case XmlPullParser.START_TAG:{
+                            String string = xmlPullParser.getName();
+                            if(string.equals("item")){
+                                Log.d("API DATA PARSING","--------------------<item>--------------------");
+                            }
+                            if(string.equals("systemkorname")){
+                                systemkorname = true;
+                            }
+                            if(string.equals("totalCount")){
+                                totalcount = true;
+                            }
+                            break;
+                        }
+                        case XmlPullParser.TEXT:{
+                            if(systemkorname){
+                                String s = xmlPullParser.getText();
+                                items.add(s);
+                                Log.d("API DATA PARSING","국문명 : "+s);
+                                systemkorname = false;
+                            }
+                            if(totalcount){
+                                String s = xmlPullParser.getText();
+                                Log.d("API DATA PARSING","전체 아이템 갯수 : "+s);
+                                //전체 카운트
+                                int totalCount = Integer.parseInt(s);
+                                totalPageCount = totalCount/numOfRows;
+                                totalcount = false;
+                            }
+                            break;
+                        }
+                        case XmlPullParser.END_TAG:{
+                            if(xmlPullParser.getName().equals("item")){
+                            }
+                            break;
+                        }
+                    }
+                    eventType = xmlPullParser.next();
+                }
+            }catch (XmlPullParserException e){
+                e.printStackTrace();
+                Log.d("API DATA PARSING","--------------------API 파싱 실패--------------------");
             }
             rd.close();
             conn.disconnect();
-            String result = sb.toString();
-            Log.d("plant_name_result",result);
-            return result;
+
         } catch (Exception e) {
-            // TODO Auto-generated catch blocke.printStackTrace();
+            Log.d("API DATA PARSING","--------------------API 파싱 실패--------------------");
         }
-
-        Log.d("API DATA PARSING","!!**********API 파싱 실패**********");
-
-        return null;
-
     }
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        try {
-            LoadPlantKindList(query);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),"조회 실패",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+    public boolean onQueryTextSubmit(final String query) {
+        loadingPrograss(true);
+        if(kindSearchAdapter!=null){
+            items.clear();
+            kindSearchAdapter.clear();
         }
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                getXmlData(query);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+            }
+        }).start();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                assert ry_search_list!=null;
+                ry_search_list.getAdapter().notifyDataSetChanged();
+                loadingPrograss(false);
+            }
+        },2000);
+
         return false;
     }
 

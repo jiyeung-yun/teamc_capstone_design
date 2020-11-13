@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/frame_margin_top">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/frame_margin_top"
         android:background="@drawable/pop_primary_background"
         android:gravity="center"
         android:orientation="vertical"
@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -41,7 +41,7 @@
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_kind"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/side_padding"
             android:background="@drawable/blank_background"
             android:queryHint="식물의 종류를 입력해주세요" />
@@ -52,7 +52,24 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/side_padding"
             android:background="@drawable/blank_background" />
+
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fy_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_shadow_start_color"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar_plant"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
 
 
 </FrameLayout>
