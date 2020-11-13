@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:contentInsetStart="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="앱 정보"
+            android:textColor="@color/colorTitleFont"
+            android:textSize="@dimen/activity_title_font_size"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/side_padding"
+        android:layout_marginTop="@dimen/side_padding"
+        android:layout_marginRight="@dimen/side_padding"
+        app:cardCornerRadius="@dimen/block_edge"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/block_inside_padding"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/block_title_padding"
+                android:text="개발팀 팀원"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blank_background"
+                android:padding="@dimen/editbox_padding"
+                android:text="윤지영, 손상우, 임창희, 정유정"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/side_padding"
+        android:layout_marginTop="@dimen/side_padding"
+        android:layout_marginRight="@dimen/side_padding"
+        app:cardCornerRadius="@dimen/block_edge"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/block_inside_padding"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/block_title_padding"
+                android:text="개발팀 소속"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blank_background"
+                android:padding="@dimen/editbox_padding"
+                android:text="부경대학교 it융합응용공학과"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/editbox_padding"
+                android:layout_marginBottom="@dimen/block_title_padding"
+                android:text="소속정보"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/blank_background"
+                android:orientation="vertical"
+                android:padding="@dimen/editbox_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="전화 : 051-629-6263(학부), 6262(대학원)"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/block_content_font_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="팩스 : 051-629-6230"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/block_content_font_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="위치 : 대연캠퍼스 웅비관(A12) 1307호"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/block_content_font_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="홈페이지 : http://cms.pknu.ac.kr/itcae/main.do"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/block_content_font_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/side_padding"
+        android:layout_marginTop="@dimen/side_padding"
+        android:layout_marginRight="@dimen/side_padding"
+        app:cardCornerRadius="@dimen/block_edge"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/block_inside_padding"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/block_title_padding"
+                android:text="개발기간"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blank_background"
+                android:padding="@dimen/editbox_padding"
+                android:text="2020.10.29 ~ 2021."
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

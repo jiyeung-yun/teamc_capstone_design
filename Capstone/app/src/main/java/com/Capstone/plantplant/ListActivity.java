@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +32,7 @@ public class ListActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
 
+    Toolbar toolbar_list;
     RecyclerView rv_tip;
 
     FloatingActionButton btn_add_item;
@@ -38,6 +42,16 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        /*액션바 => 툴바로 적용 -시작-*/
+        toolbar_list = findViewById(R.id.toolbar_list);
+        setSupportActionBar(toolbar_list);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_campaign_24px));
+        /*액션바 => 툴바로 적용 -끝-*/
+
 
         //tip 내용 초기화하는 메소드
         initRecyclerView();
@@ -155,5 +169,11 @@ public class ListActivity extends AppCompatActivity {
                 refreshPlantList();
             }
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
