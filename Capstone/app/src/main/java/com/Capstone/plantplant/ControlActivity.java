@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,7 +26,8 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
-import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
+import static com.capstone.plantplant.ListActivity.LIST_URI;
+
 
 public class ControlActivity extends AppCompatActivity {
     Toolbar toolbar_control;
@@ -38,7 +42,7 @@ public class ControlActivity extends AppCompatActivity {
     String watertime="",waterdate="",waterhumidity="";
 
     Spinner spinner_control_soil,spinner_control_pot;
-    int count;
+    int index;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,26 +97,25 @@ public class ControlActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
         cont_spinner_time.setAdapter(adapter);
-        //오전/오후 스피너 초기화
 
-        //이전 액티비티에서 전달한 아이템 count 정보를 입력받음
         Intent intent = getIntent();
-        count = intent.getIntExtra("count",0);
-        if(count==0){
-            finish();
+        index = intent.getIntExtra("index",0);
+
+        Uri uri = new Uri.Builder().build().parse(LIST_URI);
+        String[] colums = {"soil","size"};
+        //String[] selectionArgs = {Integer.toString(index)};
+        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
+        while(cursor.moveToNext()) {
+            //토양 종류
+            spinner_control_soil = findViewById(R.id.spinner_control_soil);
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[0]));
+            spinner_control_soil.setSelection(soil_kind_pos);
+
+            //화분 사이즈
+            spinner_control_pot = findViewById(R.id.spinner_control_pot);
+            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
+            spinner_control_pot.setSelection(pot_size_pos);
         }
-
-        /*count 값으로 기기 내 메모리 데이터 확인*/
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-        spinner_control_soil = findViewById(R.id.spinner_control_soil);
-        int soil_kind_pos = prefs.getInt("soil_kind_pos"+count,0);
-        spinner_control_soil.setSelection(soil_kind_pos);
-
-        spinner_control_pot = findViewById(R.id.spinner_control_pot);
-        int pot_size_pos = prefs.getInt("pot_size_pos"+count,0);
-        spinner_control_pot.setSelection(pot_size_pos);
-        /*count 값으로 기기 내 메모리 데이터 확인*/
 
         //입력한 정보 저장
         btn_control_save = findViewById(R.id.btn_control_save);
@@ -121,6 +124,9 @@ public class ControlActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //입력한 정보를 기기 내 count 데이터에 업데이트 후 모듈에 전달
                 Toast.makeText(getApplicationContext(),"성공적으로 설정하였습니다.",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(),ItemActivity.class);
+                i.putExtra("index",index);
+                startActivity(i);
                 finish();
             }
         });
@@ -214,23 +220,22 @@ public class ControlActivity extends AppCompatActivity {
 
     }
     //식물 아이템 삭제 메소드
-    private boolean clearDeviceData(int count){
-
+    private boolean clearDeviceData(int index){
         //모듈과의 연결을 끊어야함
 
-        //기기 내 메모리 데이터 초기화하기
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.remove("plant_kind"+count);
-        edit.remove("reg_date"+count);
-        edit.remove("soil_kind_pos"+count);
-        edit.remove("pot_size_pos"+count);
-        edit.commit();
+        Uri uri = new Uri.Builder().build().parse(LIST_URI);
+        String[] selectionArgs = {Integer.toString(index)};
+        int count = getContentResolver().delete(uri,"_index=",selectionArgs);
+        Log.d("데이터베이스;식물리스트",  "DELETE 결과 =>"+count+"개의 컬럼이 삭제되었습니다.");
+
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent i = new Intent(getApplicationContext(),ItemActivity.class);
+            i.putExtra("index",index);
+            startActivity(i);
             finish();
         }
         return super.onOptionsItemSelected(item);

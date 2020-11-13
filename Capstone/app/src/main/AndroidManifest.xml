@@ -44,10 +44,14 @@
         </activity>
 
         <!--사용자 식물 등록할 수 있는 액티비티 -->
-        <activity android:name="com.capstone.plantplant.RegiPlantActivity"/>
+        <activity android:name="com.capstone.plantplant.RegiPlantActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:configChanges="screenSize|orientation"/>
 
         <!-- 식물 종류를 검색할 수 있는 액티비티 -->
         <activity android:name="com.capstone.plantplant.SearchPlantActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:configChanges="screenSize|orientation"
             android:theme="@style/PopUpActivityTheme">
         </activity>
 
@@ -62,7 +66,9 @@
             android:theme="@style/PopUpActivityTheme"/>
 
         <!-- 급수 컨트롤 액티비티 -->
-        <activity android:name="com.capstone.plantplant.ControlActivity"/>
+        <activity android:name="com.capstone.plantplant.ControlActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:configChanges="screenSize|orientation"/>
 
         <!-- 식물정보를 보여주는 액티비티 -->
         <activity android:name="com.capstone.plantplant.PlantInfoActivity"
@@ -74,7 +80,7 @@
             android:name=".StorageActivity"
             android:theme="@style/PopUpActivityTheme">
         </activity>
-
+        <!--기기로부터 사진을 불러오는 기능-->
         <provider
             android:authorities="com.capstone.plantplant.fileprovider"
             android:name="androidx.core.content.FileProvider"
@@ -85,6 +91,17 @@
                 android:resource="@xml/external"/>
         </provider>
 
+        <!--데이터베이스 관련 내용 제공자 -->
+        <provider
+            android:authorities="com.capstone.plantplant"
+            android:name=".DBProvider"
+            android:exported="true"
+            android:readPermission="com.capstone.plantplant.READ_DATABASE"
+            android:writePermission="com.capstone.plantplant.WRITE_DATABASE" />
     </application>
+
+    <!--데이터베이스 관련 -->
+    <permission android:name="com.capstone.plantplant.READ_DATABASE" android:protectionLevel = "normal"/>
+    <permission android:name="com.capstone.plantplant.WRITE_DATABASE" android:protectionLevel = "normal"/>
 
 </manifest>

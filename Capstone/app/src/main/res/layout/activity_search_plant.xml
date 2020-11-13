@@ -38,20 +38,28 @@
                 app:srcCompat="@drawable/ic_clear_24px" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="등록할 식물의 종류를 검색할 수 있습니다"
+            android:textColor="@color/colorIcon"
+            android:textSize="12sp" />
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_kind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/side_padding"
-            android:background="@drawable/blank_background"
-            android:queryHint="식물의 종류를 입력해주세요" />
+            android:background="@drawable/blank_background" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ry_search_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/side_padding"
-            android:background="@drawable/blank_background" />
+            android:background="@drawable/blank_background"
+            android:padding="@dimen/side_padding" />
 
     </LinearLayout>
 

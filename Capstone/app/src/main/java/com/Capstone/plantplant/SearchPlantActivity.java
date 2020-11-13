@@ -2,7 +2,6 @@ package com.capstone.plantplant;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +27,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -73,6 +70,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
         //식물의 종류를 검색할 수 있는 창
         search_kind = findViewById(R.id.search_kind);
+        search_kind.setQueryHint("검색어를 입력해주세요.");
         search_kind.setIconified(false);
         search_kind.setOnQueryTextListener(this);
 
@@ -123,7 +121,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     //로드할 페이지 번호
     int pageNo = 1;
    //검색어 관련 전체 폐이지갯수
-    int totalPageCount;
+    int totalPageCount = 0;
 
     //태그 확인
     boolean systemkorname = false;

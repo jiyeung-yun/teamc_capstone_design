@@ -1,5 +1,6 @@
 package com.capstone.plantplant;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,19 +26,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
+import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class RegiPlantActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
 
-
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    SharedPreferences prefs;
 
     Toolbar toolbar_regiplant;
 
@@ -59,8 +58,6 @@ public class RegiPlantActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_keyboard_backspace_24px));
         /*상단 툴바 기본 설정 초기화*/
-
-        prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         //식물의 종류를 검색하는 화면 버튼
         txt_kindplant = findViewById(R.id.txt_kindplant);
@@ -102,36 +99,35 @@ public class RegiPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SharedPreferences.Editor editor= prefs.edit();
-
                 String plant_kind = txt_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                //기기에 등록된 식물의 갯수에 +1
-                int count =  prefs.getInt("register", 0) + 1;
-                editor.putInt("register",count);
-
-                editor.putString("plant_kind"+count,plant_kind+count);
+                //토양의 종류
+                spinner_soil = findViewById(R.id.spinner_soil);
+                int soil_kind = spinner_soil.getSelectedItemPosition();
 
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
                 int pot_size = spinner_pot.getSelectedItemPosition();
-                editor.putInt("pot_size_pos"+count,pot_size);
-
-                //토양의 종류
-                spinner_soil = findViewById(R.id.spinner_soil);
-                int soil_kind = spinner_soil.getSelectedItemPosition();
-                editor.putInt("soil_kind_pos"+count,soil_kind);
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 String reg_date = dateFormat.format(new Date());
-                editor.putString("reg_date"+count,reg_date);
 
+                Uri uri = new Uri.Builder().build().parse(LIST_URI);
+                if(uri!=null) {
+                    ContentValues values = new ContentValues();
+                    values.put("kind", plant_kind);
+                    values.put("date", reg_date);
+                    values.put("soil", soil_kind);
+                    values.put("size", pot_size);
 
-                editor.apply();
+                    uri = getContentResolver().insert(uri,values);
+                    Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
+                }
+
                 setResult(RESULT_OK);
                 finish();
             }

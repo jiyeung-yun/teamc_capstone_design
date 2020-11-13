@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pot_array">
-        <item>1호(지름:3cm)</item>
         <item>2호(지름:6cm)</item>
         <item>3호(지름:9cm)</item>
         <item>4호(지름:12cm)</item>

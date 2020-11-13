@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
-    public static final String PREFERENCES_NAME = "DeviceMem";
 
     //스플래쉬 화면 유지 시간
     final long delay = 1500;

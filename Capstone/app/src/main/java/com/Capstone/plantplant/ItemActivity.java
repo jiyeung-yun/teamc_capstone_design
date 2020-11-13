@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -17,10 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
+import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class ItemActivity extends AppCompatActivity {
-    private final String DEFAULT_VALUE_STRING = "";
     Toolbar toolbar_item;
 
     String plant_kind,soil_kind;
@@ -29,7 +26,7 @@ public class ItemActivity extends AppCompatActivity {
     ImageButton btn_information,btn_water_information,btn_setting;
     CheckBox ckb_waterlevel;
 
-    int count;
+    int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,36 +44,35 @@ public class ItemActivity extends AppCompatActivity {
 
         //이전 액티비티에서 전달한 아이템 count 정보를 입력받음
         Intent intent = getIntent();
-        count = intent.getIntExtra("count",0);
-        if(count==0){
-            finish();
+        index = intent.getIntExtra("index",0);
+
+        Uri uri = new Uri.Builder().build().parse(LIST_URI);
+        String[] colums = {"kind","date","soil","size"};
+        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
+        while(cursor.moveToNext()){
+            //식물의 종류
+            plant_kind = cursor.getString(cursor.getColumnIndex(colums[0]));
+            main_plant_name = findViewById(R.id.main_plant_name);
+            main_plant_name.setText(plant_kind);
+
+            //아이템 등록 날짜
+            main_regi_date = findViewById(R.id.main_regi_date);
+            main_regi_date.setText(cursor.getString(cursor.getColumnIndex(colums[1])));
+
+            //토양 종류
+            main_soil_kind = findViewById(R.id.main_soil_kind);
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[2]));
+            String[] arr = getResources().getStringArray(R.array.soil_array);
+            soil_kind = arr[soil_kind_pos];
+            main_soil_kind.setText(soil_kind);
+
+            //화분 사이즈
+            main_pot_size = findViewById(R.id.main_pot_size);
+            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[3]));
+            String[] arr2 = getResources().getStringArray(R.array.pot_array);
+            String pot_size = arr2[pot_size_pos];
+            main_pot_size.setText(pot_size);
         }
-
-        //메모리에 저장된 데이터 불러오기
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-        //식물의 종류
-        plant_kind = prefs.getString("plant_kind"+count,DEFAULT_VALUE_STRING);
-        main_plant_name = findViewById(R.id.main_plant_name);
-        main_plant_name.setText(plant_kind);
-
-        //아이템 등록 날짜
-        main_regi_date = findViewById(R.id.main_regi_date);
-        main_regi_date.setText(prefs.getString("reg_date"+count,DEFAULT_VALUE_STRING));
-
-        //토양 종류
-        main_soil_kind = findViewById(R.id.main_soil_kind);
-        int soil_kind_pos = prefs.getInt("soil_kind_pos"+count,0);
-        String[] arr = getResources().getStringArray(R.array.soil_array);
-        soil_kind = arr[soil_kind_pos];
-        main_soil_kind.setText(soil_kind);
-
-        //화분 사이즈
-        main_pot_size = findViewById(R.id.main_pot_size);
-        int pot_size_pos = prefs.getInt("pot_size_pos"+count,0);
-        String[] arr2 = getResources().getStringArray(R.array.pot_array);
-        String pot_size = arr2[pot_size_pos];
-        main_pot_size.setText(pot_size);
 
         //식물의 종류에 따른 식물정보 액티비티 버튼
         btn_information = findViewById(R.id.btn_information);
@@ -96,8 +92,9 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent set = new Intent(getApplicationContext(),ControlActivity.class);
-                set.putExtra("count",count);
+                set.putExtra("index",index);
                 startActivity(set);
+                finish();
             }
         });
         //급수 정보 액티비티 버튼
@@ -106,6 +103,7 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent info = new Intent(getApplicationContext(),WaterActivity.class);
+                info.putExtra("index",index);
                 startActivity(info);
             }
         });

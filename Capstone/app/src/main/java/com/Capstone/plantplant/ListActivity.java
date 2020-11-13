@@ -1,19 +1,16 @@
 package com.capstone.plantplant;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,13 +22,9 @@ import com.capstone.plantplant.model.ItemList;
 import com.capstone.plantplant.model.ItemTip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static com.capstone.plantplant.SplashActivity.PREFERENCES_NAME;
-
 public class ListActivity extends AppCompatActivity {
+    public static final String LIST_URI = "content://com.capstone.plantplant/list";
     private final int REGI_PLANT_REQUEST_CODE = 2011;
-    private final String DEFAULT_VALUE_STRING = null;
-
-    SharedPreferences prefs;
 
     LinearLayout ly_information;
     RecyclerView rv_tip;
@@ -78,35 +71,44 @@ public class ListActivity extends AppCompatActivity {
         if(ry_plant_list.getAdapter()!=null){
             ry_plant_list.setAdapter(null);
         }
-        ItemListAdapter adapter = new ItemListAdapter();
+        final ItemListAdapter adapter = new ItemListAdapter();
         adapter.setOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 Intent intent = new Intent(getApplicationContext(),ItemActivity.class);
-                Log.d("List Position","선택한 리스트아이템 위치 : "+ (position+1));
-                intent.putExtra("count",position+1);
+                int index =  adapter.getItem(position).getIndex();
+                intent.putExtra("index",index);
                 startActivity(intent);
             }
         });
-        prefs = getApplicationContext().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        int count =  prefs.getInt("register", 0);
-        if(count!=0){
-            for(int i=1;i<=count;i++){
-                ItemList item = new ItemList();
-                //식물 종류
-                String kind = prefs.getString("plant_kind"+i,DEFAULT_VALUE_STRING);
-                if(kind==null){
-                    continue;
+        Uri uri = new Uri.Builder().build().parse(LIST_URI);
+        if(uri!=null){
+            String[] colums = {"_index","kind","date"};
+            Cursor cursor = getContentResolver().query(uri,colums,null,null,null);
+            int count =  cursor.getCount();
+            if(count > 0){
+                while(cursor.moveToNext()){
+                    ItemList item = new ItemList();
+                    //식별자
+                    int idx = cursor.getInt(cursor.getColumnIndex(colums[0]));
+                    item.setIndex(idx);
+
+                    //식물 종류
+                    String kind = cursor.getString(cursor.getColumnIndex(colums[1]));
+                    item.setName(kind);
+
+                    //식물 날짜
+                    String date =  cursor.getString(cursor.getColumnIndex(colums[2]));
+                    item.setDate(date);
+
+                    adapter.addItem(item);
+
                 }
-                item.setName(kind);
-
-                String date =  prefs.getString("reg_date"+i,DEFAULT_VALUE_STRING);;
-                item.setDate(date);
-
-                adapter.addItem(item);
             }
+            cursor.close();
         }
+
         ry_plant_list.setAdapter(adapter);
     }
     //tip 내용 초기화하는 메소드
@@ -123,7 +125,7 @@ public class ListActivity extends AppCompatActivity {
                 "집안에 비치는 방향을 파악해서 햇볕이 드는 곳, 그늘이 지는 곳, 습도와 온도에 맞춰서 화분을 놓으세요",
                 Color.parseColor("#FFF29661"),"- 2 -"));
         adapter.addItem(new ItemTip("생장에 알맞은 환경이 필요",R.drawable.ic_local_florist_24px,
-                "분갈이 시 식물에 맞지 않는 큰 화분에 옮기지 마세요.\n지금 화분의 한 사이즈 큰 것을 사용하시면 됩니다.",
+                "분갈이 시 너무 큰 화분에 옮기지 마세요.\n지금 화분의 한 사이즈 큰 것을 사용하시면 됩니다.",
                 Color.parseColor("#FF508221"),"- 3 -"));
         rv_tip.setAdapter(adapter);
 

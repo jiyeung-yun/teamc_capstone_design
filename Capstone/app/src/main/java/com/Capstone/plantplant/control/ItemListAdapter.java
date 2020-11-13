@@ -40,7 +40,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     public void addItem(ItemList item) {
         items.add(item);
     }
-
+    public ItemList getItem(int position) {
+        return items.get(position);
+    }
     public void setItems(ArrayList<ItemList> items) {
         this.items = items;
     }
