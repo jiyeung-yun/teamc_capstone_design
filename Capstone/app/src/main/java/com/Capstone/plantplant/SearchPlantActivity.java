@@ -202,14 +202,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                     eventType = xmlPullParser.next();
                 }
             }catch (XmlPullParserException e){
-                e.printStackTrace();
-                Log.d("API DATA PARSING","API 파싱 => 실패");
+                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
             }
             rd.close();
             conn.disconnect();
-
         } catch (Exception e) {
-            Log.d("API DATA PARSING","API 파싱 => 실패");
+            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
+
         }
     }
     @Override

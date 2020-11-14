@@ -110,17 +110,18 @@ public class RegiPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String plant_kind = txt_kindplant.getText().toString();
+                String tmp = txt_kindplant.getText().toString();
+                final String plant_kind = tmp.substring(0,tmp.length()-1);
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                new Thread(new Runnable() {
 
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
-                        getEncyclopediaNum(plant_kind.substring(0,plant_kind.length()-1));
+                        getEncyclopediaNum(plant_kind);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -177,7 +178,6 @@ public class RegiPlantActivity extends AppCompatActivity {
     boolean plantPilbkNo = false;
     void getEncyclopediaNum(String str){
         try {
-            str = str.substring(0,str.length()-1);
             Log.d("API DATA PARSING","검색어  => "+str);
 
             StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrSearch");
@@ -249,16 +249,14 @@ public class RegiPlantActivity extends AppCompatActivity {
                     eventType = xmlPullParser.next();
                 }
             }catch (XmlPullParserException e){
-                e.printStackTrace();
-                Log.d("API DATA PARSING","API 파싱 => 실패");
-
+                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
             }
             rd.close();
             conn.disconnect();
             Log.d("API DATA PARSING","API 파싱 => 끝");
 
         } catch (Exception e) {
-            Log.d("API DATA PARSING","API 파싱 => 실패");
+            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
         }
     }
     //모듈과의 연결이 확인되면 등록버튼 활성화

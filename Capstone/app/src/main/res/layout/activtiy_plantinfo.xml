@@ -55,7 +55,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/side_padding">
 
@@ -191,6 +191,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="내용없음"
+                        android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
 
                     <TextView
@@ -206,8 +207,11 @@
                     <TextView
                         android:id="@+id/txt_smlrPlntDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
                         android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:overScrollMode="never"
+                        android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
 
                     <TextView
@@ -223,24 +227,11 @@
                     <TextView
                         android:id="@+id/txt_farmSpftDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="사용 방법"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_useMthdDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음" />
+                        android:layout_height="150dp"
+                        android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:singleLine="false"
+                        android:textColor="@color/colorTitleFont" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -255,8 +246,10 @@
                     <TextView
                         android:id="@+id/txt_brdMthdDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
                         android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
 
                     <TextView
@@ -272,8 +265,10 @@
                     <TextView
                         android:id="@+id/txt_grwEvrntDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
                         android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
 
                     <TextView
@@ -281,84 +276,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/side_padding"
                         android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="병충해 정보"
+                        android:text="사용 방법"
                         android:textColor="@color/colorTitleFont"
                         android:textSize="@dimen/block_content_font_size"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_bugInfo"
+                        android:id="@+id/txt_useMthdDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
                         android:hint="내용없음"
-                        android:textColor="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="잎 설명"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_leafDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음"
-                        android:textColor="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="가지 설명"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_branchDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음"
-                        android:textColor="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="꽃 설명"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_flwrDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음"
-                        android:textColor="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="열매 설명"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_fritDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
 
                 </LinearLayout>

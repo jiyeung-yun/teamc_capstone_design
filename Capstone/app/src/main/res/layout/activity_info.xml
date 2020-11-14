@@ -66,6 +66,25 @@
                     android:textColor="@color/colorTitleFont"
                     android:textSize="@dimen/block_content_font_size" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/editbox_padding"
+                    android:layout_marginBottom="@dimen/block_title_padding"
+                    android:text="COPYRIGHT"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/activity_title_font_size" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blank_background"
+                    android:padding="@dimen/editbox_padding"
+                    android:text="데이터에 대한 모든 저작 권리는 국립수목원 또는 원 저작자에게 있습니다"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/block_content_font_size" />
+
             </LinearLayout>
 
 

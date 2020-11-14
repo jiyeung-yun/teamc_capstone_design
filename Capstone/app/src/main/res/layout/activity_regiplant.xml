@@ -162,51 +162,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/view_potsize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/side_padding"
-                android:layout_marginTop="@dimen/side_padding"
-                android:layout_marginRight="@dimen/side_padding"
-                app:cardCornerRadius="@dimen/block_edge"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/block_inside_padding"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/regi_pot_size"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/activity_title_font_size" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="식물의 화분 사이즈를 선택해주세요."
-                        android:textColor="#AFAFAF"
-                        android:textSize="12sp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_pot"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/blank_background"
-                        android:entries="@array/pot_array"
-                        android:padding="@dimen/editbox_padding" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/view_soil"
                 android:layout_width="match_parent"
@@ -263,6 +218,51 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/view_potsize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_padding"
+                android:layout_marginTop="@dimen/side_padding"
+                android:layout_marginRight="@dimen/side_padding"
+                app:cardCornerRadius="@dimen/block_edge"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/block_inside_padding"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/regi_pot_size"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="식물의 화분 사이즈를 선택해주세요."
+                        android:textColor="#AFAFAF"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_pot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/blank_background"
+                        android:entries="@array/pot_array"
+                        android:padding="@dimen/editbox_padding" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/view_connect"

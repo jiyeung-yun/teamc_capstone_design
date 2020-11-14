@@ -40,22 +40,18 @@ public class PlantInfoActivity extends AppCompatActivity {
     SegmentedGroup btn_info_title;
     LinearLayout ly_soil_information,ly_plant_information;
 
-    TextView txt_plantinfo_kind,txt_branchDesc,txt_brdMthdDesc,txt_bugInfo,txt_farmSpftDesc,txt_flwrDesc,txt_fritDesc ,txt_grwEvrntDesc
-            ,txt_leafDesc,txt_smlrPlntDesc,txt_useMthdDesc;
-    TextView txt_plantinfo_soil,txt_soil_produce,txt_soil_usage,txt_soil_feature;
+    TextView txt_plantinfo_kind,txt_plantinfo_soil;
+    TextView txt_brdMthdDesc,txt_farmSpftDesc,txt_grwEvrntDesc
+                            ,txt_smlrPlntDesc,txt_useMthdDesc;
+    TextView txt_soil_produce,txt_soil_usage,txt_soil_feature;
 
     String plant_kind , soil_kind;
 
     //레이아운 데이터 초기화
     private void InitfindViewByID(){
-        txt_branchDesc = findViewById(R.id.txt_branchDesc);
         txt_brdMthdDesc = findViewById(R.id.txt_brdMthdDesc);
-        txt_bugInfo = findViewById(R.id.txt_bugInfo);
         txt_farmSpftDesc = findViewById(R.id.txt_farmSpftDesc);
-        txt_flwrDesc = findViewById(R.id.txt_flwrDesc);
-        txt_fritDesc = findViewById(R.id.txt_fritDesc);
         txt_grwEvrntDesc = findViewById(R.id.txt_grwEvrntDesc);
-        txt_leafDesc = findViewById(R.id.txt_leafDesc);
         txt_smlrPlntDesc = findViewById(R.id.txt_smlrPlntDesc);
         txt_useMthdDesc = findViewById(R.id.txt_useMthdDesc);
 
@@ -134,7 +130,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         soil_kind = intent.getStringExtra("soil_kind");
 
         //토양 정보를 DB에서 불러서 제공
-        //LoadSoilInformation(soil_kind);
+        LoadSoilInformation(soil_kind);
 
         txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soil_kind);
@@ -143,11 +139,10 @@ public class PlantInfoActivity extends AppCompatActivity {
     public static final String SOIL_URI = "content://com.capstone.plantplant/soil";
     //토양 정보를 저장해두는 DB 생성한 후 로드
     private void LoadSoilInformation(String soild_name){
-
         Uri uri = new Uri.Builder().build().parse(SOIL_URI);
         if(uri!=null){
             String[] colums = {"kind","produce","usage","feature"};
-            Cursor cursor = getContentResolver().query(uri,colums,"kind=",new String[]{soild_name},null);
+            Cursor cursor = getContentResolver().query(uri,colums,"kind='"+soild_name+"'",null,null);
             int count =  cursor.getCount();
             if(count > 0){
                 while(cursor.moveToNext()){
@@ -156,13 +151,14 @@ public class PlantInfoActivity extends AppCompatActivity {
 
                     //생성
                     String produce =  cursor.getString(cursor.getColumnIndex(colums[1]));
-
+                    txt_soil_produce.setText(produce);
                     //용도
                     String usage =  cursor.getString(cursor.getColumnIndex(colums[2]));
+                    txt_soil_usage.setText(usage);
 
                     //특징(성질)
                     String feature =  cursor.getString(cursor.getColumnIndex(colums[3]));
-
+                    txt_soil_feature.setText(feature);
                 }
             }
             cursor.close();
@@ -195,8 +191,7 @@ public class PlantInfoActivity extends AppCompatActivity {
     //로드할 페이지 번호
     int pageNo = 1;
 
-    boolean branchDesc = false,brdMthdDesc = false,bugInfo = false,farmSpftDesc = false,flwrDesc = false,fritDesc = false,grwEvrntDesc=false
-            ,leafDesc = false,smlrPlntDesc = false,useMthdDesc = false;
+    boolean brdMthdDesc = false,farmSpftDesc = false,grwEvrntDesc=false,smlrPlntDesc = false,useMthdDesc = false;
     void getPlantInformation(final int q1){
         try {
             Log.d("API DATA PARSING","검색할 도감번호 => "+q1);
@@ -232,37 +227,17 @@ public class PlantInfoActivity extends AppCompatActivity {
                         }
                         case XmlPullParser.START_TAG:{
                             String string = xmlPullParser.getName();
-                            //가지
-                            if(string.equals("branchDesc")){
-                                branchDesc = true;
-                            }
                             //번식방법
-                            else if(string.equals("brdMthdDesc")){
+                            if(string.equals("brdMthdDesc")){
                                 brdMthdDesc = true;
-                            }
-                            //병충해정보
-                            else if(string.equals("bugInfo")){
-                                bugInfo = true;
                             }
                             //재배특성
                             else if(string.equals("farmSpftDesc")){
                                 farmSpftDesc = true;
                             }
-                            //꽃설명
-                            else if(string.equals("flwrDesc")){
-                                flwrDesc = true;
-                            }
-                            //열매설명
-                            else if(string.equals("fritDesc")){
-                                fritDesc = true;
-                            }
                             //생육환경설명
                             else if(string.equals("grwEvrntDesc")){
                                 grwEvrntDesc = true;
-                            }
-                            //잎설명
-                            else if(string.equals("leafDesc")){
-                                leafDesc = true;
                             }
                             //유사식물설명
                             else if(string.equals("smlrPlntDesc")){
@@ -275,108 +250,88 @@ public class PlantInfoActivity extends AppCompatActivity {
                             break;
                         }
                         case XmlPullParser.TEXT:{
-                            //가지
-                            if(branchDesc){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    txt_branchDesc.setText(s);
-                                }
-                                branchDesc = false;
-                            }
                             //번식방법
-                            else if(brdMthdDesc){
+                            if(brdMthdDesc){
                                 String s = xmlPullParser.getText();
                                 Log.d("API DATA PARSING","번식방법 => "+s );
                                 if(!s.equals(" ")){
-                                    txt_brdMthdDesc.setText(s);
+                                    String st = txt_brdMthdDesc.getText().toString()+s;
+                                    txt_brdMthdDesc.setText(st);
                                 }
-                                brdMthdDesc = false;
-                            }
-                            //병충해정보
-                            else if(bugInfo){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    txt_bugInfo.setText(s);
-                                }
-                                bugInfo = false;
                             }
                             //재배특성
                             else if(farmSpftDesc){
                                 String s = xmlPullParser.getText();
                                 Log.d("API DATA PARSING","재배특성 => "+s );
                                 if(!s.equals(" ")){
-                                    txt_farmSpftDesc.setText(s);
+                                    String st = txt_farmSpftDesc.getText().toString()+s;
+                                    txt_farmSpftDesc.setText(st);
                                 }
-                                farmSpftDesc = false;
-                            }
-                            //꽃설명
-                            else if(flwrDesc){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    txt_flwrDesc.setText(s);
-                                }
-                                flwrDesc = false;
-                            }
-                            //열매설명
-                            else if(fritDesc){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    txt_fritDesc.setText(s);
-                                }
-                                fritDesc = false;
                             }
                             //생육환경설명
                             else if(grwEvrntDesc){
                                 String s = xmlPullParser.getText();
                                 if(!s.equals(" ")){
-                                    txt_grwEvrntDesc.setText(s);
+                                    String st = txt_grwEvrntDesc.getText().toString()+s;
+                                    txt_grwEvrntDesc.setText(st);
                                 }
-                                grwEvrntDesc = false;
-                            }
-                            //잎설명
-                            else if(leafDesc){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    txt_grwEvrntDesc.setText(s);
-                                }
-                                leafDesc = false;
                             }
                             //유사식물설명
                             else if(smlrPlntDesc){
                                 String s = xmlPullParser.getText();
                                 Log.d("API DATA PARSING","유사식물설명 => "+s );
                                 if(!s.equals(" ")){
-                                    txt_smlrPlntDesc.setText(s);
+                                    String st = txt_smlrPlntDesc.getText().toString()+s;
+                                    txt_smlrPlntDesc.setText(st);
                                 }
-                                smlrPlntDesc = false;
                             }
                             //사용법
                             else if(useMthdDesc){
                                 String s = xmlPullParser.getText();
                                 Log.d("API DATA PARSING","사용법 => "+s );
                                 if(!s.equals(" ")){
-                                    txt_useMthdDesc.setText(s);
+                                    String st = txt_useMthdDesc.getText().toString()+s;
+                                    txt_useMthdDesc.setText(st);
                                 }
-                                useMthdDesc = false;
                             }
                             break;
                         }
                         case XmlPullParser.END_TAG:{
+                            String string = xmlPullParser.getName();
+                            //번식방법
+                            if(string.equals("brdMthdDesc")){
+                                brdMthdDesc = false;
+                            }
+                            //재배특성
+                            else if(string.equals("farmSpftDesc")){
+                                farmSpftDesc = false;
+                            }
+                            //생육환경설명
+                            else if(string.equals("grwEvrntDesc")){
+                                grwEvrntDesc = false;
+                            }
+                            //유사식물설명
+                            else if(string.equals("smlrPlntDesc")){
+                                smlrPlntDesc = false;
+                            }
+                            //사용법
+                            else if(string.equals("useMthdDesc")){
+                                useMthdDesc = false;
+                            }
                             break;
                         }
                     }
                     eventType = xmlPullParser.next();
                 }
             }catch (XmlPullParserException e){
-                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getStackTrace());
+                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
             }
             rd.close();
             conn.disconnect();
             Log.d("API DATA PARSING","API 파싱 => 끝");
 
         } catch (Exception e) {
-            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getStackTrace());
-
+            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
         }
     }
 
