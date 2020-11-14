@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:segmentedgroup="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingTop="80dp">
 
@@ -58,133 +59,310 @@
             android:orientation="vertical"
             android:padding="@dimen/side_padding">
 
-            <LinearLayout
-                android:id="@+id/ly_title_plant"
-                android:layout_width="match_parent"
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/btn_info_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/block_title_padding"
-                    app:srcCompat="@drawable/ic_content_paste_24px"
-                    app:tint="@color/colorTitleFont" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/plant"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/activity_title_font_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/info"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/activity_title_font_size"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_name_plant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:background="@drawable/blank_background"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/side_padding"
                 android:orientation="horizontal"
-                android:padding="@dimen/block_inside_padding">
+                segmentedgroup:sc_border_width="1dp"
+                segmentedgroup:sc_corner_radius="20dp">
 
-                <TextView
+                <RadioButton
+                    android:id="@+id/btn_plant_info"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="식물정보"
+                    android:textSize="@dimen/block_content_font_size" />
+
+                <RadioButton
+                    android:id="@+id/btn_soil_info"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="토양정보"
+                    android:textSize="@dimen/block_content_font_size" />
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blank_background"
+                android:padding="@dimen/side_padding">
+
+                <LinearLayout
+                    android:id="@+id/ly_soil_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="나의 식물 종류"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/block_content_font_size"
-                    android:textStyle="bold" />
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/txt_plantinfo_kind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleFont" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="토양 종류"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txt_plant_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:background="@drawable/blank_background"
-                android:padding="@dimen/editbox_padding" />
+                    <TextView
+                        android:id="@+id/txt_plantinfo_soil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
 
-            <LinearLayout
-                android:id="@+id/ly_title_soil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="생성"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/block_title_padding"
-                    app:srcCompat="@drawable/ic_content_paste_24px"
-                    app:tint="@color/colorTitleFont" />
+                    <TextView
+                        android:id="@+id/txt_soil_produce"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/soil"
-                    android:textColor="@color/colorSolid"
-                    android:textSize="@dimen/activity_title_font_size"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="용도"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
 
-                <TextView
+                    <TextView
+                        android:id="@+id/txt_soil_usage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="특징"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_soil_feature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_plant_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/info"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/activity_title_font_size"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-            <LinearLayout
-                android:id="@+id/ly_name_soil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:background="@drawable/blank_background"
-                android:orientation="horizontal"
-                android:padding="@dimen/block_inside_padding">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="식물 종류"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="나의 토양 종류"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/block_content_font_size"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/txt_plantinfo_kind"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
 
-                <TextView
-                    android:id="@+id/txt_plantinfo_soil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleFont" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="설명"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txt_soil_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:background="@drawable/blank_background"
-                android:padding="@dimen/editbox_padding" />
+                    <TextView
+                        android:id="@+id/txt_smlrPlntDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="재배 특성"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_farmSpftDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="사용 방법"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_useMthdDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="번식 방법"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_brdMthdDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="생육 환경"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_grwEvrntDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="병충해 정보"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_bugInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="잎 설명"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_leafDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="가지 설명"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_branchDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="꽃 설명"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_flwrDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="열매 설명"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_fritDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용없음"
+                        android:textColor="@color/colorTitleFont" />
+
+                </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>

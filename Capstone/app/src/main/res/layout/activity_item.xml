@@ -115,16 +115,16 @@
 
                 <ImageButton
                     android:id="@+id/btn_information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@null"
                     android:tint="@color/colorTitleFont"
                     app:srcCompat="@drawable/ic_local_florist_24px" />
 
                 <ImageButton
                     android:id="@+id/btn_water_information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/side_padding"
                     android:background="@null"
                     android:tint="@color/colorTitleFont"
@@ -132,8 +132,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/side_padding"
                     android:background="@null"
                     android:tint="@color/colorTitleFont"

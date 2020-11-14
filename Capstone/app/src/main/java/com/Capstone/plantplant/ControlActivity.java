@@ -1,6 +1,7 @@
 package com.capstone.plantplant;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +44,9 @@ public class ControlActivity extends AppCompatActivity {
 
     Spinner spinner_control_soil,spinner_control_pot;
     int index;
+
+    Uri uri = new Uri.Builder().build().parse(LIST_URI);
+    String[] colums = {"soil","size"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,9 +105,7 @@ public class ControlActivity extends AppCompatActivity {
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
 
-        Uri uri = new Uri.Builder().build().parse(LIST_URI);
-        String[] colums = {"soil","size"};
-        //String[] selectionArgs = {Integer.toString(index)};
+
         Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
         while(cursor.moveToNext()) {
             //토양 종류
@@ -122,7 +124,13 @@ public class ControlActivity extends AppCompatActivity {
         btn_control_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //입력한 정보를 기기 내 count 데이터에 업데이트 후 모듈에 전달
+                //입력한 정보를 기기 내 DB에 업데이트 후 모듈에 전달
+                ContentValues values = new ContentValues();
+                values.put("soil", spinner_control_soil.getSelectedItemPosition());
+                values.put("size", spinner_control_pot.getSelectedItemPosition());
+                int count = getContentResolver().update(uri,values,"_index="+index,null);
+                Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
+
                 Toast.makeText(getApplicationContext(),"성공적으로 설정하였습니다.",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(),ItemActivity.class);
                 i.putExtra("index",index);
@@ -223,7 +231,6 @@ public class ControlActivity extends AppCompatActivity {
     private boolean clearDeviceData(int index){
         //모듈과의 연결을 끊어야함
 
-        Uri uri = new Uri.Builder().build().parse(LIST_URI);
         int count = getContentResolver().delete(uri,"_index="+index,null);
         Log.d("데이터베이스;식물리스트",  "DELETE 결과 =>"+count+"개의 컬럼이 삭제되었습니다.");
 

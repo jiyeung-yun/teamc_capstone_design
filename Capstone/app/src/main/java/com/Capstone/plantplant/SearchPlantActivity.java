@@ -128,7 +128,9 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     boolean totalcount = false;
     void getXmlData(String str){
         try {
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/KpniService/systemSearch?");
+            Log.d("API DATA PARSING","검색어  => "+str);
+
+            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/KpniService/systemSearch");
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
             urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 1 : 분류군국문명)
             urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
@@ -136,6 +138,8 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
 
             URL url = new URL(urlBuilder.toString());
+            Log.d("API DATA PARSING","URI 주소 =>"+url);
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
@@ -156,9 +160,8 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 while (eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
-                            Log.d("API DATA PARSING","--------------------API 파싱 시작!--------------------");
-
-                            break;
+                            Log.d("API DATA PARSING","API 파싱 => 성공");
+                       break;
                         }
                         case XmlPullParser.START_TAG:{
                             String string = xmlPullParser.getName();
@@ -177,12 +180,12 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                             if(systemkorname){
                                 String s = xmlPullParser.getText();
                                 items.add(s);
-                                Log.d("API DATA PARSING","국문명 : "+s);
+                                Log.d("API DATA PARSING","국문명 => "+s);
                                 systemkorname = false;
                             }
                             if(totalcount){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","전체 아이템 갯수 : "+s);
+                                Log.d("API DATA PARSING","전체 아이템 갯수 => "+s);
                                 //전체 카운트
                                 int totalCount = Integer.parseInt(s);
                                 totalPageCount = totalCount/numOfRows;
@@ -200,13 +203,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 }
             }catch (XmlPullParserException e){
                 e.printStackTrace();
-                Log.d("API DATA PARSING","--------------------API 파싱 실패--------------------");
+                Log.d("API DATA PARSING","API 파싱 => 실패");
             }
             rd.close();
             conn.disconnect();
 
         } catch (Exception e) {
-            Log.d("API DATA PARSING","--------------------API 파싱 실패--------------------");
+            Log.d("API DATA PARSING","API 파싱 => 실패");
         }
     }
     @Override

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlockBackground"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
 
@@ -95,20 +95,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ly_title_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/main_background"
-                android:orientation="horizontal"
-                android:padding="@dimen/side_padding">
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/ly_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -140,7 +129,6 @@
         android:clickable="true"
         android:tint="#FFFFFF"
         app:srcCompat="@drawable/ic_add_24px" />
-
 
 
 </FrameLayout>
