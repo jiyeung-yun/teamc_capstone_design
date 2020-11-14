@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -50,14 +51,30 @@ public class PlantInfoActivity extends AppCompatActivity {
     //레이아운 데이터 초기화
     private void InitfindViewByID(){
         txt_brdMthdDesc = findViewById(R.id.txt_brdMthdDesc);
+        txt_brdMthdDesc.setMovementMethod(new ScrollingMovementMethod());
+
         txt_farmSpftDesc = findViewById(R.id.txt_farmSpftDesc);
+        txt_farmSpftDesc.setMovementMethod(new ScrollingMovementMethod());
+
         txt_grwEvrntDesc = findViewById(R.id.txt_grwEvrntDesc);
+        txt_grwEvrntDesc.setMovementMethod(new ScrollingMovementMethod());
+
         txt_smlrPlntDesc = findViewById(R.id.txt_smlrPlntDesc);
+        txt_smlrPlntDesc.setMovementMethod(new ScrollingMovementMethod());
+
         txt_useMthdDesc = findViewById(R.id.txt_useMthdDesc);
+        txt_useMthdDesc.setMovementMethod(new ScrollingMovementMethod());
+
 
         txt_soil_produce = findViewById(R.id.txt_soil_produce);
+        txt_soil_produce.setMovementMethod(new ScrollingMovementMethod());
+
         txt_soil_usage = findViewById(R.id.txt_soil_usage);
+        txt_soil_usage.setMovementMethod(new ScrollingMovementMethod());
+
         txt_soil_feature = findViewById(R.id.txt_soil_feature);
+        txt_soil_feature.setMovementMethod(new ScrollingMovementMethod());
+
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
