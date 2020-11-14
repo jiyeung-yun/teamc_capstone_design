@@ -9,6 +9,8 @@
     <dimen name="sub_title_font_size">12sp</dimen>
     <dimen name="activity_title_font_size">17sp</dimen>
     <dimen name="block_content_font_size">15sp</dimen>
+    <dimen name="block_accent_font_size">16sp</dimen>
+
     <dimen name="image_icon_size">24dp</dimen>
     <dimen name="image_size">180dp</dimen>
     <dimen name="frame_margin_top">85dp</dimen>

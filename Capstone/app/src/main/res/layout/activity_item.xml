@@ -60,15 +60,23 @@
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="식물 사진 보이는 곳"
+                    android:textColor="@color/colorDeviderLine"
+                    android:textSize="@dimen/block_content_font_size" />
+
                 <ImageView
                     android:id="@+id/main_plant_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@color/colorPrimary1"
                     android:cropToPadding="true"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/icon_plant" />
+                    app:srcCompat="@null" />
+
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -111,7 +119,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="60dp"
                 android:layout_margin="@dimen/side_padding"
                 app:cardBackgroundColor="@color/colorBlockBackground"
                 app:cardCornerRadius="@dimen/block_edge"
@@ -195,41 +203,20 @@
 
                     <!-- 이런식으로 표현하는 것을 구현할 지 고민해보기-->
 
-                    <LinearLayout
-                        android:id="@+id/ly_main_soil_kind"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/side_padding"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/block_title_padding"
-                            android:layout_weight="1"
-                            android:text="@string/title_soild_kind"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_content_font_size" />
-
-                        <TextView
-                            android:id="@+id/main_soil_kind"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end"
-                            android:background="@drawable/blank_background"
-                            android:gravity="center_vertical|end"
-                            android:padding="@dimen/editbox_padding"
-                            android:text="경석"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        android:text="INFORMATION"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size" />
 
                     <LinearLayout
                         android:id="@+id/ly_main_humity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/block_title_padding"
                         android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="vertical">
 
@@ -305,7 +292,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="40%"
                                 android:textColor="@color/colorAccentDark"
-                                android:textSize="@dimen/activity_title_font_size"
+                                android:textSize="@dimen/block_accent_font_size"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -316,6 +303,7 @@
                         android:id="@+id/ly_main_water_vol"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/block_title_padding"
                         android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="vertical">
 
@@ -352,9 +340,41 @@
                                 android:stateListAnimator="@null"
                                 android:text="물이 충분해요!"
                                 android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size"
+                                android:textSize="@dimen/block_accent_font_size"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ly_main_soil_kind"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/block_title_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:layout_weight="1"
+                            android:text="@string/title_soild_kind"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/block_content_font_size" />
+
+                        <TextView
+                            android:id="@+id/main_soil_kind"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:background="@drawable/blank_background"
+                            android:gravity="center_vertical|end"
+                            android:padding="@dimen/editbox_padding"
+                            android:text="경석"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/block_accent_font_size"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -362,6 +382,7 @@
                         android:id="@+id/ly_main_pot_size"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/block_title_padding"
                         android:orientation="vertical">
 
                         <TextView
@@ -383,7 +404,7 @@
                             android:padding="@dimen/editbox_padding"
                             android:text="6호"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
+                            android:textSize="@dimen/block_accent_font_size"
                             android:textStyle="bold" />
 
                     </LinearLayout>

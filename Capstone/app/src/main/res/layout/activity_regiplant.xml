@@ -76,7 +76,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:text="아래 입력창을 선택해주세요"
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
@@ -88,9 +88,9 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_dot_background"
                         android:clickable="true"
-                        android:ems="10"
                         android:hint="식물의 종류를 입력해주세요"
-                        android:padding="@dimen/editbox_padding" />
+                        android:padding="@dimen/editbox_padding"
+                        android:textSize="@dimen/block_accent_font_size" />
 
                 </LinearLayout>
 
@@ -137,7 +137,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:text="아래화면을 눌러 사진을 등록해주세요"
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
@@ -206,7 +206,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:text="토양의 종류를 선택해주세요."
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
@@ -218,7 +218,8 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_background"
                         android:entries="@array/soil_array"
-                        android:padding="@dimen/editbox_padding" />
+                        android:padding="@dimen/editbox_padding"
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -251,7 +252,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:text="식물의 화분 사이즈를 선택해주세요."
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
@@ -263,7 +264,8 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_background"
                         android:entries="@array/pot_array"
-                        android:padding="@dimen/editbox_padding" />
+                        android:padding="@dimen/editbox_padding"
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -276,7 +278,7 @@
                 android:layout_marginLeft="@dimen/side_padding"
                 android:layout_marginTop="@dimen/side_padding"
                 android:layout_marginRight="@dimen/side_padding"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="65dp"
                 app:cardBackgroundColor="@color/colorBlockBackground"
                 app:cardCornerRadius="@dimen/block_edge"
                 app:cardUseCompatPadding="true">
@@ -303,7 +305,8 @@
                         android:background="@drawable/btn_connect"
                         android:textColor="@color/colorPrimaryDark"
                         android:textOff="연결시도"
-                        android:textOn="연결됨" />
+                        android:textOn="연결됨"
+                        android:textSize="@dimen/block_content_font_size" />
 
                 </LinearLayout>
 

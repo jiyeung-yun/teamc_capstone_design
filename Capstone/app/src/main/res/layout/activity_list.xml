@@ -7,6 +7,16 @@
     android:orientation="vertical">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:gravity="center"
+        android:padding="@dimen/editbox_padding"
+        android:text="꽃부기\n부경대학교 it융합응용공학과"
+        android:textColor="@color/colorDeviderLine"
+        android:textSize="@dimen/block_content_font_size" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -52,49 +62,6 @@
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
-                android:id="@+id/ly_tip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/ly_title_tip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/side_padding"
-                    android:layout_marginTop="@dimen/side_padding"
-                    android:layout_marginRight="@dimen/side_padding"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_attach_file_24px"
-                        app:tint="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TIP"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/activity_title_font_size"
-                        android:textStyle="bold|italic" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_tip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/side_padding"
-                    android:layout_marginTop="@dimen/block_title_padding"
-                    android:layout_marginRight="@dimen/side_padding"
-                    android:layout_marginBottom="@dimen/side_padding">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/ly_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -125,9 +92,9 @@
         android:layout_height="56dip"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/side_padding"
-        android:backgroundTint="@color/colorTitleFont"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
-        android:tint="#FFFFFF"
+        android:tint="@android:color/white"
         app:srcCompat="@drawable/ic_add_24px" />
 
 
