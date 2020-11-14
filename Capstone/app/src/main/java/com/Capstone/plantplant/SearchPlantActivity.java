@@ -71,7 +71,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         //식물의 종류를 검색할 수 있는 창
         search_kind = findViewById(R.id.search_kind);
         search_kind.setQueryHint("검색어를 입력해주세요.");
-        search_kind.setIconified(false);
+        search_kind.onActionViewExpanded();
         search_kind.setOnQueryTextListener(this);
 
         //검색된 식물의 결과를 보여주는 리스트

@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:background="@null"
+            android:tint="@color/colorVectorIcon"
             app:srcCompat="@drawable/ic_clear_24px" />
     </LinearLayout>
 

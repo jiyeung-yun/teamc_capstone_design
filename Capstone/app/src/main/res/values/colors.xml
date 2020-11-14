@@ -8,11 +8,14 @@
     <color name="colorPrimaryDark">#508221</color>
     <color name="colorAccent">#86C0F2</color>
     <color name="colorAccentDark">#6989B2</color>
-    <color name="colorTitleFont">#555555</color>
+
     <color name="colorBlockBackground">#FFFFFF</color>
-    <color name="colorButtonFont">#FFFFFF</color>
-    <color name="colorSolid">#825821</color>
-    <color name="colorIcon">#666666</color>
+    <color name="colorSoil">#825821</color>
+    <color name="colorVectorIcon">#666666</color>
     <color name="colorDeviderLine">#F3F3F3</color>
+
+    <color name="colorSubTitleFont">#AFAFAF</color>
+    <color name="colorTitleFont">#555555</color>
+    <color name="colorButtonFont">#FFFFFF</color>
 
 </resources>

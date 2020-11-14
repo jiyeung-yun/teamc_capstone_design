@@ -56,6 +56,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/side_padding"
                 app:cardCornerRadius="@dimen/block_edge"
+                app:cardElevation="2dp"
+                app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true">
 
                 <ImageView
@@ -63,9 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@null"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/example_image" />
+                    android:background="@color/colorPrimary2"
+                    android:cropToPadding="true"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/icon_plant" />
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -118,7 +121,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@null"
-                    android:tint="@color/colorTitleFont"
+                    android:tint="@color/colorPrimaryDark"
                     app:srcCompat="@drawable/ic_local_florist_24px" />
 
                 <ImageButton
@@ -127,7 +130,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/side_padding"
                     android:background="@null"
-                    android:tint="@color/colorTitleFont"
+                    android:tint="@color/colorVectorIcon"
                     app:srcCompat="@drawable/ic_content_paste_24px" />
 
                 <ImageButton
@@ -136,7 +139,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/side_padding"
                     android:background="@null"
-                    android:tint="@color/colorTitleFont"
+                    android:tint="@color/colorAccentDark"
                     app:srcCompat="@drawable/ic_settings_24px" />
 
             </LinearLayout>
@@ -146,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/side_padding"
                 android:layout_marginRight="@dimen/side_padding"
+                app:cardBackgroundColor="@color/colorBlockBackground"
                 app:cardCornerRadius="@dimen/block_edge"
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true">
@@ -163,7 +167,7 @@
                         android:id="@+id/ly_main_soil_kind"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="vertical">
 
                         <TextView
@@ -173,7 +177,7 @@
                             android:layout_weight="1"
                             android:text="@string/title_soild_kind"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/block_content_font_size" />
 
                         <TextView
                             android:id="@+id/main_soil_kind"
@@ -185,7 +189,7 @@
                             android:padding="@dimen/editbox_padding"
                             android:text="경석"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_content_font_size"
+                            android:textSize="@dimen/activity_title_font_size"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -194,7 +198,7 @@
                         android:id="@+id/ly_main_humity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="vertical">
 
                         <TextView
@@ -205,7 +209,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/block_title_humidity"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/block_content_font_size" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -269,7 +273,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="40%"
                                 android:textColor="@color/colorAccentDark"
-                                android:textSize="@dimen/block_content_font_size"
+                                android:textSize="@dimen/activity_title_font_size"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -280,7 +284,7 @@
                         android:id="@+id/ly_main_water_vol"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="vertical">
 
                         <TextView
@@ -291,7 +295,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/block_title_waterlevel"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/block_content_font_size" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -316,6 +320,7 @@
                                 android:stateListAnimator="@null"
                                 android:text="물이 충분해요!"
                                 android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/activity_title_font_size"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -334,7 +339,7 @@
                             android:layout_weight="1"
                             android:text="@string/title_pot_size"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/block_content_font_size" />
 
                         <TextView
                             android:id="@+id/main_pot_size"
@@ -346,7 +351,7 @@
                             android:padding="@dimen/editbox_padding"
                             android:text="6호"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_content_font_size"
+                            android:textSize="@dimen/activity_title_font_size"
                             android:textStyle="bold" />
 
                     </LinearLayout>

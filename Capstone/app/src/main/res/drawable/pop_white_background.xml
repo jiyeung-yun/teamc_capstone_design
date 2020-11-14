@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/cardview_light_background"/>
+            <solid android:color="@color/colorBlockBackground"/>
             <corners android:topLeftRadius="@dimen/block_edge" android:topRightRadius="@dimen/block_edge"/>
         </shape>
     </item>

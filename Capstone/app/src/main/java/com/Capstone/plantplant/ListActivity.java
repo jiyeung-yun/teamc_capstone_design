@@ -33,6 +33,14 @@ public class ListActivity extends AppCompatActivity {
     RecyclerView ry_plant_list;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        //식물리스트 새로고침 매소드
+        refreshPlantList();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
@@ -62,9 +70,6 @@ public class ListActivity extends AppCompatActivity {
         ry_plant_list = findViewById(R.id.ry_plant_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         ry_plant_list.setLayoutManager(layoutManager);
-
-        //식물리스트 새로고침 매소드
-        refreshPlantList();
     }
     //식물리스트 새로고침 매소드
     private void refreshPlantList(){

@@ -74,9 +74,7 @@ public class ControlActivity extends AppCompatActivity {
         dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(clearDeviceData(getIntent().getIntExtra("count",0))){
-                    Intent reset = new Intent(getApplicationContext(),RegiPlantActivity.class);
-                    startActivity(reset);
+                if(clearDeviceData(getIntent().getIntExtra("index",0))){
                     finish();
                 }
             }
@@ -233,8 +231,10 @@ public class ControlActivity extends AppCompatActivity {
 
         int count = getContentResolver().delete(uri,"_index="+index,null);
         Log.d("데이터베이스;식물리스트",  "DELETE 결과 =>"+count+"개의 컬럼이 삭제되었습니다.");
-
-        return true;
+        if(count>0){
+            return true;
+        }
+        return false;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

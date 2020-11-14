@@ -5,11 +5,13 @@
     <dimen name="block_title_padding">5dp</dimen>
     <dimen name="block_edge">10dp</dimen>
     <dimen name="editbox_padding">10dp</dimen>
+
+    <dimen name="sub_title_font_size">12sp</dimen>
     <dimen name="activity_title_font_size">17sp</dimen>
     <dimen name="block_content_font_size">15sp</dimen>
     <dimen name="image_icon_size">24dp</dimen>
     <dimen name="image_size">180dp</dimen>
-    <dimen name="frame_margin_top">200dp</dimen>
+    <dimen name="frame_margin_top">85dp</dimen>
     <dimen name="divide_line_size">1dp</dimen>
     <dimen name="list_item_height">100dp</dimen>
 
