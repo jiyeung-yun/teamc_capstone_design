@@ -61,7 +61,8 @@
             android:layout_marginTop="@dimen/side_padding"
             android:layout_marginBottom="@dimen/side_padding"
             android:background="@drawable/blank_background"
-            android:padding="@dimen/editbox_padding"></androidx.appcompat.widget.SearchView>
+            android:padding="@dimen/editbox_padding"
+            app:queryBackground="@android:color/white"></androidx.appcompat.widget.SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ry_search_list"

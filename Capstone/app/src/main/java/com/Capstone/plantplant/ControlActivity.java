@@ -75,6 +75,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(clearDeviceData(getIntent().getIntExtra("index",0))){
+                    setResult(RESULT_OK);
                     finish();
                 }
             }
@@ -130,9 +131,7 @@ public class ControlActivity extends AppCompatActivity {
                 Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
 
                 Toast.makeText(getApplicationContext(),"성공적으로 설정하였습니다.",Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getApplicationContext(),ItemActivity.class);
-                i.putExtra("index",index);
-                startActivity(i);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -228,7 +227,6 @@ public class ControlActivity extends AppCompatActivity {
     //식물 아이템 삭제 메소드
     private boolean clearDeviceData(int index){
         //모듈과의 연결을 끊어야함
-
         int count = getContentResolver().delete(uri,"_index="+index,null);
         Log.d("데이터베이스;식물리스트",  "DELETE 결과 =>"+count+"개의 컬럼이 삭제되었습니다.");
         if(count>0){
@@ -239,11 +237,16 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent i = new Intent(getApplicationContext(),ItemActivity.class);
-            i.putExtra("index",index);
-            startActivity(i);
+            setResult(RESULT_CANCELED);
             finish();
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
     }
 }

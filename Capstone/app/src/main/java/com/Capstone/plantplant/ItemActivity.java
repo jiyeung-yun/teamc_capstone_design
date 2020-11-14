@@ -1,5 +1,6 @@
 package com.capstone.plantplant;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -10,20 +11,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class ItemActivity extends AppCompatActivity {
+    private final int REQUEST_CODE_CONTROL = 5000;
     Toolbar toolbar_item;
 
     String plant_kind,soil_kind;
     TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size,main_txt_humity;
 
-    ImageButton btn_information,btn_water_information,btn_setting;
+    Button btn_information,btn_water_information,btn_setting;
     CheckBox ckb_waterlevel;
 
     int index;
@@ -93,8 +95,7 @@ public class ItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent set = new Intent(getApplicationContext(),ControlActivity.class);
                 set.putExtra("index",index);
-                startActivity(set);
-                finish();
+                startActivityForResult(set,REQUEST_CODE_CONTROL);
             }
         });
         //급수 정보 액티비티 버튼
@@ -181,5 +182,16 @@ public class ItemActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE_CONTROL){
+            if(resultCode==RESULT_OK){
+                finish();
+            }
+        }
+
     }
 }
