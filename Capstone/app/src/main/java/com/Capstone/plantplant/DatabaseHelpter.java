@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class DatabaseHelpter extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "plant.db";
     private static final int DATABASE_VERSION = 1;
@@ -58,6 +56,8 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
 
         //토양 정보 리스트 테이블 생성
         db.execSQL(CREATE_TABLE2);
+
+        //토양 정보 리스트 속성 값 추가해야함
     }
 
     @Override
