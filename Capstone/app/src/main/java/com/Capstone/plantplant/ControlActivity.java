@@ -1,5 +1,6 @@
 package com.capstone.plantplant;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,14 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
 
@@ -37,7 +43,9 @@ public class ControlActivity extends AppCompatActivity {
 
     Button btn_control_save,btn_reset_data;
     Spinner cont_spinner_time;
-    Button btn_save;
+
+    SwitchMaterial switch_module_onoff,switch_module_water;
+    LinearLayout ly_control_water;
 
     EditText editText_watertime,editText_waterdate,editText_waterhumidity;
     String watertime="",waterdate="",waterhumidity="";
@@ -83,6 +91,35 @@ public class ControlActivity extends AppCompatActivity {
         //데이터를 삭제할 경우 보여지는 알림창 생성
         dialog.create();
 
+        //모듈 전원 스위치
+        switch_module_onoff = findViewById(R.id.switch_module_onoff);
+        switch_module_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch_module_water.setChecked(isChecked);
+            }
+        });
+
+        //급수 제어 정보 레이아웃
+        ly_control_water = findViewById(R.id.ly_control_water);
+
+        //자동 급수 스위치
+        switch_module_water = findViewById(R.id.switch_module_water);
+        switch_module_water.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked && switch_module_onoff.isChecked() ){
+                    ly_control_water.setVisibility(View.VISIBLE);
+                }else {
+                    if(!switch_module_onoff.isChecked()){
+                        Toast.makeText(getApplicationContext(),"모듈의 전원이 켜져있을 때만\n자동 급수가 가능합니다",Toast.LENGTH_SHORT).show();
+                        switch_module_water.setChecked(false);
+                    }
+                    ly_control_water.setVisibility(View.GONE);
+                }
+            }
+        });
+
         //데이터 삭제 버튼
         btn_reset_data = findViewById(R.id.btn_reset_data);
         btn_reset_data.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +141,7 @@ public class ControlActivity extends AppCompatActivity {
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
 
-
+        //DB에서 아이템 식물 정보를 불러옴
         Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
         while(cursor.moveToNext()) {
             //토양 종류
@@ -140,10 +177,7 @@ public class ControlActivity extends AppCompatActivity {
         editText_watertime = findViewById(R.id.editText_watertime);
         editText_watertime.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -159,8 +193,7 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            public void afterTextChanged(Editable editable) { }
         });
         /*물 주는 시간 입력 edittext 초기화 -끝-*/
 
@@ -168,10 +201,7 @@ public class ControlActivity extends AppCompatActivity {
         editText_waterdate = findViewById(R.id.editText_waterdate);
         editText_waterdate.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -188,8 +218,7 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            public void afterTextChanged(Editable editable) { }
         });
         /*물 주는 기간 입력 edittext 초기화 -끝-*/
 
@@ -197,10 +226,7 @@ public class ControlActivity extends AppCompatActivity {
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);
         editText_waterhumidity.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -215,15 +241,13 @@ public class ControlActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) { }
         });
         /*기준 습도 입력 edittext 초기화 -끝-*/
 
     }
+
     //식물 아이템 삭제 메소드
     private boolean clearDeviceData(int index){
         //모듈과의 연결을 끊어야함
@@ -234,6 +258,8 @@ public class ControlActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
