@@ -19,8 +19,8 @@
     <string name="block_title_humidity">토양 습도</string>
     <string name="block_title_waterlevel">물탱크</string>
 
-    <string name="title_supply_prev">최근 급수</string>
-    <string name="title_supply_next">다음 급수</string>
+    <string name="title_supply_prev">최근 급수 정보</string>
+    <string name="title_supply_next">다음 급수 정보</string>
     <string name="title_user_watersize">사용자지정 물의 양</string>
 
     <string name="title_plant_kind">식물 종류</string>
