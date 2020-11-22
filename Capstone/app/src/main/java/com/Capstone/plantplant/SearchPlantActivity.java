@@ -118,15 +118,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
     //한 페이지에 아이템 갯수
     int numOfRows = 100;
-    //로드할 페이지 번호
-    int pageNo = 1;
    //검색어 관련 전체 폐이지갯수
     int totalPageCount = 0;
 
     //태그 확인
     boolean systemkorname = false;
     boolean totalcount = false;
-    void getXmlData(String str){
+    void getXmlData(String str,int pageNo){
         try {
             Log.d("API DATA PARSING","검색어  => "+str);
 
@@ -211,9 +209,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
         }
     }
+    int pageNo = 0;
     @Override
     public boolean onQueryTextSubmit(final String query) {
         loadingPrograss(true);
+
+        pageNo = 1;
+        totalPageCount = 0;
         if(kindSearchAdapter!=null){
             items.clear();
             kindSearchAdapter.clear();
@@ -224,7 +226,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                getXmlData(query);
+                getXmlData(query,pageNo);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

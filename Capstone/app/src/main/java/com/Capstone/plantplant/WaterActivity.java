@@ -15,7 +15,7 @@ public class WaterActivity extends AppCompatActivity {
 
     ImageButton btn_info_close2;
 
-    TextView txt_next_date,txt_next_vol;
+   // TextView txt_next_date,txt_next_vol;
     TextView txt_prev_date,txt_prev_vol;
 
 
@@ -44,7 +44,7 @@ public class WaterActivity extends AppCompatActivity {
         LoadPrevData();
 
         //다음 번에 모듈이 물 주기를 수행한 날짜와 용량
-        LoadNextData();
+        //LoadNextData();
 
     }
     //최근 모듈이 물 주기를 수행한 날짜와 용량
@@ -60,6 +60,7 @@ public class WaterActivity extends AppCompatActivity {
         txt_prev_vol.setText("40mL");
 
     }
+    /*
     //다음 번에 모듈이 물 주기를 수행한 날짜와 용량
     private void LoadNextData(){
         txt_next_date = findViewById(R.id.txt_next_date);
@@ -68,4 +69,5 @@ public class WaterActivity extends AppCompatActivity {
         txt_next_vol.setText("65mL");
 
     }
+    */
 }

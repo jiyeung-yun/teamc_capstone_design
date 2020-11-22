@@ -60,10 +60,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/block_title_padding"
-                android:text="@string/title_supply_next"
+                android:text="급수 예정일"
                 android:textColor="@color/colorTitleFont"
                 android:textSize="@dimen/block_content_font_size" />
 

@@ -14,7 +14,7 @@
         android:gravity="center"
         android:padding="@dimen/editbox_padding"
         android:text="꽃부기\n부경대학교 it융합응용공학과"
-        android:textColor="@color/colorDeviderLine"
+        android:textColor="@color/colorSubTitleFont"
         android:textSize="@dimen/block_content_font_size" />
 
     <ScrollView
