@@ -315,7 +315,7 @@
                 android:gravity="center"
                 android:layout_marginTop="@dimen/block_title_padding"
 
-                android:text="모든 데이터에 대한 모든 저작 권리는 국립수목원 또는 원 저작자에게 있습니다"
+                android:text="본 데이터에 대한 모든 저작권리는 국립수목원 또는 원저작자에게 있습니다."
                 android:textColor="@color/colorSubTitleFont"
                 android:textSize="10sp" />
 

@@ -1,6 +1,8 @@
 package com.capstone.plantplant;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +23,8 @@ public class ListActivity extends AppCompatActivity {
     public static final String LIST_URI = "content://com.capstone.plantplant/list";
     private final int REGI_PLANT_REQUEST_CODE = 2011;
 
-    FloatingActionButton btn_add_item;
+
+   FloatingActionButton btn_add_item;
     RecyclerView ry_plant_list;
 
     @Override
