@@ -105,10 +105,7 @@ public class StorageActivity extends AppCompatActivity {
     }
     //카메라를 통해 사진을 입력할 경우
     public void getImageCamara() {
-        File image = new File(Environment.getExternalStorageDirectory(), "/DCIM/PLANT/" + filename);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri uri = FileProvider.getUriForFile(getBaseContext(),FILEPROVIDER_AUTHORITY, image);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
         }
@@ -125,25 +122,36 @@ public class StorageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode== Activity.RESULT_OK){
-            if(requestCode == REQUEST_CODE_TAKE_PICTURE||requestCode == REQUEST_SELECT_PICTURE )
+            Bitmap img = null;
+            if(requestCode == REQUEST_CODE_TAKE_PICTURE){
+                img = (Bitmap) data.getExtras().get("data");
+            }else if(requestCode == REQUEST_SELECT_PICTURE){
                 if (data.getData() != null) {
                     try{
                         InputStream in = getContentResolver().openInputStream(data.getData());
-                        Bitmap img = BitmapFactory.decodeStream(in);
-                        String path = saveToInternalStorage(img);
-                        Log.d("Storage Activity","file path is "+path);
-
-                        Intent intent = getIntent();
-                        intent.putExtra("path",path);
-                        intent.putExtra("filename",filename);
-                        setResult(RESULT_OK,intent);
-                        finish();
-                        return;
+                        img = BitmapFactory.decodeStream(in);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
                 }
+            }
+
+            String path = saveToInternalStorage(img);
+            if(path==null){
+                Log.d("Storage Activity","onActivityResult => path == null");
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            Log.d("Storage Activity","file path is "+path);
+
+            Intent intent = getIntent();
+            intent.putExtra("path",path);
+            intent.putExtra("filename",filename);
+            setResult(RESULT_OK,intent);
+            finish();
         }
+        Log.d("Storage Activity","onActivityResult => RESULT_CANCEL");
+
         setResult(RESULT_CANCELED);
         finish();
     }

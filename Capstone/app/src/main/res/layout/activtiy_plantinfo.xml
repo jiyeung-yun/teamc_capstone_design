@@ -313,7 +313,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/side_padding"
                 android:gravity="center"
-                android:text="ⓒ 산림청 공공API데이터"
+                android:text="본 데이터에 대한 모든 저작권리는 국립수목원 또는 원저작자에게 있습니다."
+
                 android:textColor="@color/colorSubTitleFont"
                 android:textSize="10sp" />
             <TextView
@@ -321,8 +322,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/block_title_padding"
+                android:text="ⓒ 산림청 공공API데이터"
 
-                android:text="본 데이터에 대한 모든 저작권리는 국립수목원 또는 원저작자에게 있습니다."
                 android:textColor="@color/colorSubTitleFont"
                 android:textSize="10sp" />
 
