@@ -10,9 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -47,7 +52,9 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     String plant_kind , soil_kind;
 
-    //레이아운 데이터 초기화
+    Spinner spinner_select_soil;
+
+    //레이아웃 데이터 초기화
     private void InitfindViewByID(){
         txt_brdMthdDesc = findViewById(R.id.txt_brdMthdDesc);
         txt_brdMthdDesc.setMovementMethod(new ScrollingMovementMethod());
@@ -86,6 +93,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         /*상단 작업표시줄 투명하게 만드는 코드*/
 
         setContentView(R.layout.activtiy_plantinfo);
+        //레이아웃 데이터 초기화
         InitfindViewByID();
 
         btn_info_close = findViewById(R.id.btn_info_close);
@@ -145,11 +153,41 @@ public class PlantInfoActivity extends AppCompatActivity {
 
         soil_kind = intent.getStringExtra("soil_kind");
 
-        //토양 정보를 DB에서 불러서 제공
-        LoadSoilInformation(soil_kind);
+        spinner_select_soil = findViewById(R.id.spinner_select_soil);
 
+        final ArrayList<String> arrayList = new ArrayList<>();
+        //데이터 베이스 토양 종류 속성 값을 배열에 저장
+        arrayList.add("혼합 인공 배양 상토");
+        for(int i=0;i<1;i++){
+            arrayList.add("db에서 불러올 토양의 종류");
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
+        spinner_select_soil.setAdapter(adapter);
+        spinner_select_soil.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String kind = arrayList.get(position);
+                LoadSoilInformation(kind);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        String[] arr = getResources().getStringArray(R.array.soil_array);
+        if(soil_kind.equals(arr[0])){
+            spinner_select_soil.setVisibility(View.VISIBLE);
+        }else {
+            spinner_select_soil.setVisibility(View.GONE);
+            //토양 정보를 DB에서 불러서 제공
+            LoadSoilInformation(soil_kind);
+        }
         txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soil_kind);
+
 
     }
     public static final String SOIL_URI = "content://com.capstone.plantplant/soil";

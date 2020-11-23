@@ -101,11 +101,18 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
+
+                    <Spinner
+                        android:id="@+id/spinner_select_soil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
                         android:layout_marginBottom="@dimen/block_title_padding"
                         android:text="토양 종류"
                         android:textColor="@color/colorTitleFont"
@@ -203,27 +210,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/side_padding"
                         android:layout_marginBottom="@dimen/block_title_padding"
-                        android:text="설명"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_smlrPlntDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:hint="내용없음"
-                        android:hyphenationFrequency="none"
-                        android:overScrollMode="never"
-                        android:scrollbars="vertical"
-                        android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/side_padding"
-                        android:layout_marginBottom="@dimen/block_title_padding"
                         android:text="재배 특성"
                         android:textColor="@color/colorTitleFont"
                         android:textSize="@dimen/block_content_font_size"
@@ -295,6 +281,27 @@
                         android:layout_height="80dp"
                         android:hint="내용없음"
                         android:hyphenationFrequency="none"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:textColor="@color/colorTitleFont" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_padding"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="유사한 식물"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_smlrPlntDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:hint="내용없음"
+                        android:hyphenationFrequency="none"
+                        android:overScrollMode="never"
                         android:scrollbars="vertical"
                         android:singleLine="false"
                         android:textColor="@color/colorTitleFont" />
