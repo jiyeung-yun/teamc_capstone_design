@@ -52,9 +52,9 @@ public class DBProvider extends ContentProvider {
             case LIST:
                 cursor = db.query(DatabaseHelpter.TABLE_NAME,DatabaseHelpter.ALL_COLUMS,selection,selectionArgs,null,null,null);
                 break;
-            case SOIL:
+            /*case SOIL:
                 cursor = db.query(DatabaseHelpter.TABLE_NAME2,DatabaseHelpter.ALL_COLUMS2,selection,selectionArgs,null,null,null);
-                break;
+                break;*/
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);
         }
@@ -88,6 +88,7 @@ public class DBProvider extends ContentProvider {
                     return uri;
                 }
                 break;
+                /*
             case SOIL:
                 long id2 = db.insert(DatabaseHelpter.TABLE_NAME2,null,values);
                 if(id2>0){
@@ -96,6 +97,7 @@ public class DBProvider extends ContentProvider {
                     return uri;
                 }
                 break;
+                 */
             default:
                 throw new SQLException("INSERT 명령어 실패 => "+uri);
         }
@@ -109,9 +111,12 @@ public class DBProvider extends ContentProvider {
             case LIST:
                 count = db.delete(DatabaseHelpter.TABLE_NAME,selection,selectionArgs);
                 break;
+                /*
             case SOIL:
                 count = db.delete(DatabaseHelpter.TABLE_NAME2,selection,selectionArgs);
                 break;
+
+                 */
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);
         }
@@ -128,9 +133,12 @@ public class DBProvider extends ContentProvider {
             case LIST:
                 count = db.update(DatabaseHelpter.TABLE_NAME,values,selection,selectionArgs);
                 break;
+                /*
             case SOIL:
                 count = db.update(DatabaseHelpter.TABLE_NAME2,values,selection,selectionArgs);
                 break;
+
+                 */
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);
         }

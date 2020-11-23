@@ -7,8 +7,11 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +19,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import static com.capstone.plantplant.DatabaseHelpter.ALL_COLUMS;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class ItemActivity extends AppCompatActivity {
@@ -24,6 +32,7 @@ public class ItemActivity extends AppCompatActivity {
 
     String plant_kind,soil_kind;
     TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size,main_txt_humity;
+    ImageView main_plant_image;
 
     Button btn_information,btn_water_information,btn_setting;
     CheckBox ckb_waterlevel;
@@ -49,31 +58,62 @@ public class ItemActivity extends AppCompatActivity {
         index = intent.getIntExtra("index",0);
 
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
-        String[] colums = {"kind","date","soil","size"};
-        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
+        Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
+        Log.d("ItemActivity","SQL result : "+cursor.getColumnCount());
         while(cursor.moveToNext()){
             //식물의 종류
-            plant_kind = cursor.getString(cursor.getColumnIndex(colums[0]));
+
+            plant_kind = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[1]));
+            Log.d("ItemActivity",cursor.getColumnName(1)+" : "+plant_kind);
+
             main_plant_name = findViewById(R.id.main_plant_name);
             main_plant_name.setText(plant_kind);
 
             //아이템 등록 날짜
             main_regi_date = findViewById(R.id.main_regi_date);
-            main_regi_date.setText(cursor.getString(cursor.getColumnIndex(colums[1])));
+            String date = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[2]));
+            main_regi_date.setText(date);
+            Log.d("ItemActivity",cursor.getColumnName(2)+" : "+date);
 
             //토양 종류
             main_soil_kind = findViewById(R.id.main_soil_kind);
-            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[2]));
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[3]));
+
+            Log.d("ItemActivity",cursor.getColumnName(3)+" : "+soil_kind_pos);
+
+
             String[] arr = getResources().getStringArray(R.array.soil_array);
             soil_kind = arr[soil_kind_pos];
             main_soil_kind.setText(soil_kind);
 
+
             //화분 사이즈
             main_pot_size = findViewById(R.id.main_pot_size);
-            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[3]));
+            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[4]));
+            Log.d("ItemActivity",cursor.getColumnName(4)+" : "+pot_size_pos);
+
+
             String[] arr2 = getResources().getStringArray(R.array.pot_array);
             String pot_size = arr2[pot_size_pos];
             main_pot_size.setText(pot_size);
+
+            String filename = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[6]));
+            Log.d("ItemActivity",cursor.getColumnName(6)+" : "+filename);
+
+            String path = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[7]));
+            Log.d("ItemActivity",cursor.getColumnName(7)+" : "+path);
+
+            //사진 보여주는 코드
+            try {
+                File file=new File(path, filename);
+                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+
+                main_plant_image = findViewById(R.id.main_plant_image);
+                main_plant_image.setImageBitmap(bitmap);
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         //식물의 종류에 따른 식물정보 액티비티 버튼

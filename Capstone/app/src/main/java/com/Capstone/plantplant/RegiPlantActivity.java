@@ -32,6 +32,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -54,7 +57,10 @@ public class RegiPlantActivity extends AppCompatActivity {
     Spinner spinner_pot,spinner_soil;
     ToggleButton btn_connect;
     Button btn_regi;
+
     int plant_idx;
+    String plant_img; //사진 파일 이름
+    String path; //사진 파일 경로
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,6 +160,10 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("soil", soil_kind);
                             values.put("size", pot_size);
                             values.put("num", plant_idx);
+                            if(plant_img!=null && path!=null){
+                                values.put("image", plant_img);
+                                values.put("path", path);
+                            }
 
                             uri = getContentResolver().insert(uri,values);
                             Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
@@ -269,16 +279,30 @@ public class RegiPlantActivity extends AppCompatActivity {
         }
         btn_regi.setClickable(check);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_IMAGE:{
                 if(resultCode==RESULT_OK){
-                    Uri uri = MediaStore.Images.Media.getContentUri("user_plant_image");
-                    Bitmap image = BitmapFactory.decodeFile(String.valueOf(uri));
-                    reg_plant_image.setImageBitmap(image);
+
+                    plant_img = data.getStringExtra("filename");
+                    Log.d("RegiPlantActivity","filename is "+plant_img);
+
+                    path = data.getStringExtra("path");
+                    Log.d("RegiPlantActivity","file path is "+path);
+
+                    try {
+                        File file=new File(path, plant_img);
+                        Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                        Log.d("RegiPlantActivity","filename load complete");
+
+                        reg_plant_image.setImageBitmap(bitmap);
+                    }
+                    catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
             }

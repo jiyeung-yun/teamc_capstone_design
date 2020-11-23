@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -154,32 +153,10 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     }
     public static final String SOIL_URI = "content://com.capstone.plantplant/soil";
+
     //토양 정보를 저장해두는 DB 생성한 후 로드
     private void LoadSoilInformation(String soild_name){
-        Uri uri = new Uri.Builder().build().parse(SOIL_URI);
-        if(uri!=null){
-            String[] colums = {"kind","produce","usage","feature"};
-            Cursor cursor = getContentResolver().query(uri,colums,"kind='"+soild_name+"'",null,null);
-            int count =  cursor.getCount();
-            if(count > 0){
-                while(cursor.moveToNext()){
-                    //토양종류(이름)
-                    String kind = cursor.getString(cursor.getColumnIndex(colums[0]));
 
-                    //생성
-                    String produce =  cursor.getString(cursor.getColumnIndex(colums[1]));
-                    txt_soil_produce.setText(produce);
-                    //용도
-                    String usage =  cursor.getString(cursor.getColumnIndex(colums[2]));
-                    txt_soil_usage.setText(usage);
-
-                    //특징(성질)
-                    String feature =  cursor.getString(cursor.getColumnIndex(colums[3]));
-                    txt_soil_feature.setText(feature);
-                }
-            }
-            cursor.close();
-        }
     }
     //식물 종류에 따른 종류를 api에서 응답받아 로드
     private void LoadPlantInformation(final int plant_idx){

@@ -3,6 +3,8 @@ package com.capstone.plantplant;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,6 +33,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,15 +49,13 @@ public class StorageActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_TAKE_PICTURE = 502;
 
     private static final String FILEPROVIDER_AUTHORITY ="com.capstone.plantplant.fileprovider";
-    private static String FILE_NAME = "/DCIM/Camera/";
 
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat imageformat = new SimpleDateFormat("yyyyMMdd_HHmmSS");
-
+    String filename;
     Intent request;
 
     ImageButton btn_camera,btn_gallery,btn_storage_cancel;
-    ImageView img_preview;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,14 +101,11 @@ public class StorageActivity extends AppCompatActivity {
 
         request = getIntent();
 
-        //테스트를 위한 이밎 뷰
-        img_preview= findViewById(R.id.img_preview);
-        img_preview.setVisibility(View.INVISIBLE);
+        filename = imageformat.format(new Date()) + ".png";
     }
     //카메라를 통해 사진을 입력할 경우
     public void getImageCamara() {
-        String workImageName = imageformat.format(new Date()) + ".png";
-        File image = new File(Environment.getExternalStorageDirectory(), FILE_NAME + workImageName);
+        File image = new File(Environment.getExternalStorageDirectory(), "/DCIM/PLANT/" + filename);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri uri = FileProvider.getUriForFile(getBaseContext(),FILEPROVIDER_AUTHORITY, image);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -127,19 +128,16 @@ public class StorageActivity extends AppCompatActivity {
             if(requestCode == REQUEST_CODE_TAKE_PICTURE||requestCode == REQUEST_SELECT_PICTURE )
                 if (data.getData() != null) {
                     try{
-                        //사진 등록 방식 결정 후 코드 설계
                         InputStream in = getContentResolver().openInputStream(data.getData());
-
                         Bitmap img = BitmapFactory.decodeStream(in);
-                        img_preview.setImageBitmap(img);
-                        img_preview.setVisibility(View.VISIBLE);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                setResult(RESULT_OK);
-                                finish();
-                            }
-                        },1000);
+                        String path = saveToInternalStorage(img);
+                        Log.d("Storage Activity","file path is "+path);
+
+                        Intent intent = getIntent();
+                        intent.putExtra("path",path);
+                        intent.putExtra("filename",filename);
+                        setResult(RESULT_OK,intent);
+                        finish();
                         return;
                     }catch(Exception e){
                         e.printStackTrace();
@@ -149,7 +147,32 @@ public class StorageActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
         finish();
     }
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
 
+        File mypath =new File(directory,filename);
+        Log.d("Storage Activity","file makes : "+filename);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                Log.d("Storage Activity","file Close");
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
