@@ -223,7 +223,8 @@
                         android:hyphenationFrequency="none"
                         android:scrollbars="vertical"
                         android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -243,7 +244,8 @@
                         android:hyphenationFrequency="none"
                         android:scrollbars="vertical"
                         android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -263,7 +265,8 @@
                         android:hyphenationFrequency="none"
                         android:scrollbars="vertical"
                         android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -283,7 +286,8 @@
                         android:hyphenationFrequency="none"
                         android:scrollbars="vertical"
                         android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -304,7 +308,8 @@
                         android:overScrollMode="never"
                         android:scrollbars="vertical"
                         android:singleLine="false"
-                        android:textColor="@color/colorTitleFont" />
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_content_font_size" />
 
                 </LinearLayout>
             </FrameLayout>
