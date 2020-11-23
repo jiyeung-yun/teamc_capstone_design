@@ -104,16 +104,21 @@ public class ItemActivity extends AppCompatActivity {
             Log.d("ItemActivity",cursor.getColumnName(7)+" : "+path);
 
             //사진 보여주는 코드
-            try {
-                File file=new File(path, filename);
-                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+            if(filename!=null && path!=null){
+                try {
+                    File file=new File(path, filename);
+                    Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
 
-                main_plant_image = findViewById(R.id.main_plant_image);
-                main_plant_image.setImageBitmap(bitmap);
+                    main_plant_image = findViewById(R.id.main_plant_image);
+                    main_plant_image.setImageBitmap(bitmap);
+                    main_plant_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                }
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+
         }
 
         //식물의 종류에 따른 식물정보 액티비티 버튼

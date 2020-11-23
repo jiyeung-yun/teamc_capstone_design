@@ -170,7 +170,6 @@ public class PlantInfoActivity extends AppCompatActivity {
                 String kind = arrayList.get(position);
                 LoadSoilInformation(kind);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
