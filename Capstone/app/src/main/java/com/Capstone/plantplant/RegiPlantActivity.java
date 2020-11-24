@@ -44,8 +44,6 @@ public class RegiPlantActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     Toolbar toolbar_regiplant;
 
     TextView txt_kindplant;
@@ -143,7 +141,7 @@ public class RegiPlantActivity extends AppCompatActivity {
                 final int pot_size = spinner_pot.getSelectedItemPosition();
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
-                final String reg_date = dateFormat.format(new Date());
+                final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -184,7 +182,7 @@ public class RegiPlantActivity extends AppCompatActivity {
     boolean plantPilbkNo = false;
     void getEncyclopediaNum(String str){
         try {
-            Log.d("API DATA PARSING","검색어  => "+str);
+            Log.d("RegiPlantActivity","검색어  => "+str);
 
             StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrSearch");
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
@@ -194,7 +192,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
 
             URL url = new URL(urlBuilder.toString());
-            Log.d("API DATA PARSING","URI 주소 => "+url);
+            Log.d("RegiPlantActivity","URI 주소 => "+url);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -216,14 +214,14 @@ public class RegiPlantActivity extends AppCompatActivity {
                 while (eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
-                            Log.d("API DATA PARSING","API 파싱 => 시작");
+                            Log.d("RegiPlantActivity","API 파싱 => 시작");
 
                             break;
                         }
                         case XmlPullParser.START_TAG:{
                             String string = xmlPullParser.getName();
                             if(string.equals("item")){
-                                Log.d("API DATA PARSING","<item>");
+                                Log.d("RegiPlantActivity","<item>");
                             }
                             if(string.equals("familyKorNm")){
                                 familyKorNm = true;
@@ -236,12 +234,12 @@ public class RegiPlantActivity extends AppCompatActivity {
                         case XmlPullParser.TEXT:{
                             if(familyKorNm){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","국문명 => "+s);
+                                Log.d("RegiPlantActivity","국문명 => "+s);
                                 familyKorNm = false;
                             }
                             if(plantPilbkNo){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","도감 번호 => "+s);
+                                Log.d("RegiPlantActivity","도감 번호 => "+s);
 
                                 plant_idx= Integer.parseInt(s);
                                 plantPilbkNo = false;
@@ -255,14 +253,14 @@ public class RegiPlantActivity extends AppCompatActivity {
                     eventType = xmlPullParser.next();
                 }
             }catch (XmlPullParserException e){
-                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
+                Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
             }
             rd.close();
             conn.disconnect();
-            Log.d("API DATA PARSING","API 파싱 => 끝");
+            Log.d("RegiPlantActivity","API 파싱 => 끝");
 
         } catch (Exception e) {
-            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
+            Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
         }
     }
     //모듈과의 연결이 확인되면 등록버튼 활성화

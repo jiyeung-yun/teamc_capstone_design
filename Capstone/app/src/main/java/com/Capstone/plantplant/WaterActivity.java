@@ -15,7 +15,7 @@ public class WaterActivity extends AppCompatActivity {
 
     ImageButton btn_info_close2;
 
-   // TextView txt_next_date,txt_next_vol;
+   //TextView txt_next_date,txt_next_vol;
     TextView txt_prev_date,txt_prev_vol;
 
 

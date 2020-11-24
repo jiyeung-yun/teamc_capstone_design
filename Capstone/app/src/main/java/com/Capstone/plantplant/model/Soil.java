@@ -1,4 +1,4 @@
-package com.capstone.plantplant.control;
+package com.capstone.plantplant.model;
 
 public class Soil {
     private int SID;

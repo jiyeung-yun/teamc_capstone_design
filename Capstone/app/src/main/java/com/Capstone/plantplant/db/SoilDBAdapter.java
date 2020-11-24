@@ -6,7 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.capstone.plantplant.control.Soil;
+import com.capstone.plantplant.model.Soil;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.capstone.plantplant.control.Soil;
+import com.capstone.plantplant.model.Soil;
 import com.capstone.plantplant.db.SoilDBAdapter;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -194,28 +194,34 @@ public class PlantInfoActivity extends AppCompatActivity {
             LoadSoilInformation(soil_kind);
         }
     }
+    //데이터베이스에 저장된 토양 관련 데이터 전부 List에 저장
     List<Soil> soils;
     private void initLoadDB() {
         SoilDBAdapter mDbHelper = new SoilDBAdapter(getApplicationContext());
         mDbHelper.createDatabase();
         mDbHelper.open();
 
-        // db에 있는 값들을 model을 적용해서 넣는다.
         soils = mDbHelper.getTableData();
 
-        // db 닫기
+        // DB 닫기
         mDbHelper.close();
     }
     //토양 정보 DB에서 로드
     private void LoadSoilInformation(String soild_name){
         txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soild_name);
+
         for(int i=0;i<soils.size();i++){
             if(soils.get(i).getSname().equals(soild_name)){
+
                 txt_plantinfo_type.setText(soils.get(i).getStype());
+
                 txt_soil_produce.setText(soils.get(i).getSproduce());
+
                 txt_soil_usage.setText(soils.get(i).getSusage());
+
                 txt_soil_feature.setText(soils.get(i).getScharacter());
+
                 break;
             }
         }
@@ -239,25 +245,21 @@ public class PlantInfoActivity extends AppCompatActivity {
         }).start();
 
     }
-
-    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
-
-    //한 페이지에 아이템 갯수
-    int numOfRows = 1;
-    //로드할 페이지 번호
-    int pageNo = 1;
+    //공공데이터포털에서 받은 인증키
+    final String SERVICE_KEY = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D";
 
     boolean brdMthdDesc = false,farmSpftDesc = false,grwEvrntDesc=false,smlrPlntDesc = false,useMthdDesc = false;
+
     void getPlantInformation(final int q1){
         try {
-            Log.d("API DATA PARSING","검색할 도감번호 => "+q1);
+            Log.d("PlantInfoActivity","검색할 도감번호 => "+q1);
 
             StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrInfo");
-            urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
+            urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+SERVICE_KEY);
             urlBuilder.append("&" + URLEncoder.encode("q1","UTF-8")+"="+ q1);
 
             URL url = new URL(urlBuilder.toString());
-            Log.d("API DATA PARSING","URI 주소 =>"+url);
+            Log.d("PlantInfoActivity","URI 주소 =>"+url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
@@ -278,7 +280,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                 while (eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
-                            Log.d("API DATA PARSING","API 파싱 => 시작");
+                            Log.d("PlantInfoActivity","API 파싱 => 시작");
                             break;
                         }
                         case XmlPullParser.START_TAG:{
@@ -309,7 +311,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                             //번식방법
                             if(brdMthdDesc){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","번식방법 => "+s );
+                                Log.d("PlantInfoActivity","번식방법 => "+s );
                                 if(!s.equals(" ")){
                                     String st = txt_brdMthdDesc.getText().toString()+s;
                                     txt_brdMthdDesc.setText(st);
@@ -318,7 +320,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                             //재배특성
                             else if(farmSpftDesc){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","재배특성 => "+s );
+                                Log.d("PlantInfoActivity","재배특성 => "+s );
                                 if(!s.equals(" ")){
                                     String st = txt_farmSpftDesc.getText().toString()+s;
                                     txt_farmSpftDesc.setText(st);
@@ -335,7 +337,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                             //유사식물설명
                             else if(smlrPlntDesc){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","유사식물설명 => "+s );
+                                Log.d("PlantInfoActivity","유사식물설명 => "+s );
                                 if(!s.equals(" ")){
                                     String st = txt_smlrPlntDesc.getText().toString()+s;
                                     txt_smlrPlntDesc.setText(st);
@@ -344,7 +346,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                             //사용법
                             else if(useMthdDesc){
                                 String s = xmlPullParser.getText();
-                                Log.d("API DATA PARSING","사용법 => "+s );
+                                Log.d("PlantInfoActivity","사용법 => "+s );
                                 if(!s.equals(" ")){
                                     String st = txt_useMthdDesc.getText().toString()+s;
                                     txt_useMthdDesc.setText(st);
@@ -380,14 +382,14 @@ public class PlantInfoActivity extends AppCompatActivity {
                     eventType = xmlPullParser.next();
                 }
             }catch (XmlPullParserException e){
-                Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
+                Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
             }
             rd.close();
             conn.disconnect();
-            Log.d("API DATA PARSING","API 파싱 => 끝");
+            Log.d("PlantInfoActivity","API 파싱 => 끝");
 
         } catch (Exception e) {
-            Log.d("API DATA PARSING","API 파싱 실패=> "+ e.getMessage());
+            Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
         }
     }
 
