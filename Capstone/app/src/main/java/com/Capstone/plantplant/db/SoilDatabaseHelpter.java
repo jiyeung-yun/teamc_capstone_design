@@ -59,21 +59,37 @@ public class SoilDatabaseHelpter extends SQLiteOpenHelper {
     }
     //assets폴더에서 데이터베이스를 복사한다.
     private void copyDataBase() throws IOException {
+        AssetManager manager = hcontext.getAssets();
+        String folderPath = hcontext.getApplicationInfo().dataDir + "/databases";
+        String filePath = DB_PATH + SOIL_DATABASE_NAME;
+        File folder = new File(folderPath);
+        File file = new File(filePath);
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+        try {
+            InputStream is = manager.open("db/" + SOIL_DATABASE_NAME);
+            BufferedInputStream bis = new BufferedInputStream(is);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+            if (file.exists()) {
+                file.delete();
+                file.createNewFile();
+            }
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            int read = -1; byte[] buffer = new byte[1024];
+            while ((read = bis.read(buffer, 0, 1024)) != -1) {
+                bos.write(buffer, 0, read);
+            }
+            bos.flush();
+            bos.close();
+            fos.close();
+            bis.close();
+            is.close();
+        } catch (IOException e) {
+            Log.e("SoilDatabaseHelpter", "ErrorMessage : "+e.getMessage()); }
 
-        InputStream mInput = hcontext.getAssets().open(SOIL_DATABASE_NAME);
-        String outFileName = DB_PATH + SOIL_DATABASE_NAME;
-
-        OutputStream mOutput = new FileOutputStream(outFileName);
-
-        byte[] mBuffer = new byte[1024];
-        int mLength;
-        while ((mLength = mInput.read(mBuffer))>0) {
-            mOutput.write(mBuffer, 0, mLength);
-        }
-
-        mOutput.flush();
-        mOutput.close();
-        mInput.close();
     }
 
     //데이터베이스를 열어서 쿼리를 쓸수있게만든다.

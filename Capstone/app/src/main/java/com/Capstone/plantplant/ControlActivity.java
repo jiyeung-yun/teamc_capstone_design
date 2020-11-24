@@ -164,7 +164,7 @@ public class ControlActivity extends AppCompatActivity {
                 Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
 
                 Toast.makeText(getApplicationContext(),"성공적으로 설정하였습니다.",Toast.LENGTH_SHORT).show();
-                setResult(RESULT_CANCELED);
+                setResult(RESULT_OK);
                 finish();
             }
         });

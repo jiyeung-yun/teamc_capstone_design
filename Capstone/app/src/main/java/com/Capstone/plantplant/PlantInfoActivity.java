@@ -193,10 +193,6 @@ public class PlantInfoActivity extends AppCompatActivity {
             //토양 정보를 DB에서 불러서 제공
             LoadSoilInformation(soil_kind);
         }
-        txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
-        txt_plantinfo_soil.setText(soil_kind);
-
-
     }
     List<Soil> soils;
     private void initLoadDB() {
@@ -212,6 +208,7 @@ public class PlantInfoActivity extends AppCompatActivity {
     }
     //토양 정보 DB에서 로드
     private void LoadSoilInformation(String soild_name){
+        txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soild_name);
         for(int i=0;i<soils.size();i++){
             if(soils.get(i).getSname().equals(soild_name)){
