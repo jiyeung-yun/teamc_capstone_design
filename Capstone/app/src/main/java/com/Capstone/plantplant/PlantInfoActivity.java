@@ -21,6 +21,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.capstone.plantplant.control.Soil;
+import com.capstone.plantplant.db.SoilDBAdapter;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -31,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -45,7 +49,7 @@ public class PlantInfoActivity extends AppCompatActivity {
     TextView txt_plantinfo_kind,txt_plantinfo_soil;
     TextView txt_brdMthdDesc,txt_farmSpftDesc,txt_grwEvrntDesc
                             ,txt_smlrPlntDesc,txt_useMthdDesc;
-    TextView txt_soil_produce,txt_soil_usage,txt_soil_feature;
+    TextView txt_soil_produce,txt_soil_usage,txt_soil_feature,txt_plantinfo_type;
 
     String plant_kind , soil_kind;
 
@@ -78,6 +82,9 @@ public class PlantInfoActivity extends AppCompatActivity {
         txt_soil_feature = findViewById(R.id.txt_soil_feature);
         txt_soil_feature.setMovementMethod(new ScrollingMovementMethod());
 
+        txt_plantinfo_type = findViewById(R.id.txt_plantinfo_type);
+        txt_plantinfo_type.setMovementMethod(new ScrollingMovementMethod());
+
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +99,8 @@ public class PlantInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activtiy_plantinfo);
         //레이아웃 데이터 초기화
         InitfindViewByID();
+        //데이터베이스 초기화
+        initLoadDB();
 
         btn_info_close = findViewById(R.id.btn_info_close);
         btn_info_close.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +164,8 @@ public class PlantInfoActivity extends AppCompatActivity {
         final ArrayList<String> arrayList = new ArrayList<>();
         //데이터 베이스 토양 종류 속성 값을 배열에 저장
         arrayList.add("혼합 인공 배양 상토");
-        for(int i=0;i<1;i++){
-            arrayList.add("db에서 불러올 토양의 종류");
+        for(int i=0;i<soils.size();i++){
+            arrayList.add(soils.get(i).getSname());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
@@ -164,8 +173,11 @@ public class PlantInfoActivity extends AppCompatActivity {
         spinner_select_soil.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String kind = arrayList.get(position);
-                LoadSoilInformation(kind);
+                if(position!=0){
+                    String kind = arrayList.get(position);
+                    LoadSoilInformation(kind);
+                }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -186,11 +198,30 @@ public class PlantInfoActivity extends AppCompatActivity {
 
 
     }
-    public static final String SOIL_URI = "content://com.capstone.plantplant/soil";
+    List<Soil> soils;
+    private void initLoadDB() {
+        SoilDBAdapter mDbHelper = new SoilDBAdapter(getApplicationContext());
+        mDbHelper.createDatabase();
+        mDbHelper.open();
 
-    //토양 정보를 저장해두는 DB 생성한 후 로드
+        // db에 있는 값들을 model을 적용해서 넣는다.
+        soils = mDbHelper.getTableData();
+
+        // db 닫기
+        mDbHelper.close();
+    }
+    //토양 정보 DB에서 로드
     private void LoadSoilInformation(String soild_name){
-
+        txt_plantinfo_soil.setText(soild_name);
+        for(int i=0;i<soils.size();i++){
+            if(soils.get(i).getSname().equals(soild_name)){
+                txt_plantinfo_type.setText(soils.get(i).getStype());
+                txt_soil_produce.setText(soils.get(i).getSproduce());
+                txt_soil_usage.setText(soils.get(i).getSusage());
+                txt_soil_feature.setText(soils.get(i).getScharacter());
+                break;
+            }
+        }
     }
     //식물 종류에 따른 종류를 api에서 응답받아 로드
     private void LoadPlantInformation(final int plant_idx){

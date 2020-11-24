@@ -12,8 +12,8 @@
     </string-array>
     <string-array name="soil_array">
         <item>혼합 인공 배양 상토</item>
-        <item>피트모스(인공배양토)</item>
-        <item>펄라이트(인공배양토)</item>
+        <item>피트모스</item>
+        <item>펄라이트</item>
         <item>경석</item>
         <item>마사토</item>
         <item>녹소토</item>

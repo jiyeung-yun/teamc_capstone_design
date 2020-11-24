@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static com.capstone.plantplant.DatabaseHelpter.ALL_COLUMS;
+import static com.capstone.plantplant.db.DatabaseHelpter.ALL_COLUMS;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class ItemActivity extends AppCompatActivity {
