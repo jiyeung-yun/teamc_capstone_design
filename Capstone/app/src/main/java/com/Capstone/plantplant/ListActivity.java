@@ -1,8 +1,6 @@
 package com.capstone.plantplant;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +36,10 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_list);
+
 
         //식물리스트에 식물아이템을 추가하는 버튼
         btn_add_item = findViewById(R.id.btn_add_item);
@@ -50,13 +51,18 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+
         //식물 리스트 구성 초기화
         ry_plant_list = findViewById(R.id.ry_plant_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         ry_plant_list.setLayoutManager(layoutManager);
+
     }
+
+
     //식물리스트 새로고침 매소드
     private void refreshPlantList(){
+
         if(ry_plant_list.getAdapter()!=null){
             ry_plant_list.setAdapter(null);
         }
@@ -73,8 +79,10 @@ public class ListActivity extends AppCompatActivity {
 
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         if(uri!=null){
+
             String[] colums = {"_index","kind","date"};
             Cursor cursor = getContentResolver().query(uri,colums,null,null,null);
+
             int count =  cursor.getCount();
             if(count > 0){
                 while(cursor.moveToNext()){
@@ -100,6 +108,8 @@ public class ListActivity extends AppCompatActivity {
 
         ry_plant_list.setAdapter(adapter);
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

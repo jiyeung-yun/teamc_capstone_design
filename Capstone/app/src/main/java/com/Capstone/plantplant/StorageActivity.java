@@ -34,6 +34,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StorageActivity extends AppCompatActivity {
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 권한이 거절된 상태
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getApplicationContext(),"식물 사진을 등록하기 위해서는 권한허용이 필요합니다.",Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+    }
+
+
     private final int REQUEST_CODE = 3333;
 
     //저장소를 통해 사진을 입력할 요청코드
@@ -41,14 +54,10 @@ public class StorageActivity extends AppCompatActivity {
     //카메라를 통해 사진을 입력할 요청코드
     private static final int REQUEST_CODE_TAKE_PICTURE = 502;
 
-    private static final String FILEPROVIDER_AUTHORITY ="com.capstone.plantplant.fileprovider";
-
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat imageformat = new SimpleDateFormat("yyyyMMdd_HHmmSS");
     String filename;
-    Intent request;
 
     ImageButton btn_camera,btn_gallery,btn_storage_cancel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,22 +101,29 @@ public class StorageActivity extends AppCompatActivity {
             }
         });
 
-        request = getIntent();
+        //내부 저장소에 저장될 파일 이름
+        filename = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date()) + ".png";
 
-        filename = imageformat.format(new Date()) + ".png";
     }
     //카메라를 통해 사진을 입력할 경우
     public void getImageCamara() {
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
         }
+
     }
     //저장소를 통해 사진을 입력할 경우
     public void getImageStorage() {
+
         Intent intent = new Intent(Intent.ACTION_PICK);
+
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+
         intent.setType("image/*");
+
         startActivityForResult(intent, REQUEST_SELECT_PICTURE);
     }
     @Override
@@ -116,10 +132,14 @@ public class StorageActivity extends AppCompatActivity {
 
         if(resultCode== Activity.RESULT_OK){
             Bitmap img = null;
+
             if(requestCode == REQUEST_CODE_TAKE_PICTURE){
                 img = (Bitmap) data.getExtras().get("data");
-            }else if(requestCode == REQUEST_SELECT_PICTURE){
+            }
+            else if(requestCode == REQUEST_SELECT_PICTURE){
+
                 if (data.getData() != null) {
+
                     try{
                         InputStream in = getContentResolver().openInputStream(data.getData());
                         img = BitmapFactory.decodeStream(in);
@@ -127,61 +147,68 @@ public class StorageActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
             }
 
             String path = saveToInternalStorage(img);
+
             if(path==null){
                 Log.d("Storage Activity","onActivityResult => path == null");
                 setResult(RESULT_CANCELED);
                 finish();
             }
+
             Log.d("Storage Activity","file path is "+path);
 
             Intent intent = getIntent();
             intent.putExtra("path",path);
             intent.putExtra("filename",filename);
             setResult(RESULT_OK,intent);
+
             finish();
+
         }
+
         Log.d("Storage Activity","onActivityResult => RESULT_CANCEL");
 
         setResult(RESULT_CANCELED);
         finish();
+
     }
     private String saveToInternalStorage(Bitmap bitmapImage){
+
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
+
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
 
+        // Create imageDir
         File mypath =new File(directory,filename);
         Log.d("Storage Activity","file makes : "+filename);
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
+
             // Use the compress method on the BitMap object to write image to the OutputStream
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+
             try {
                 Log.d("Storage Activity","file Close");
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
+
         return directory.getAbsolutePath();
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // 권한이 거절된 상태
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(),"식물 사진을 등록하기 위해서는 권한허용이 필요합니다.",Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
-        }
-    }
+
+
+
 }

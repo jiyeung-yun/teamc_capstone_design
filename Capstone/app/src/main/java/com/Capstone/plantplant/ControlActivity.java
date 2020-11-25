@@ -84,8 +84,11 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
         });
+
         //데이터를 삭제할 경우 보여지는 알림창 생성
         dialog.create();
+
+
 
         //모듈 전원 스위치
         switch_module_onoff = findViewById(R.id.switch_module_onoff);
@@ -96,8 +99,12 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+
+
         //급수 제어 정보 레이아웃
         ly_control_water = findViewById(R.id.ly_control_water);
+
+
 
         //자동 급수 스위치
         switch_module_water = findViewById(R.id.switch_module_water);
@@ -116,6 +123,8 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+
+
         //데이터 삭제 버튼
         btn_reset_data = findViewById(R.id.btn_reset_data);
         btn_reset_data.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +134,8 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+
+
         //오전/오후 스피너 초기화
         cont_spinner_time = (Spinner)findViewById(R.id.control_spinner);
         ArrayList arrayList = new ArrayList<>();
@@ -133,6 +144,8 @@ public class ControlActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
         cont_spinner_time.setAdapter(adapter);
+
+
 
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
@@ -151,6 +164,9 @@ public class ControlActivity extends AppCompatActivity {
             spinner_control_pot.setSelection(pot_size_pos);
         }
 
+
+
+
         //입력한 정보 저장
         btn_control_save = findViewById(R.id.btn_control_save);
         btn_control_save.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +184,7 @@ public class ControlActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
         /*물 주는 시간 입력 edittext 초기화 -시작-*/
         editText_watertime = findViewById(R.id.editText_watertime);
@@ -193,6 +210,8 @@ public class ControlActivity extends AppCompatActivity {
         });
         /*물 주는 시간 입력 edittext 초기화 -끝-*/
 
+
+
         /*물 주는 기간 입력 edittext 초기화 -시작-*/
         editText_waterdate = findViewById(R.id.editText_waterdate);
         editText_waterdate.addTextChangedListener(new TextWatcher() {
@@ -217,6 +236,8 @@ public class ControlActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) { }
         });
         /*물 주는 기간 입력 edittext 초기화 -끝-*/
+
+
 
         /*기준 습도 입력 edittext 초기화 -시작-*/
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);

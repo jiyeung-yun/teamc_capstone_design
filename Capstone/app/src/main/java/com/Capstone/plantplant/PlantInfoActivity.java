@@ -47,6 +47,7 @@ public class PlantInfoActivity extends AppCompatActivity {
     LinearLayout ly_soil_information,ly_plant_information;
 
     TextView txt_plantinfo_kind,txt_plantinfo_soil;
+
     TextView txt_brdMthdDesc,txt_farmSpftDesc,txt_grwEvrntDesc
                             ,txt_smlrPlntDesc,txt_useMthdDesc;
     TextView txt_soil_produce,txt_soil_usage,txt_soil_feature,txt_plantinfo_type;
@@ -161,6 +162,7 @@ public class PlantInfoActivity extends AppCompatActivity {
 
         spinner_select_soil = findViewById(R.id.spinner_select_soil);
 
+
         final ArrayList<String> arrayList = new ArrayList<>();
         //데이터 베이스 토양 종류 속성 값을 배열에 저장
         arrayList.add("혼합 인공 배양 상토");
@@ -168,8 +170,7 @@ public class PlantInfoActivity extends AppCompatActivity {
             arrayList.add(soils.get(i).getSname());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
-        spinner_select_soil.setAdapter(adapter);
+        spinner_select_soil.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList));
         spinner_select_soil.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -185,17 +186,26 @@ public class PlantInfoActivity extends AppCompatActivity {
             }
         });
 
+
         String[] arr = getResources().getStringArray(R.array.soil_array);
         if(soil_kind.equals(arr[0])){
+
             spinner_select_soil.setVisibility(View.VISIBLE);
         }else {
+
             spinner_select_soil.setVisibility(View.GONE);
             //토양 정보를 DB에서 불러서 제공
             LoadSoilInformation(soil_kind);
+
         }
+
+
     }
+
     //데이터베이스에 저장된 토양 관련 데이터 전부 List에 저장
     List<Soil> soils;
+
+
     private void initLoadDB() {
         SoilDBAdapter mDbHelper = new SoilDBAdapter(getApplicationContext());
         mDbHelper.createDatabase();
@@ -206,8 +216,13 @@ public class PlantInfoActivity extends AppCompatActivity {
         // DB 닫기
         mDbHelper.close();
     }
+
+
+
+
     //토양 정보 DB에서 로드
     private void LoadSoilInformation(String soild_name){
+
         txt_plantinfo_soil = findViewById(R.id.txt_plantinfo_soil);
         txt_plantinfo_soil.setText(soild_name);
 
@@ -225,7 +240,12 @@ public class PlantInfoActivity extends AppCompatActivity {
                 break;
             }
         }
+
     }
+
+
+
+
     //식물 종류에 따른 종류를 api에서 응답받아 로드
     private void LoadPlantInformation(final int plant_idx){
         new Thread(new Runnable() {
@@ -245,6 +265,9 @@ public class PlantInfoActivity extends AppCompatActivity {
         }).start();
 
     }
+
+
+
     //공공데이터포털에서 받은 인증키
     final String SERVICE_KEY = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D";
 
@@ -263,6 +286,8 @@ public class PlantInfoActivity extends AppCompatActivity {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
+
+
             BufferedReader rd;
             if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                 rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -278,11 +303,17 @@ public class PlantInfoActivity extends AppCompatActivity {
                 int eventType = xmlPullParser.getEventType();
 
                 while (eventType != XmlPullParser.END_DOCUMENT){
+
+
                     switch (eventType){
+
+
                         case XmlPullParser.START_DOCUMENT:{
                             Log.d("PlantInfoActivity","API 파싱 => 시작");
                             break;
                         }
+
+
                         case XmlPullParser.START_TAG:{
                             String string = xmlPullParser.getName();
                             //번식방법
@@ -307,6 +338,8 @@ public class PlantInfoActivity extends AppCompatActivity {
                             }
                             break;
                         }
+
+
                         case XmlPullParser.TEXT:{
                             //번식방법
                             if(brdMthdDesc){
@@ -354,6 +387,8 @@ public class PlantInfoActivity extends AppCompatActivity {
                             }
                             break;
                         }
+
+
                         case XmlPullParser.END_TAG:{
                             String string = xmlPullParser.getName();
                             //번식방법
@@ -379,18 +414,28 @@ public class PlantInfoActivity extends AppCompatActivity {
                             break;
                         }
                     }
+
+
                     eventType = xmlPullParser.next();
+
+
                 }
+
             }catch (XmlPullParserException e){
                 Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
             }
+
+
             rd.close();
             conn.disconnect();
+
             Log.d("PlantInfoActivity","API 파싱 => 끝");
+
 
         } catch (Exception e) {
             Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
         }
+
     }
 
 }

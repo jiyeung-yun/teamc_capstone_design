@@ -56,6 +56,7 @@ public class WaterActivity extends AppCompatActivity {
 
         txt_prev_date = findViewById(R.id.txt_prev_date);
         txt_prev_date.setText("2020-10-30");
+
         txt_prev_vol = findViewById(R.id.txt_prev_vol);
         txt_prev_vol.setText("40mL");
 
@@ -65,6 +66,7 @@ public class WaterActivity extends AppCompatActivity {
     private void LoadNextData(){
         txt_next_date = findViewById(R.id.txt_next_date);
         txt_next_date.setText("2020-11-05");
+
         txt_next_vol = findViewById(R.id.txt_next_vol);
         txt_next_vol.setText("65mL");
 

@@ -40,6 +40,14 @@ public class ItemActivity extends AppCompatActivity {
     int index;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        //상태정보 블록을 초기화하는 메소드
+        initStateBlock(48,true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
@@ -60,6 +68,7 @@ public class ItemActivity extends AppCompatActivity {
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
         Log.d("ItemActivity","SQL result : "+cursor.getColumnCount());
+
         while(cursor.moveToNext()){
             //식물의 종류
 
@@ -143,6 +152,8 @@ public class ItemActivity extends AppCompatActivity {
                 startActivityForResult(set,REQUEST_CODE_CONTROL);
             }
         });
+
+
         //급수 정보 액티비티 버튼
         btn_water_information = findViewById(R.id.btn_water_information);
         btn_water_information.setOnClickListener(new View.OnClickListener() {
@@ -154,13 +165,7 @@ public class ItemActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        //상태정보 블록을 초기화하는 메소드
-        initStateBlock(48,true);
-    }
 
     //토양습도 물방을
     ImageView main_drop1,main_drop2,main_drop3,main_drop4,main_drop5;
@@ -180,6 +185,8 @@ public class ItemActivity extends AppCompatActivity {
             ckb_waterlevel.setText("물이 부족해요ㅠ");
         }
     }
+
+
 
     //토양습도를 물방울 이미지로 표현하는 메소드
     private void viewDropImage(int percent){
@@ -221,6 +228,10 @@ public class ItemActivity extends AppCompatActivity {
 
        }
     }
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

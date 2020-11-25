@@ -37,11 +37,14 @@ public class SoilDatabaseHelpter extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
     //데이터베이스 생성여부 확인
     public boolean checkDBExist(){
         File file = new File(DB_PATH + SOIL_DATABASE_NAME);
         return file.exists();
     }
+
+
     public void createDataBase() throws IOException {
         //데이터베이스가 없으면 asset폴더에서 복사해온다.
         if(!checkDBExist()) {
@@ -57,6 +60,8 @@ public class SoilDatabaseHelpter extends SQLiteOpenHelper {
             }
         }
     }
+
+
     //assets폴더에서 데이터베이스를 복사한다.
     private void copyDataBase() throws IOException {
         AssetManager manager = hcontext.getAssets();
@@ -92,12 +97,15 @@ public class SoilDatabaseHelpter extends SQLiteOpenHelper {
 
     }
 
+
     //데이터베이스를 열어서 쿼리를 쓸수있게만든다.
     public boolean openDataBase() {
         String mPath = DB_PATH + SOIL_DATABASE_NAME;
         mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
     }
+
+
 
     @Override
     public synchronized void close() {

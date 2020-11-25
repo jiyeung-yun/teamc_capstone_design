@@ -40,6 +40,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     SearchView search_kind;
 
     ArrayList<String> items = new ArrayList<>();
+
     RecyclerView ry_search_list;
     KindSearchAdapter kindSearchAdapter;
     ProgressBar progressBar_plant;
@@ -141,10 +142,13 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
+
+
             BufferedReader rd;
             if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                 rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else {
+            }
+            else {
                 rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
 
@@ -156,6 +160,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 int eventType = xmlPullParser.getEventType();
 
                 while (eventType != XmlPullParser.END_DOCUMENT){
+
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
                             Log.d("SearchPlantActivity","API 파싱 => 성공");
@@ -197,19 +202,32 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                             break;
                         }
                     }
+
+
                     eventType = xmlPullParser.next();
+
                 }
+
+
             }catch (XmlPullParserException e){
                 Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
             }
+
+
             rd.close();
             conn.disconnect();
+
+
         } catch (Exception e) {
             Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
 
         }
+
     }
+
     int pageNo = 0;
+
+
     @Override
     public boolean onQueryTextSubmit(final String query) {
         loadingPrograss(true);

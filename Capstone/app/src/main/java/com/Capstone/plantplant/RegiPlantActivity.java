@@ -48,7 +48,9 @@ public class RegiPlantActivity extends AppCompatActivity {
 
     TextView txt_kindplant;
     ImageView reg_plant_image;
+
     Spinner spinner_pot,spinner_soil;
+
     ToggleButton btn_connect;
     Button btn_regi;
 
@@ -154,6 +156,8 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("soil", soil_kind);
                             values.put("size", pot_size);
                             values.put("num", plant_idx);
+
+
                             if(plant_img!=null && path!=null){
                                 values.put("image", plant_img);
                                 values.put("path", path);
@@ -162,9 +166,11 @@ public class RegiPlantActivity extends AppCompatActivity {
                             uri = getContentResolver().insert(uri,values);
                             Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
                         }
+
                         setResult(RESULT_OK);
                         Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
                         finish();
+
                     }
                 },1000);
 
@@ -180,6 +186,8 @@ public class RegiPlantActivity extends AppCompatActivity {
     //태그 확인
     boolean familyKorNm = false;
     boolean plantPilbkNo = false;
+
+
     void getEncyclopediaNum(String str){
         try {
             Log.d("RegiPlantActivity","검색어  => "+str);
@@ -197,6 +205,8 @@ public class RegiPlantActivity extends AppCompatActivity {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
+
+
             BufferedReader rd;
             if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                 rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -212,6 +222,8 @@ public class RegiPlantActivity extends AppCompatActivity {
                 int eventType = xmlPullParser.getEventType();
 
                 while (eventType != XmlPullParser.END_DOCUMENT){
+
+
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
                             Log.d("RegiPlantActivity","API 파싱 => 시작");
@@ -250,34 +262,55 @@ public class RegiPlantActivity extends AppCompatActivity {
                             break;
                         }
                     }
+
+
                     eventType = xmlPullParser.next();
+
+
                 }
             }catch (XmlPullParserException e){
                 Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
             }
+
+
             rd.close();
             conn.disconnect();
             Log.d("RegiPlantActivity","API 파싱 => 끝");
 
+
         } catch (Exception e) {
             Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
         }
+
     }
     //모듈과의 연결이 확인되면 등록버튼 활성화
     private void checkConnectState(boolean check){
         //모듈 연결 코드 필요
         if(check){
+
+
             btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+
+
         }else{
+
+
             btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
+
+
         }
+
+
         btn_regi.setClickable(check);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode){
             case REQUEST_IMAGE:{
+
+
                 if(resultCode==RESULT_OK){
 
                     plant_img = data.getStringExtra("filename");
@@ -298,12 +331,16 @@ public class RegiPlantActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                }else{
+                }
+                else{
                     Toast.makeText(getApplicationContext(),"이미지 로드를 실패하였습니다",Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
+
+
             case REQUEST_PLANT_KIND:{
+
                 if(resultCode==RESULT_OK){
                     String  result_kind = data.getStringExtra("result_kind");
                     txt_kindplant.setText(result_kind);
