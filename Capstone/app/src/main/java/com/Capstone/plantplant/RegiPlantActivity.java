@@ -1,5 +1,6 @@
 package com.capstone.plantplant;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +62,9 @@ public class RegiPlantActivity extends AppCompatActivity {
 
     Toolbar toolbar_regiplant;
 
-    TextView txt_kindplant;
+    TextView txt_kindplant,txt_lastwaterdate;
+    DatePickerDialog calender;
+
     ImageView reg_plant_image;
 
     Spinner spinner_pot,spinner_soil;
@@ -160,6 +165,30 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
 
+        txt_lastwaterdate = findViewById(R.id.txt_lastwaterdate);
+        txt_lastwaterdate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+
+        int today_year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int today_month = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int today_day = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        calender = new DatePickerDialog(this ,new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String s1 = year+"-"+(month+1)+"-"+dayOfMonth;
+                String mod_date = "";
+                try {
+                    Date temp = new SimpleDateFormat("yyyy-M-d").parse(s1);
+                    mod_date = new SimpleDateFormat("yyyy-MM-dd").format(temp);
+                } catch (ParseException e) {e.printStackTrace();
+                    mod_date = s1;
+                }
+                txt_lastwaterdate.setText(mod_date);
+            }
+
+        },today_year,today_month-1,today_day);
+
+
         //식물 아이템 등록 버튼
         btn_regi = findViewById(R.id.btn_regi);
         btn_regi.setOnClickListener(new View.OnClickListener() {
@@ -192,9 +221,13 @@ public class RegiPlantActivity extends AppCompatActivity {
                 spinner_soil = findViewById(R.id.spinner_soil);
                 final int soil_kind = spinner_soil.getSelectedItemPosition();
 
+                /*
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
                 final int pot_size = spinner_pot.getSelectedItemPosition();
+                */
+
+
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -208,7 +241,7 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("kind", plant_kind);
                             values.put("date", reg_date);
                             values.put("soil", soil_kind);
-                            values.put("size", pot_size);
+                            //values.put("size", pot_size);
                             values.put("num", plant_idx);
 
 

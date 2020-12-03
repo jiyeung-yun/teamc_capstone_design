@@ -378,37 +378,6 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ly_main_pot_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/block_title_padding"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/block_title_padding"
-                            android:layout_weight="1"
-                            android:text="@string/title_pot_size"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_content_font_size" />
-
-                        <TextView
-                            android:id="@+id/main_pot_size"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end"
-                            android:background="@drawable/blank_background"
-                            android:gravity="center_vertical|end"
-                            android:padding="@dimen/editbox_padding"
-                            android:text="6호"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_accent_font_size"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
 

@@ -31,7 +31,7 @@ public class ItemActivity extends AppCompatActivity {
     Toolbar toolbar_item;
 
     String plant_kind,soil_kind;
-    TextView main_plant_name,main_regi_date,main_soil_kind,main_pot_size,main_txt_humity;
+    TextView main_plant_name,main_regi_date,main_soil_kind,main_txt_humity;
     ImageView main_plant_image;
 
     Button btn_information,btn_water_information,btn_setting;
@@ -95,7 +95,7 @@ public class ItemActivity extends AppCompatActivity {
             soil_kind = arr[soil_kind_pos];
             main_soil_kind.setText(soil_kind);
 
-
+            /*
             //화분 사이즈
             main_pot_size = findViewById(R.id.main_pot_size);
             int pot_size_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[4]));
@@ -105,6 +105,8 @@ public class ItemActivity extends AppCompatActivity {
             String[] arr2 = getResources().getStringArray(R.array.pot_array);
             String pot_size = arr2[pot_size_pos];
             main_pot_size.setText(pot_size);
+            */
+
 
             String filename = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[6]));
             Log.d("ItemActivity",cursor.getColumnName(6)+" : "+filename);

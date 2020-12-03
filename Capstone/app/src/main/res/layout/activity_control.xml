@@ -438,7 +438,7 @@
                             android:spinnerMode="dialog" />
 
                     </LinearLayout>
-
+<!--
                     <LinearLayout
                         android:id="@+id/ly_control_pot"
                         android:layout_width="match_parent"
@@ -473,7 +473,7 @@
                             android:spinnerMode="dialog" />
 
                     </LinearLayout>
-
+-->
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
