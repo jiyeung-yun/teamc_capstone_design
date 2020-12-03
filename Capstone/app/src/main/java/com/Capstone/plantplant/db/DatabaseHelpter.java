@@ -53,53 +53,5 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         onCreate(db);
     }
-    final String sdb_name = "soil.db";
 
-    //데이터베이스 생성여부 확인
-    public boolean isCheckDB(Context context){
-        String filePath = "/data/data/" + context.getPackageName() + "/databases/" + sdb_name;
-        File file = new File(filePath);
-        if (file.exists()) {
-            return true;
-        }
-        return false;
-    }
-    // DB를 복사하기
-    // assets의 /db/xxxx.db 파일을 설치된 프로그램의 내부 DB공간으로 복사하기
-    public void copyDB(Context context){
-        Log.d("SplashActivity", "soil.db => copy start");
-        AssetManager manager = context.getAssets();
-        String folderPath = "/data/data/" + context.getPackageName() + "/databases";
-        String filePath = "/data/data/" + context.getPackageName() + "/databases/" + sdb_name;
-        File folder = new File(folderPath);
-        File file = new File(filePath);
-        FileOutputStream fos = null;
-        BufferedOutputStream bos = null;
-        try {
-            InputStream is = manager.open("db/" + sdb_name);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            if (folder.exists()) {
-
-            }else{ folder.mkdirs(); }
-            if (file.exists()) {
-                file.delete();
-                file.createNewFile();
-            }
-            fos = new FileOutputStream(file);
-            bos = new BufferedOutputStream(fos);
-            int read = -1;
-            byte[] buffer = new byte[1024];
-            while ((read = bis.read(buffer, 0, 1024)) != -1) {
-                bos.write(buffer, 0, read);
-            }
-
-            bos.flush();
-            bos.close();
-            fos.close();
-            bis.close();
-            is.close();
-        } catch (IOException e) {
-            Log.e("SplashActivity","ErrorMessage : "+ e.getMessage());
-        }
-    }
 }

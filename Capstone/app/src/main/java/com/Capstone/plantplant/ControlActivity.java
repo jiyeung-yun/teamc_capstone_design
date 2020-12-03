@@ -50,7 +50,7 @@ public class ControlActivity extends AppCompatActivity {
     int index;
 
     Uri uri = new Uri.Builder().build().parse(LIST_URI);
-    String[] colums = {"soil","size"};
+    String[] colums = {"soil"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class ControlActivity extends AppCompatActivity {
                 switch_module_water.setChecked(isChecked);
             }
         });
-
+        switch_module_onoff.setChecked(true);
 
 
         //급수 제어 정보 레이아웃
@@ -158,10 +158,13 @@ public class ControlActivity extends AppCompatActivity {
             int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[0]));
             spinner_control_soil.setSelection(soil_kind_pos);
 
+            /*
             //화분 사이즈
             spinner_control_pot = findViewById(R.id.spinner_control_pot);
             int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
             spinner_control_pot.setSelection(pot_size_pos);
+            */
+
         }
 
 

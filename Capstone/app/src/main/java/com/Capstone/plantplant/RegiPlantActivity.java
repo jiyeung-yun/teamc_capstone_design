@@ -127,6 +127,8 @@ public class RegiPlantActivity extends AppCompatActivity {
         btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
+/*
                 if(!b){      // 연결
                     bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                     if(bluetoothAdapter == null) {  // 장치가 블루투스 지원하지 않는 경우
@@ -144,6 +146,8 @@ public class RegiPlantActivity extends AppCompatActivity {
                             if (pairedDevices.size() > 0) { // 페어링된 장치 있는 경우
                                 Toast.makeText(getApplicationContext(), "모듈과 연결합니다.", Toast.LENGTH_SHORT).show();
                                 selectDevice();
+                                btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+
                             } else {  // 페어링된 장치 없는 경우
                                 Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_SHORT).show();
                             }
@@ -157,17 +161,20 @@ public class RegiPlantActivity extends AppCompatActivity {
                         bluetoothSocket.close();
                         b = false;
                         Toast.makeText(getApplicationContext(),"모듈과 연결을 끊습니다.",Toast.LENGTH_SHORT).show();
-                    } catch (Exception ignored){
-
-                    }
+                    } catch (Exception ignored){ }
                 }
-                checkConnectState(b);       // 이 함수에 짤 코드를 여기에 다 넣어서 이 함수 없어도 될 것 같은데 나중에 확인 한 번 해주세용
+*/
+                btn_regi.setClickable(b);
+
             }
         });
 
+
+        //마지막으로 급수한 날짜 입력 관련
         txt_lastwaterdate = findViewById(R.id.txt_lastwaterdate);
         txt_lastwaterdate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
+        //오늘 날짜로 초기화
         int today_year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int today_month = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int today_day = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
@@ -228,7 +235,6 @@ public class RegiPlantActivity extends AppCompatActivity {
                 */
 
 
-
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
@@ -243,6 +249,8 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("soil", soil_kind);
                             //values.put("size", pot_size);
                             values.put("num", plant_idx);
+                            String last_date = txt_lastwaterdate.getText().toString();
+                            values.put("lastdate", last_date);
 
 
                             if(plant_img!=null && path!=null){
@@ -263,7 +271,6 @@ public class RegiPlantActivity extends AppCompatActivity {
 
             }
         });
-        checkConnectState(btn_connect.isChecked());
     }
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
     //한 페이지에 아이템 갯수
@@ -369,20 +376,6 @@ public class RegiPlantActivity extends AppCompatActivity {
             Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
         }
 
-    }
-
-    //모듈과의 연결이 확인되면 등록버튼 활성화
-    private void checkConnectState(boolean check){
-        //모듈 연결 코드 필요
-        if(check){
-            if(bluetoothAdapter.isEnabled()) {
-            }
-            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
-
-        }else{
-            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
-        }
-        btn_regi.setClickable(check);
     }
 
     // 블루투스 장치 이름을 리스트로 작성해서 AlertDialog 띄움
