@@ -115,6 +115,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         progressBar_plant.setIndeterminate(load);
     }
 
+ /*
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
 
     //한 페이지에 아이템 갯수
@@ -226,18 +227,20 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     }
 
     int pageNo = 0;
-
+*/
 
     @Override
     public boolean onQueryTextSubmit(final String query) {
         loadingPrograss(true);
 
-        pageNo = 1;
-        totalPageCount = 0;
         if(kindSearchAdapter!=null){
             items.clear();
             kindSearchAdapter.clear();
         }
+
+        /*
+        pageNo = 1;
+        totalPageCount = 0;
 
         new Thread(new Runnable() {
 
@@ -254,16 +257,17 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
             }
         }).start();
+        */
 
+        //데이터베이스 내 식물 종류와 비교한 후 어뎁터에 아이템 추가
 
-        new Handler().postDelayed(new Runnable() {
+        ry_search_list.post(new Runnable() {
             @Override
             public void run() {
-                assert ry_search_list!=null;
                 ry_search_list.getAdapter().notifyDataSetChanged();
                 loadingPrograss(false);
             }
-        },2000);
+        });
 
         return false;
     }
