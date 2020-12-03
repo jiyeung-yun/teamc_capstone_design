@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.R;
-import com.capstone.plantplant.model.ItemList;
+import com.capstone.plantplant.model.Plant;
 
 import java.util.ArrayList;
 
 public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.ViewHolder> implements OnAdapterItemClickListener{
-    ArrayList<String> items = new ArrayList<>();
+    ArrayList<Plant> items = new ArrayList<>();
     OnAdapterItemClickListener onAdapterItemClickListener;
 
-    public KindSearchAdapter(ArrayList<String> items) {
+    public KindSearchAdapter(ArrayList<Plant> items) {
         this.items = items;
     }
 
@@ -25,13 +25,13 @@ public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.item_string, parent, false);
+        View itemView = inflater.inflate(R.layout.item_search, parent, false);
 
         return new ViewHolder(itemView,onAdapterItemClickListener);
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        String item = items.get(position);
+        Plant item = items.get(position);
         viewHolder.itemView.setLongClickable(true);
         viewHolder.setItem(item);
     }
@@ -43,11 +43,11 @@ public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.Vi
     public void clear(){
         items.clear();
     }
-    public void addItem(String item) {
+    public void addItem(Plant item) {
         items.add(item);
     }
 
-    public void setItems(ArrayList<String> items) {
+    public void setItems(ArrayList<Plant> items) {
         this.items = items;
     }
     public void setOnItemClickListener(OnAdapterItemClickListener listener) {
@@ -61,11 +61,13 @@ public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txt_kind_string;
+        TextView txt_kind_string,txt_kind_string2,txt_kind_string3;
 
         public ViewHolder(View itemView, final OnAdapterItemClickListener listener) {
             super(itemView);
             txt_kind_string = itemView.findViewById(R.id.txt_kind_string);
+            txt_kind_string2 = itemView.findViewById(R.id.txt_kind_string2);
+            txt_kind_string3 = itemView.findViewById(R.id.txt_kind_string3);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,8 +79,18 @@ public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.Vi
                 }
             });
         }
-        public void setItem(final String item) {
-            txt_kind_string.setText(item);
+        public void setItem(final Plant item) {
+            txt_kind_string.setText(item.getPname());
+            if(item.getPexp()==null){
+                txt_kind_string2.setVisibility(View.GONE);
+                txt_kind_string3.setVisibility(View.GONE);
+            }else {
+                txt_kind_string2.setVisibility(View.VISIBLE);
+                txt_kind_string3.setVisibility(View.VISIBLE);
+                txt_kind_string3.setText(item.getPexp());
+            }
+
+
         }
     }
 

@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.control.KindSearchAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
+import com.capstone.plantplant.db.PlantDBAdapter;
+import com.capstone.plantplant.model.Plant;
 
 
 import org.xmlpull.v1.XmlPullParser;
@@ -32,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class SearchPlantActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -39,7 +43,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ImageButton btn_info_close3;
     SearchView search_kind;
 
-    ArrayList<String> items = new ArrayList<>();
+    ArrayList<Plant> items = new ArrayList<>();
 
     RecyclerView ry_search_list;
     KindSearchAdapter kindSearchAdapter;
@@ -75,6 +79,10 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         search_kind.onActionViewExpanded();
         search_kind.setOnQueryTextListener(this);
 
+        //데이터 베이스 내 식물 정보 로드
+        initLoadDB();
+
+
         //검색된 식물의 결과를 보여주는 리스트
         ry_search_list=findViewById(R.id.ry_search_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -85,7 +93,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 if(position<items.size()){
-                    String result = items.get(position);
+                    String result = items.get(position).getPname();
                     Intent intent = new Intent(getApplicationContext(),RegiPlantActivity.class);
                     intent.putExtra("result_kind",result);
                     setResult(RESULT_OK,intent);
@@ -94,7 +102,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 }
             }
         });
-        kindSearchAdapter.addItem("검색어 결과가 보여지는 곳 입니다.");
         ry_search_list.setAdapter(kindSearchAdapter);
 
         //프로그래스 바 초기화
@@ -115,7 +122,73 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         progressBar_plant.setIndeterminate(load);
     }
 
- /*
+
+    List<Plant> plantList;
+
+    @Override
+    public boolean onQueryTextSubmit(final String query) {
+        loadingPrograss(true);
+
+        if(kindSearchAdapter!=null){
+            items.clear();
+            kindSearchAdapter.clear();
+        }
+
+        /*
+        pageNo = 1;
+        totalPageCount = 0;
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                getXmlData(query,pageNo);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+            }
+        }).start();
+        */
+
+        for(int i=0;i<plantList.size();i++){
+            Plant plant = plantList.get(i);
+            if(plant.getPname().contains(query)){
+                items.add(plant);
+            }
+        }
+
+        //데이터베이스 내 식물 종류와 비교한 후 어뎁터에 아이템 추가
+        ry_search_list.post(new Runnable() {
+            @Override
+            public void run() {
+                ry_search_list.getAdapter().notifyDataSetChanged();
+                loadingPrograss(false);
+            }
+        });
+
+        return false;
+    }
+    private void initLoadDB() {
+        PlantDBAdapter mDbHelper = new PlantDBAdapter(getApplicationContext());
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        plantList = mDbHelper.getTableData();
+
+        // DB 닫기
+        mDbHelper.close();
+    }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+     /*
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
 
     //한 페이지에 아이템 갯수
@@ -228,52 +301,4 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
     int pageNo = 0;
 */
-
-    @Override
-    public boolean onQueryTextSubmit(final String query) {
-        loadingPrograss(true);
-
-        if(kindSearchAdapter!=null){
-            items.clear();
-            kindSearchAdapter.clear();
-        }
-
-        /*
-        pageNo = 1;
-        totalPageCount = 0;
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                getXmlData(query,pageNo);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                    }
-                });
-
-            }
-        }).start();
-        */
-
-        //데이터베이스 내 식물 종류와 비교한 후 어뎁터에 아이템 추가
-
-        ry_search_list.post(new Runnable() {
-            @Override
-            public void run() {
-                ry_search_list.getAdapter().notifyDataSetChanged();
-                loadingPrograss(false);
-            }
-        });
-
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }
