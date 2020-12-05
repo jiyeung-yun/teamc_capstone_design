@@ -251,7 +251,8 @@
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorPrimary3" />
+                                    app:tint="@color/colorPrimary3"
+                                    tools:ignore="VectorDrawableCompat" />
 
                                 <ImageView
                                     android:id="@+id/main_drop2"
@@ -259,7 +260,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorPrimary3" />
+                                    app:tint="@color/colorPrimary3"
+                                    tools:ignore="VectorDrawableCompat" />
 
                                 <ImageView
                                     android:id="@+id/main_drop3"
@@ -267,7 +269,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorPrimary3" />
+                                    app:tint="@color/colorPrimary3"
+                                    tools:ignore="VectorDrawableCompat" />
 
                                 <ImageView
                                     android:id="@+id/main_drop4"
@@ -275,7 +278,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorAccent" />
+                                    app:tint="@color/colorAccent"
+                                    tools:ignore="VectorDrawableCompat" />
 
                                 <ImageView
                                     android:id="@+id/main_drop5"
@@ -283,7 +287,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/ic_opacity_24px"
-                                    app:tint="@color/colorAccent" />
+                                    app:tint="@color/colorAccent"
+                                    tools:ignore="VectorDrawableCompat" />
                             </LinearLayout>
 
                             <TextView
