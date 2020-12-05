@@ -18,20 +18,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorTitleFont"
             android:textSize="@dimen/activity_title_font_size" />
-        <TextView
-            android:id="@+id/txt_kind_string2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="/"
-            android:textColor="@color/colorTitleFont"
-            android:textSize="@dimen/activity_title_font_size" />
-        <TextView
-            android:id="@+id/txt_kind_string3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorTitleFont"
-            android:textSize="@dimen/activity_title_font_size" />
 
     </LinearLayout>
 

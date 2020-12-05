@@ -1,4 +1,4 @@
-package com.Capstone.plantplant;
+package com.capstone.plantplant;
 
 import android.content.Context;
 

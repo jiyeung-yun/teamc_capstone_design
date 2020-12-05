@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.capstone.plantplant.ListActivity.plantList;
+
 
 public class SearchPlantActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
@@ -121,9 +123,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         }
         progressBar_plant.setIndeterminate(load);
     }
-
-
-    List<Plant> plantList;
 
     @Override
     public boolean onQueryTextSubmit(final String query) {

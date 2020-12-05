@@ -20,11 +20,11 @@ public class PlantDBAdapter {
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private SoilDatabaseHelpter mDbHelper;
+    private PlantDatabaseHelpter mDbHelper;
 
     public PlantDBAdapter(Context context) {
         this.mContext = context;
-        mDbHelper = new SoilDatabaseHelpter(mContext);
+        mDbHelper = new PlantDatabaseHelpter(mContext);
     }
 
     public PlantDBAdapter createDatabase() throws SQLException {

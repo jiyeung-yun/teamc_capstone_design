@@ -195,6 +195,12 @@ public class RegiPlantActivity extends AppCompatActivity {
 
         },today_year,today_month-1,today_day);
 
+        txt_lastwaterdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calender.show();
+            }
+        });
 
         //식물 아이템 등록 버튼
         btn_regi = findViewById(R.id.btn_regi);
@@ -202,8 +208,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String tmp = txt_kindplant.getText().toString();
-                final String plant_kind = tmp.substring(0,tmp.length()-1);
+                final String plant_kind = txt_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
