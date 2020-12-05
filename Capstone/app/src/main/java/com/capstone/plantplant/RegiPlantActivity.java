@@ -55,6 +55,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
+import static com.capstone.plantplant.ListActivity.plantList;
 
 public class RegiPlantActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 1011;
@@ -256,6 +257,16 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("num", plant_idx);
                             String last_date = txt_lastwaterdate.getText().toString();
                             values.put("lastdate", last_date);
+
+                            for(int i =0 ;i< plantList.size();i++){
+                                if(plantList.get(i).getPname().equals(plant_kind)) {
+                                    int humid = plantList.get(i).getPwater();
+                                    values.put("humidity", humid);
+                                    int period = plantList.get(i).getPtime();
+                                    values.put("period", period);
+                                    break;
+                                }
+                            }
 
 
                             if(plant_img!=null && path!=null){

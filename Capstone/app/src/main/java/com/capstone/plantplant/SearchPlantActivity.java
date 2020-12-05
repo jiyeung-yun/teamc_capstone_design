@@ -81,9 +81,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         search_kind.onActionViewExpanded();
         search_kind.setOnQueryTextListener(this);
 
-        //데이터 베이스 내 식물 정보 로드
-        initLoadDB();
-
 
         //검색된 식물의 결과를 보여주는 리스트
         ry_search_list=findViewById(R.id.ry_search_list);
@@ -172,16 +169,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
         return false;
     }
-    private void initLoadDB() {
-        PlantDBAdapter mDbHelper = new PlantDBAdapter(getApplicationContext());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
 
-        plantList = mDbHelper.getTableData();
-
-        // DB 닫기
-        mDbHelper.close();
-    }
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;

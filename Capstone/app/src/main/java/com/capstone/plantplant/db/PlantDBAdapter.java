@@ -83,7 +83,7 @@ public class PlantDBAdapter {
                     plant.setPname(mCur.getString(1));
                     plant.setPexp(mCur.getString(2));
                     plant.setPwater(mCur.getInt(3));
-                    plant.setPtime(mCur.getString(4));
+                    plant.setPtime(mCur.getInt(4));
 
                     // 리스트에 넣기
                     userList.add(plant);

@@ -51,7 +51,7 @@ public class ControlActivity extends AppCompatActivity {
     int index;
 
     Uri uri = new Uri.Builder().build().parse(LIST_URI);
-    String[] colums = {"kind","soil"};
+    String[] colums = {"kind","soil","humidity","time","period"};
 
     String kind;
 
@@ -91,10 +91,19 @@ public class ControlActivity extends AppCompatActivity {
         //데이터를 삭제할 경우 보여지는 알림창 생성
         dialog.create();
 
+        //급수 제어 정보 레이아웃
+        ly_control_water = findViewById(R.id.ly_control_water);
 
 
         //모듈 전원 스위치
         switch_module_onoff = findViewById(R.id.switch_module_onoff);
+
+
+        //자동 급수 스위치
+        switch_module_water = findViewById(R.id.switch_module_water);
+
+
+
         switch_module_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -104,13 +113,7 @@ public class ControlActivity extends AppCompatActivity {
         switch_module_onoff.setChecked(true);
 
 
-        //급수 제어 정보 레이아웃
-        ly_control_water = findViewById(R.id.ly_control_water);
 
-
-
-        //자동 급수 스위치
-        switch_module_water = findViewById(R.id.switch_module_water);
         switch_module_water.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -138,7 +141,6 @@ public class ControlActivity extends AppCompatActivity {
         });
 
 
-
         //오전/오후 스피너 초기화
         cont_spinner_time = (Spinner)findViewById(R.id.control_spinner);
         ArrayList arrayList = new ArrayList<>();
@@ -148,43 +150,32 @@ public class ControlActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList);
         cont_spinner_time.setAdapter(adapter);
 
-
-
-        Intent intent = getIntent();
-        index = intent.getIntExtra("index",0);
-
-        //DB에서 아이템 식물 정보를 불러옴
-        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
-        while(cursor.moveToNext()) {
-            //식물 종류
-            kind = cursor.getString(cursor.getColumnIndex(colums[0]));
-
-            //토양 종류
-            spinner_control_soil = findViewById(R.id.spinner_control_soil);
-            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
-            spinner_control_soil.setSelection(soil_kind_pos);
-
-            /*
-            //화분 사이즈
-            spinner_control_pot = findViewById(R.id.spinner_control_pot);
-            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
-            spinner_control_pot.setSelection(pot_size_pos);
-            */
-
-        }
-
-
-
-
         //입력한 정보 저장
         btn_control_save = findViewById(R.id.btn_control_save);
         btn_control_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //입력한 정보를 기기 내 DB에 업데이트 후 모듈에 전달
                 ContentValues values = new ContentValues();
+
+                //습도
+                int humidy = Integer.parseInt(editText_waterhumidity.getText().toString());
+                values.put("humidity", humidy);
+
+                //기간
+                int date = Integer.parseInt(editText_waterdate.getText().toString());
+                values.put("period", date);
+
+                //시간
+                int time = Integer.parseInt(editText_watertime.getText().toString());
+                values.put("time", time);
+
+                //토양
                 values.put("soil", spinner_control_soil.getSelectedItemPosition());
                 //values.put("size", spinner_control_pot.getSelectedItemPosition());
+
+
                 int count = getContentResolver().update(uri,values,"_index="+index,null);
                 Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
 
@@ -195,7 +186,6 @@ public class ControlActivity extends AppCompatActivity {
         });
 
 
-        /*물 주는 시간 입력 edittext 초기화 -시작-*/
         editText_watertime = findViewById(R.id.editText_watertime);
         editText_watertime.addTextChangedListener(new TextWatcher() {
             @Override
@@ -217,11 +207,9 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) { }
         });
-        /*물 주는 시간 입력 edittext 초기화 -끝-*/
 
 
 
-        /*물 주는 기간 입력 edittext 초기화 -시작-*/
         editText_waterdate = findViewById(R.id.editText_waterdate);
         editText_waterdate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -244,21 +232,10 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) { }
         });
-        /*물 주는 기간 입력 edittext 초기화 -끝-*/
 
 
 
-        /*기준 습도 입력 edittext 초기화 -시작-*/
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);
-        for(int i =0 ;i< plantList.size();i++){
-           if(plantList.get(i).getPname().equals(kind)) {
-               int humid = plantList.get(i).getPwater();
-               editText_waterhumidity.setText(Integer.toString(humid));
-               break;
-           }
-        }
-
-
         editText_waterhumidity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -280,6 +257,46 @@ public class ControlActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) { }
         });
         /*기준 습도 입력 edittext 초기화 -끝-*/
+
+
+        Intent intent = getIntent();
+        index = intent.getIntExtra("index",0);
+
+        //DB에서 아이템 식물 정보를 불러옴
+        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
+        while(cursor.moveToNext()) {
+            //식물 종류
+            kind = cursor.getString(cursor.getColumnIndex(colums[0]));
+
+            //토양 종류
+            spinner_control_soil = findViewById(R.id.spinner_control_soil);
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
+            spinner_control_soil.setSelection(soil_kind_pos);
+
+
+            int humidity = cursor.getInt(cursor.getColumnIndex(colums[2]));
+            editText_waterhumidity.setText(Integer.toString(humidity));
+
+            int time = cursor.getInt(cursor.getColumnIndex(colums[3]));
+            if(time>12){
+                cont_spinner_time.setSelection(1);
+                editText_watertime.setText(Integer.toString(time-12));
+            }else{
+                cont_spinner_time.setSelection(0);
+                editText_watertime.setText(Integer.toString(time));
+            }
+
+            int date = cursor.getInt(cursor.getColumnIndex(colums[4]));
+            editText_waterdate.setText(Integer.toString(date));
+
+            /*
+            //화분 사이즈
+            spinner_control_pot = findViewById(R.id.spinner_control_pot);
+            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
+            spinner_control_pot.setSelection(pot_size_pos);
+            */
+
+        }
 
     }
 
