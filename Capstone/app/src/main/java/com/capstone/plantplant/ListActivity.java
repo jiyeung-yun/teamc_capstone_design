@@ -15,14 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.plantplant.control.ItemListAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
 import com.capstone.plantplant.model.ItemList;
+import com.capstone.plantplant.model.Plant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
     public static final String LIST_URI = "content://com.capstone.plantplant/list";
     private final int REGI_PLANT_REQUEST_CODE = 2011;
 
+    public static List<Plant> plantList;
 
-   FloatingActionButton btn_add_item;
+    FloatingActionButton btn_add_item;
     RecyclerView ry_plant_list;
 
     @Override

@@ -12,6 +12,8 @@
     <string name="of_kind">의 종류</string>
     <string name="of_image">의 사진</string>
     <string name="regi_pot_size">화분 사이즈</string>
+
+    <string name="last_water_date">마지막으로 급수한 날짜</string>
     <string name="check_connect">모듈 연결</string>
 
     <string name="info">정보</string>

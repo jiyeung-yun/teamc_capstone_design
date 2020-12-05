@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
+import static com.capstone.plantplant.ListActivity.plantList;
 
 
 public class ControlActivity extends AppCompatActivity {
@@ -73,7 +74,9 @@ public class ControlActivity extends AppCompatActivity {
     int index;
 
     Uri uri = new Uri.Builder().build().parse(LIST_URI);
-    String[] colums = {"soil","size"};
+    String[] colums = {"kind","soil"};
+
+    String kind;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -170,7 +173,7 @@ public class ControlActivity extends AppCompatActivity {
                 switch_module_water.setChecked(isChecked);
             }
         });
-
+        switch_module_onoff.setChecked(true);
 
         //급수 제어 정보 레이아웃
         ly_control_water = findViewById(R.id.ly_control_water);
@@ -223,15 +226,21 @@ public class ControlActivity extends AppCompatActivity {
         //DB에서 아이템 식물 정보를 불러옴
         Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
         while(cursor.moveToNext()) {
+            //식물 종류
+            kind = cursor.getString(cursor.getColumnIndex(colums[0]));
+
             //토양 종류
             spinner_control_soil = findViewById(R.id.spinner_control_soil);
-            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[0]));
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
             spinner_control_soil.setSelection(soil_kind_pos);
 
+            /*
             //화분 사이즈
             spinner_control_pot = findViewById(R.id.spinner_control_pot);
             int pot_size_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
             spinner_control_pot.setSelection(pot_size_pos);
+            */
+
         }
 
 
@@ -245,7 +254,7 @@ public class ControlActivity extends AppCompatActivity {
                 //입력한 정보를 기기 내 DB에 업데이트 후 모듈에 전달
                 ContentValues values = new ContentValues();
                 values.put("soil", spinner_control_soil.getSelectedItemPosition());
-                values.put("size", spinner_control_pot.getSelectedItemPosition());
+                //values.put("size", spinner_control_pot.getSelectedItemPosition());
                 int count = getContentResolver().update(uri,values,"_index="+index,null);
                 Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
 
@@ -311,6 +320,15 @@ public class ControlActivity extends AppCompatActivity {
 
         /*기준 습도 입력 edittext 초기화 -시작-*/
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);
+        for(int i =0 ;i< plantList.size();i++){
+           if(plantList.get(i).getPname().equals(kind)) {
+               int humid = plantList.get(i).getPwater();
+               editText_waterhumidity.setText(Integer.toString(humid));
+               break;
+           }
+        }
+
+
         editText_waterhumidity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }

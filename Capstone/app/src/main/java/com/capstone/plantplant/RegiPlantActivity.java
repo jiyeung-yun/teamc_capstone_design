@@ -1,6 +1,12 @@
 package com.capstone.plantplant;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +17,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -30,12 +39,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
@@ -45,7 +62,9 @@ public class RegiPlantActivity extends AppCompatActivity {
 
     Toolbar toolbar_regiplant;
 
-    TextView txt_kindplant;
+    TextView txt_kindplant,txt_lastwaterdate;
+    DatePickerDialog calender;
+
     ImageView reg_plant_image;
 
     Spinner spinner_pot,spinner_soil;
@@ -109,8 +128,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String tmp = txt_kindplant.getText().toString();
-                final String plant_kind = tmp.substring(0,tmp.length()-1);
+                final String plant_kind = txt_kindplant.getText().toString();
                 if(plant_kind.length()<1){
                     Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
                     return;
@@ -135,9 +153,12 @@ public class RegiPlantActivity extends AppCompatActivity {
                 spinner_soil = findViewById(R.id.spinner_soil);
                 final int soil_kind = spinner_soil.getSelectedItemPosition();
 
+                /*
                 //화분의 사이즈
                 spinner_pot = findViewById(R.id.spinner_pot);
                 final int pot_size = spinner_pot.getSelectedItemPosition();
+                */
+
 
                 //등록버튼 클릭 당시 날짜를 받아서 저장함
                 final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -151,8 +172,10 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("kind", plant_kind);
                             values.put("date", reg_date);
                             values.put("soil", soil_kind);
-                            values.put("size", pot_size);
+                            //values.put("size", pot_size);
                             values.put("num", plant_idx);
+                            String last_date = txt_lastwaterdate.getText().toString();
+                            values.put("lastdate", last_date);
 
 
                             if(plant_img!=null && path!=null){
@@ -173,7 +196,6 @@ public class RegiPlantActivity extends AppCompatActivity {
 
             }
         });
-        checkConnectState(btn_connect.isChecked());
     }
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
     //한 페이지에 아이템 갯수

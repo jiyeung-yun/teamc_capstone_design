@@ -6,37 +6,38 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.capstone.plantplant.model.Plant;
 import com.capstone.plantplant.model.Soil;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoilDBAdapter {
+public class PlantDBAdapter {
 
     // TODO : TABLE 이름을 명시해야함
-    protected static final String TABLE_NAME = "Soil";
+    private static final String TABLE_NAME = "Plant";
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private SoilDatabaseHelpter mDbHelper;
+    private PlantDatabaseHelpter mDbHelper;
 
-    public SoilDBAdapter(Context context) {
+    public PlantDBAdapter(Context context) {
         this.mContext = context;
-        mDbHelper = new SoilDatabaseHelpter(mContext);
+        mDbHelper = new PlantDatabaseHelpter(mContext);
     }
 
-    public SoilDBAdapter createDatabase() throws SQLException {
+    public PlantDBAdapter createDatabase() throws SQLException {
         try {
             mDbHelper.createDataBase();
         } catch (IOException mIOException) {
-            Log.e("SoilDBAdapter", mIOException.toString() + "  UnableToCreateDatabase");
+            Log.e("PlantDBAdapter", mIOException.toString() + "  UnableToCreateDatabase");
             throw new Error("UnableToCreateDatabase");
         }
         return this;
     }
 
-    public SoilDBAdapter open() throws SQLException {
+    public PlantDBAdapter open() throws SQLException {
         try
         {
             mDbHelper.openDataBase();
@@ -45,7 +46,7 @@ public class SoilDBAdapter {
         }
         catch (SQLException mSQLException)
         {
-            Log.e("SoilDBAdapter", "open >>"+ mSQLException.toString());
+            Log.e("PlantDBAdapter", "open >>"+ mSQLException.toString());
             throw mSQLException;
         }
         return this;
@@ -65,7 +66,7 @@ public class SoilDBAdapter {
             List userList = new ArrayList();
 
             // TODO : 모델 선언
-            Soil soil = null;
+            Plant plant = null;
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur!=null)
@@ -74,26 +75,25 @@ public class SoilDBAdapter {
                 while( mCur.moveToNext() ) {
 
                     // TODO : 커스텀 모델 생성
-                    soil = new Soil();
+                    plant = new Plant();
 
                     // TODO : Record 기술
                     // id, name, account, privateKey, secretKey, Comment
-                    soil.setSID(mCur.getInt(0));
-                    soil.setSname(mCur.getString(1));
-                    soil.setStype(mCur.getString(2));
-                    soil.setSproduce(mCur.getString(3));
-                    soil.setSusage(mCur.getString(4));
-                    soil.setScharacter(mCur.getString(5));
+                    plant.setPID(mCur.getInt(0));
+                    plant.setPname(mCur.getString(1));
+                    plant.setPexp(mCur.getString(2));
+                    plant.setPwater(mCur.getInt(3));
+                    plant.setPtime(mCur.getString(4));
 
                     // 리스트에 넣기
-                    userList.add(soil);
+                    userList.add(plant);
                 }
 
             }
             return userList;
         }
         catch (SQLException mSQLException) {
-            Log.e("SoilDBAdapter", "getTestData >>"+ mSQLException.toString());
+            Log.e("PlantDBAdapter", "getTestData >>"+ mSQLException.toString());
             throw mSQLException;
         }
     }
