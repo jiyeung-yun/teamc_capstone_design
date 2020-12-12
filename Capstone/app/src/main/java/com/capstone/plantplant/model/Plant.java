@@ -5,7 +5,7 @@ public class Plant {
     private String Pname;
     private String Pexp;
     private int Pwater;
-    private String Ptime;
+    private int Ptime;
 
     public int getPID() {
         return PID;
@@ -39,11 +39,11 @@ public class Plant {
         Pwater = pwater;
     }
 
-    public String getPtime() {
+    public int getPtime() {
         return Ptime;
     }
 
-    public void setPtime(String ptime) {
+    public void setPtime(int ptime) {
         Ptime = ptime;
     }
 }
