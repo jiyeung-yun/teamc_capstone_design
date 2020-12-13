@@ -145,7 +145,7 @@ public class DeviceScanActivity extends ListActivity {
         Log.d("디바이스 이름 :", device.getName());
         Log.d("디바이스 주소 :", device.getAddress());
 
-        Toast.makeText(this, "Insert 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "connect 완료", Toast.LENGTH_SHORT).show();
 
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);

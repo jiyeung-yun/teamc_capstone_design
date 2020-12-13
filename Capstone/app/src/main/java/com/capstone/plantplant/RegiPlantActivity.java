@@ -1,19 +1,31 @@
 package com.capstone.plantplant;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +38,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -50,16 +61,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
-import static com.capstone.plantplant.ListActivity.plantList;
 
 public class RegiPlantActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
+
+
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private BluetoothLeService mBluetoothLeService;
+    private boolean mConnected = false;
+    private BluetoothGattCharacteristic characteristicTX;
+    private BluetoothGattCharacteristic characteristicRX;
+    private final String LIST_NAME = "NAME";
+    private final String LIST_UUID = "UUID";
+    private boolean isPermission = false;
+
 
     Toolbar toolbar_regiplant;
 
@@ -81,6 +110,34 @@ public class RegiPlantActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
+
+        callPermission();
+        final Intent intent = getIntent();
+        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
+        mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        if(mDeviceName != null && mDeviceAddress != null){
+            Log.d("디바이스 이름 : ", mDeviceName);
+            Log.d("디바이스  addr  : ", mDeviceAddress);
+        }
+
+        /*
+        openBtn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View view) {
+                if (sendmsg.equals("3")) {
+                    sendmsg = "2";  //정지
+                    makeChange(sendmsg);
+                    openBtn.setText("OPEN");
+                } else {
+                    sendmsg = "3";  //열림
+                    makeChange(sendmsg);
+                    openBtn.setText("STOP");
+                    closeBtn.setText("CLOSE");
+                }
+                //오픈 버튼 클릭시
+            }
+        });
+         */
+
 
         /*상단 툴바 기본 설정 초기화*/
         toolbar_regiplant = findViewById(R.id.toolbar_regiplant);
@@ -177,16 +234,6 @@ public class RegiPlantActivity extends AppCompatActivity {
                             values.put("num", plant_idx);
                             String last_date = txt_lastwaterdate.getText().toString();
                             values.put("lastdate", last_date);
-
-                            for(int i =0 ;i< plantList.size();i++){
-                                if(plantList.get(i).getPname().equals(plant_kind)) {
-                                    int humid = plantList.get(i).getPwater();
-                                    values.put("humidity", humid);
-                                    int period = plantList.get(i).getPtime();
-                                    values.put("period", period);
-                                    break;
-                                }
-                            }
 
 
                             if(plant_img!=null && path!=null){
@@ -382,4 +429,223 @@ public class RegiPlantActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isAccessFineLocation = true;
+        } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isAccessCoarseLocation = true;
+        }
+        if (isAccessFineLocation && isAccessCoarseLocation) {
+            isPermission = true;
+        }
+    }
+    private void callPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_ACCESS_FINE_LOCATION);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_ACCESS_COARSE_LOCATION);
+        } else {
+            isPermission = true;
+        }
+    }
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                //Log.e(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+            mBluetoothLeService.connect(mDeviceAddress);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+                mConnected = true;
+                Toast.makeText(context, "DEVICE CONNECTED", Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                // mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                mConnected = false;
+                Toast.makeText(context, "DEVICE DISCONNECTED", Toast.LENGTH_LONG).show();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                invalidateOptionsMenu();
+                //  clearUI();
+            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                // Show all the supported services and characteristics on the user interface.
+                displayGattServices(mBluetoothLeService.getSupportedGattServices());
+                mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                displayData(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
+            }
+        }
+    };
+    private void displayData(String data) {         //데이터 받아와서 텍스트 뷰에 뿌려줌
+        if (data != null) {
+
+            String AT[] = data.split("\n");
+            Log.d("받는 값 1: ",AT[0]);
+            Log.d("받는 값 2: ",AT[1]);
+           // double ppm = Double.valueOf(AT[2]);
+            //ppm /= 100;
+            //AT[2] = Double.toString(ppm);
+            //degree.setText(AT[0]);
+           // wetness.setText(AT[1]);
+
+           // sensor_pm25 = Double.parseDouble(AT[2]);
+           // sensor_pm100 = Double.parseDouble(AT[3]);
+
+          //  Gas.setText(AT[2] + "PPM");
+          //  PM25.setText(AT[3] + "㎍/㎥");        //미세먼지
+          //  PM100.setText(AT[4] + "㎍/㎥");       //초미세먼지
+/*
+            if (Double.parseDouble(AT[2]) > 30.0 || Double.parseDouble(AT[3]) > 36.0 || Double.parseDouble(AT[4]) > 81.0) {
+                //나쁨
+           //     image_dust.setImageResource(R.drawable.roundedred);
+            } else if (Double.parseDouble(AT[2]) >= 10.0 | Double.parseDouble(AT[3]) >= 16.0 || Double.parseDouble(AT[4]) >= 31.0) {
+                //보통
+           //     image_dust.setBackgroundResource(R.drawable.roundedorange);
+            } else {
+                //좋음
+             //   image_dust.setBackgroundResource(R.drawable.roundedgreen);
+            }
+
+ */
+        }
+    }
+    public boolean Check_ble_state() {
+        boolean state = mConnected;
+        state = !state;
+        Log.d("체크 함수 커넥 상태", "Connect request result=" + state);
+        return state;
+    }
+
+    public void initial_btn() {
+      //  sendmsg = "2";  //정지
+      //  makeChange(sendmsg);
+      //  closeBtn.setText("CLOSE");
+      //  openBtn.setText("OPEN");
+    }
+    public void check_Connect_Device() {
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(RegiPlantActivity.this);
+        alertDialogBuilder.setTitle("미세빅 연결확인 불가");
+        alertDialogBuilder.setMessage("연결 터치시 연결 페이지 이동").setCancelable(false).setPositiveButton("연결",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mBluetoothLeService.disconnect();
+                        Intent intent1 = new Intent(getApplicationContext(), DeviceScanActivity.class);
+                        startActivity(intent1);
+                    }
+                })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                dialog.cancel();
+                            //    autos_witch.setChecked(false);
+                           //     openBtn.setEnabled(true);
+                           //     closeBtn.setEnabled(true);
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d("커넥 상태", "Connect request result=" + result);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /*
+        unbindService(mServiceConnection);
+        mBluetoothLeService = null;
+
+         */
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.gatt_services, menu);
+        if (mConnected) {
+            menu.findItem(R.id.menu_connect).setVisible(false);
+            menu.findItem(R.id.menu_disconnect).setVisible(true);
+
+        } else {
+            menu.findItem(R.id.menu_connect).setVisible(true);
+            menu.findItem(R.id.menu_disconnect).setVisible(false);
+        }
+        return true;
+    }
+    private void displayGattServices(List<BluetoothGattService> gattServices) {
+        if (gattServices == null) return;
+        String uuid = null;
+        String unknownServiceString = getResources().getString(R.string.unknown_service);
+        ArrayList<HashMap<String, String>> gattServiceData = new ArrayList<HashMap<String, String>>();
+
+        for (BluetoothGattService gattService : gattServices) {
+            HashMap<String, String> currentServiceData = new HashMap<String, String>();
+            uuid = gattService.getUuid().toString();
+            currentServiceData.put(LIST_NAME, SampleGattAttributes.lookup(uuid, unknownServiceString));
+
+            currentServiceData.put(LIST_UUID, uuid);
+            gattServiceData.add(currentServiceData);
+
+            characteristicTX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
+            characteristicRX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
+        }
+    }
+    private void makeChange(String msg) {
+        String str = msg;
+       // Log.d(TAG, "Sending result=" + str);
+        final byte[] tx = str.getBytes();
+        if (mConnected) {
+            characteristicTX.setValue(tx);
+            mBluetoothLeService.writeCharacteristic(characteristicTX);
+            mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+        }
+    }
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
 }
