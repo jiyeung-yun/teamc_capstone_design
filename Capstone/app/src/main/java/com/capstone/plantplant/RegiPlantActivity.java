@@ -57,7 +57,7 @@ import java.util.UUID;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 import static com.capstone.plantplant.ListActivity.plantList;
 
-public class RegiPlantActivity extends AppCompatActivity {
+public class RegiPlantActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
 
@@ -76,18 +76,6 @@ public class RegiPlantActivity extends AppCompatActivity {
     int plant_idx;
     String plant_img; //사진 파일 이름
     String path; //사진 파일 경로
-
-    private static final int REQUEST_ENABLE_BT = 1;    // 블루투스 활성화 상태
-    private BluetoothAdapter bluetoothAdapter;          // 블루투스 어댑터
-    private Set<BluetoothDevice> devices;               // 블루투스 디바이스 데이터 셋
-    private BluetoothDevice bluetoothDevice;            // 블루투스 디바이스
-    private BluetoothSocket bluetoothSocket = null;     // 블루투스 소켓
-    private OutputStream outputStream = null;           // 블루투스에 데이터를 출력하기 위한 출력 스트림
-    private InputStream inputStream = null;             // 블루투스에 데이터를 입력하기 위한 입력 스트림
-    // private Thread bluetoothThread = null;                 // 문자열 수신에 사용되는 쓰레드
-    private byte[] sendByte = new byte[4];            // 수신된 문자열을 저장하기 위한 버퍼
-    public ProgressDialog progressDialog;
-    public boolean onBT = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,51 +113,7 @@ public class RegiPlantActivity extends AppCompatActivity {
 
         //모듈 연결 확인 버튼
         btn_connect = findViewById(R.id.btn_connect);
-        btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
-/*
-                if(!b){      // 연결
-                    bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                    if(bluetoothAdapter == null) {  // 장치가 블루투스 지원하지 않는 경우
-                        Toast.makeText(getApplicationContext(), "Bluetooth 지원을 하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
-                    } else {    // 블루투스 지원하는 경우
-                        if (!bluetoothAdapter.isEnabled()) {
-                            // 블루투스를 지원하지만 비활성 상태인 경우
-                            // 블루투스를 활성 상태로 바꾸기 위해 사용자 동의 요청
-                            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                            startActivityForResult(enableBTIntent, REQUEST_ENABLE_BT);
-                        } else {
-                            // 블루투스를 지원하며 활성 상태인 경우
-                            // 페어링된 기기 목록을 보여주고 연결할 장치 선택
-                            Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-                            if (pairedDevices.size() > 0) { // 페어링된 장치 있는 경우
-                                Toast.makeText(getApplicationContext(), "모듈과 연결합니다.", Toast.LENGTH_SHORT).show();
-                                selectDevice();
-                                btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
-
-                            } else {  // 페어링된 장치 없는 경우
-                                Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }else{      // 연결안함
-                    try {
-                        BTSend.interrupt();  // 데이터 송신 쓰레드 종료
-                        inputStream.close();
-                        outputStream.close();
-                        bluetoothSocket.close();
-                        b = false;
-                        Toast.makeText(getApplicationContext(),"모듈과 연결을 끊습니다.",Toast.LENGTH_SHORT).show();
-                    } catch (Exception ignored){ }
-                }
-*/
-                btn_regi.setClickable(b);
-
-            }
-        });
-
+        btn_connect.setOnCheckedChangeListener(this);
 
         //마지막으로 급수한 날짜 입력 관련
         txt_lastwaterdate = findViewById(R.id.txt_lastwaterdate);
@@ -268,7 +212,6 @@ public class RegiPlantActivity extends AppCompatActivity {
                                 }
                             }
 
-
                             if(plant_img!=null && path!=null){
                                 values.put("image", plant_img);
                                 values.put("path", path);
@@ -288,111 +231,65 @@ public class RegiPlantActivity extends AppCompatActivity {
             }
         });
     }
-    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
-    //한 페이지에 아이템 갯수
-    int numOfRows = 1;
-    //로드할 페이지 번호
-    int pageNo = 1;
-    //태그 확인
-    boolean familyKorNm = false;
-    boolean plantPilbkNo = false;
+
+    private static final int REQUEST_ENABLE_BT = 1;    // 블루투스 활성화 상태
+    private BluetoothAdapter bluetoothAdapter;          // 블루투스 어댑터
+    private Set<BluetoothDevice> devices;               // 블루투스 디바이스 데이터 셋
+    private BluetoothDevice bluetoothDevice;            // 블루투스 디바이스
+    private BluetoothSocket bluetoothSocket = null;     // 블루투스 소켓
+    private OutputStream outputStream = null;           // 블루투스에 데이터를 출력하기 위한 출력 스트림
+    private InputStream inputStream = null;             // 블루투스에 데이터를 입력하기 위한 입력 스트림
+    // private Thread bluetoothThread = null;                 // 문자열 수신에 사용되는 쓰레드
+    private byte[] sendByte = new byte[4];            // 수신된 문자열을 저장하기 위한 버퍼
+    public ProgressDialog progressDialog;
+    public boolean onBT = false;
 
 
-    void getEncyclopediaNum(String str){
-        try {
-            Log.d("RegiPlantActivity","검색어  => "+str);
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId() == R.id.btn_connect){
+            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
 
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrSearch");
-            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
-            urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 3 : 국문명일치)
-            urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
-            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
-            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
+            if(!isChecked){      // 연결
+                bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if(bluetoothAdapter == null) {  // 장치가 블루투스 지원하지 않는 경우
+                    Toast.makeText(getApplicationContext(), "Bluetooth 지원을 하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
+                } else {    // 블루투스 지원하는 경우
+                    if (!bluetoothAdapter.isEnabled()) {
+                        // 블루투스를 지원하지만 비활성 상태인 경우
+                        // 블루투스를 활성 상태로 바꾸기 위해 사용자 동의 요청
+                        Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBTIntent, REQUEST_ENABLE_BT);
+                    } else {
+                        // 블루투스를 지원하며 활성 상태인 경우
+                        // 페어링된 기기 목록을 보여주고 연결할 장치 선택
+                        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+                        if (pairedDevices.size() > 0) { // 페어링된 장치 있는 경우
+                            Toast.makeText(getApplicationContext(), "모듈과 연결합니다.", Toast.LENGTH_SHORT).show();
+                            selectDevice();
+                            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
 
-            URL url = new URL(urlBuilder.toString());
-            Log.d("RegiPlantActivity","URI 주소 => "+url);
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-type", "application/json");
-
-
-            BufferedReader rd;
-            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else {
-                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            }
-
-            try{
-                XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-                XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-                xmlPullParser.setInput(rd);
-
-                int eventType = xmlPullParser.getEventType();
-
-                while (eventType != XmlPullParser.END_DOCUMENT){
-
-
-                    switch (eventType){
-                        case XmlPullParser.START_DOCUMENT:{
-                            Log.d("RegiPlantActivity","API 파싱 => 시작");
-
-                            break;
-                        }
-                        case XmlPullParser.START_TAG:{
-                            String string = xmlPullParser.getName();
-                            if(string.equals("item")){
-                                Log.d("RegiPlantActivity","<item>");
-                            }
-                            if(string.equals("familyKorNm")){
-                                familyKorNm = true;
-                            }
-                            if(string.equals("plantPilbkNo")){
-                                plantPilbkNo = true;
-                            }
-                            break;
-                        }
-                        case XmlPullParser.TEXT:{
-                            if(familyKorNm){
-                                String s = xmlPullParser.getText();
-                                Log.d("RegiPlantActivity","국문명 => "+s);
-                                familyKorNm = false;
-                            }
-                            if(plantPilbkNo){
-                                String s = xmlPullParser.getText();
-                                Log.d("RegiPlantActivity","도감 번호 => "+s);
-
-                                plant_idx= Integer.parseInt(s);
-                                plantPilbkNo = false;
-                            }
-                            break;
-                        }
-                        case XmlPullParser.END_TAG:{
-                            break;
+                        } else {  // 페어링된 장치 없는 경우
+                            Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
-
-
-                    eventType = xmlPullParser.next();
-
-
                 }
-            }catch (XmlPullParserException e){
-                Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
+            }else{      // 연결안함
+                try {
+                    BTSend.interrupt();  // 데이터 송신 쓰레드 종료
+                    inputStream.close();
+                    outputStream.close();
+                    bluetoothSocket.close();
+                    isChecked = false;
+                    Toast.makeText(getApplicationContext(),"모듈과 연결을 끊습니다.",Toast.LENGTH_SHORT).show();
+                } catch (Exception ignored){ }
             }
 
-
-            rd.close();
-            conn.disconnect();
-            Log.d("RegiPlantActivity","API 파싱 => 끝");
-
-
-        } catch (Exception e) {
-            Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
+            btn_regi.setClickable(isChecked);
         }
-
     }
+
+
 
     // 블루투스 장치 이름을 리스트로 작성해서 AlertDialog 띄움
     public void selectDevice() {
@@ -570,6 +467,114 @@ public class RegiPlantActivity extends AppCompatActivity {
         }
     }
 
+
+    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
+
+    //태그 확인
+    boolean familyKorNm = false;
+    boolean plantPilbkNo = false;
+
+    void getEncyclopediaNum(String str){
+        try {
+            Log.d("RegiPlantActivity","검색어  => "+str);
+
+            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrSearch");
+            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
+            urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 3 : 국문명일치)
+            urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
+            //한 페이지에 아이템 갯수
+            int numOfRows = 1;
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
+            //로드할 페이지 번호
+            int pageNo = 1;
+            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
+
+            URL url = new URL(urlBuilder.toString());
+            Log.d("RegiPlantActivity","URI 주소 => "+url);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+
+
+            BufferedReader rd;
+            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+
+            try{
+                XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
+                XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
+                xmlPullParser.setInput(rd);
+
+                int eventType = xmlPullParser.getEventType();
+
+                while (eventType != XmlPullParser.END_DOCUMENT){
+
+
+                    switch (eventType){
+                        case XmlPullParser.START_DOCUMENT:{
+                            Log.d("RegiPlantActivity","API 파싱 => 시작");
+
+                            break;
+                        }
+                        case XmlPullParser.START_TAG:{
+                            String string = xmlPullParser.getName();
+                            if(string.equals("item")){
+                                Log.d("RegiPlantActivity","<item>");
+                            }
+                            if(string.equals("familyKorNm")){
+                                familyKorNm = true;
+                            }
+                            if(string.equals("plantPilbkNo")){
+                                plantPilbkNo = true;
+                            }
+                            break;
+                        }
+                        case XmlPullParser.TEXT:{
+                            if(familyKorNm){
+                                String s = xmlPullParser.getText();
+                                Log.d("RegiPlantActivity","국문명 => "+s);
+                                familyKorNm = false;
+                            }
+                            if(plantPilbkNo){
+                                String s = xmlPullParser.getText();
+                                Log.d("RegiPlantActivity","도감 번호 => "+s);
+
+                                plant_idx= Integer.parseInt(s);
+                                plantPilbkNo = false;
+                            }
+                            break;
+                        }
+                        case XmlPullParser.END_TAG:{
+                            break;
+                        }
+                    }
+
+
+                    eventType = xmlPullParser.next();
+
+
+                }
+            }catch (XmlPullParserException e){
+                Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
+            }
+
+
+            rd.close();
+            conn.disconnect();
+            Log.d("RegiPlantActivity","API 파싱 => 끝");
+
+
+        } catch (Exception e) {
+            Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
+        }
+
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -577,4 +582,6 @@ public class RegiPlantActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
