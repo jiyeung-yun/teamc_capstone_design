@@ -94,6 +94,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
     private boolean isAccessFineLocation = false;
     private boolean isAccessCoarseLocation = false;
+
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     private String mDeviceName;
@@ -540,9 +541,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
 
-
                     eventType = xmlPullParser.next();
-
 
                 }
             }catch (XmlPullParserException e){

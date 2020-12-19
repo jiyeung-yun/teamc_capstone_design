@@ -134,8 +134,9 @@ public class DeviceScanActivity extends ListActivity {
         mLeDeviceListAdapter.clear();
     }
 
+    //블루투스 커넥시 화면 전환
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {                 //블루투스 커넥시 화면 전환
+    protected void onListItemClick(ListView l, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         if (device == null) return;
         final Intent intent = new Intent(this, ItemActivity.class);
