@@ -69,6 +69,7 @@
                             android:text="모듈 ON/OFF"
                             android:textColor="@color/colorTitleFont"
                             android:textSize="@dimen/activity_title_font_size" />
+
                     </LinearLayout>
 
                     <TextView

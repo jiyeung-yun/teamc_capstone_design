@@ -1,19 +1,31 @@
 package com.capstone.plantplant;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +38,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import com.capstone.plantplant.util.BluetoothLeService;
+import com.capstone.plantplant.util.SampleGattAttributes;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -39,7 +53,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -50,17 +63,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 import static com.capstone.plantplant.ListActivity.plantList;
 
-public class RegiPlantActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+public class RegiPlantActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
-
     Toolbar toolbar_regiplant;
 
     TextView txt_kindplant,txt_lastwaterdate;
@@ -77,19 +89,63 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
     String plant_img; //사진 파일 이름
     String path; //사진 파일 경로
 
+
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private BluetoothLeService mBluetoothLeService;
+    private boolean mConnected = false;
+    private BluetoothGattCharacteristic characteristicTX;
+    private BluetoothGattCharacteristic characteristicRX;
+    private final String LIST_NAME = "NAME";
+    private final String LIST_UUID = "UUID";
+    private boolean isPermission = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
 
-        /*상단 툴바 기본 설정 초기화*/
+        callPermission();
+
+        final Intent intent = getIntent();
+        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
+        mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        if(mDeviceName != null && mDeviceAddress != null){
+            Log.d("디바이스 이름 : ", mDeviceName);
+            Log.d("디바이스  addr  : ", mDeviceAddress);
+        }
+
+        /*
+        openBtn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View view) {
+                if (sendmsg.equals("3")) {
+                    sendmsg = "2";  //정지
+                    makeChange(sendmsg);
+                    openBtn.setText("OPEN");
+                } else {
+                    sendmsg = "3";  //열림
+                    makeChange(sendmsg);
+                    openBtn.setText("STOP");
+                    closeBtn.setText("CLOSE");
+                }
+                //오픈 버튼 클릭시
+            }
+        });
+         */
+
+
         toolbar_regiplant = findViewById(R.id.toolbar_regiplant);
         setSupportActionBar(toolbar_regiplant);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_keyboard_backspace_24px));
-        /*상단 툴바 기본 설정 초기화*/
 
         //식물의 종류를 검색하는 화면 버튼
         txt_kindplant = findViewById(R.id.txt_kindplant);
@@ -110,10 +166,6 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
                 startActivityForResult(img,REQUEST_IMAGE);
             }
         });
-
-        //모듈 연결 확인 버튼
-        btn_connect = findViewById(R.id.btn_connect);
-        btn_connect.setOnCheckedChangeListener(this);
 
         //마지막으로 급수한 날짜 입력 관련
         txt_lastwaterdate = findViewById(R.id.txt_lastwaterdate);
@@ -147,277 +199,37 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
             }
         });
 
-        //식물 아이템 등록 버튼
-        btn_regi = findViewById(R.id.btn_regi);
-        btn_regi.setOnClickListener(new View.OnClickListener() {
+
+        //모듈 연결 확인 버튼
+        btn_connect = findViewById(R.id.btn_connect);
+        btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final String plant_kind = txt_kindplant.getText().toString();
-                if(plant_kind.length()<1){
-                    Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        getEncyclopediaNum(plant_kind);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                            }
-                        });
-
-                    }
-                }).start();
-
-                //토양의 종류
-                spinner_soil = findViewById(R.id.spinner_soil);
-                final int soil_kind = spinner_soil.getSelectedItemPosition();
-
-                /*
-                //화분의 사이즈
-                spinner_pot = findViewById(R.id.spinner_pot);
-                final int pot_size = spinner_pot.getSelectedItemPosition();
-                */
-
-
-                //등록버튼 클릭 당시 날짜를 받아서 저장함
-                final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Uri uri = new Uri.Builder().build().parse(LIST_URI);
-                        if(uri!=null) {
-                            ContentValues values = new ContentValues();
-                            values.put("kind", plant_kind);
-                            values.put("date", reg_date);
-                            values.put("soil", soil_kind);
-                            //values.put("size", pot_size);
-                            values.put("num", plant_idx);
-                            String last_date = txt_lastwaterdate.getText().toString();
-                            values.put("lastdate", last_date);
-
-                            for(int i =0 ;i< plantList.size();i++){
-                                if(plantList.get(i).getPname().equals(plant_kind)) {
-                                    int humid = plantList.get(i).getPwater();
-                                    values.put("humidity", humid);
-                                    int period = plantList.get(i).getPtime();
-                                    values.put("period", period);
-                                    break;
-                                }
-                            }
-
-                            if(plant_img!=null && path!=null){
-                                values.put("image", plant_img);
-                                values.put("path", path);
-                            }
-
-                            uri = getContentResolver().insert(uri,values);
-                            Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
-                        }
-
-                        setResult(RESULT_OK);
-                        Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
-                        finish();
-
-                    }
-                },1000);
-
-            }
-        });
-    }
-
-    private static final int REQUEST_ENABLE_BT = 1;    // 블루투스 활성화 상태
-    private BluetoothAdapter bluetoothAdapter;          // 블루투스 어댑터
-    private Set<BluetoothDevice> devices;               // 블루투스 디바이스 데이터 셋
-    private BluetoothDevice bluetoothDevice;            // 블루투스 디바이스
-    private BluetoothSocket bluetoothSocket = null;     // 블루투스 소켓
-    private OutputStream outputStream = null;           // 블루투스에 데이터를 출력하기 위한 출력 스트림
-    private InputStream inputStream = null;             // 블루투스에 데이터를 입력하기 위한 입력 스트림
-    // private Thread bluetoothThread = null;                 // 문자열 수신에 사용되는 쓰레드
-    private byte[] sendByte = new byte[4];            // 수신된 문자열을 저장하기 위한 버퍼
-    public ProgressDialog progressDialog;
-    public boolean onBT = false;
-
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId() == R.id.btn_connect){
-            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3));
-
-            if(!isChecked){      // 연결
-                bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if(bluetoothAdapter == null) {  // 장치가 블루투스 지원하지 않는 경우
-                    Toast.makeText(getApplicationContext(), "Bluetooth 지원을 하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
-                } else {    // 블루투스 지원하는 경우
-                    if (!bluetoothAdapter.isEnabled()) {
-                        // 블루투스를 지원하지만 비활성 상태인 경우
-                        // 블루투스를 활성 상태로 바꾸기 위해 사용자 동의 요청
-                        Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivityForResult(enableBTIntent, REQUEST_ENABLE_BT);
-                    } else {
-                        // 블루투스를 지원하며 활성 상태인 경우
-                        // 페어링된 기기 목록을 보여주고 연결할 장치 선택
-                        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-                        if (pairedDevices.size() > 0) { // 페어링된 장치 있는 경우
-                            Toast.makeText(getApplicationContext(), "모듈과 연결합니다.", Toast.LENGTH_SHORT).show();
-                            selectDevice();
-                            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
-
-                        } else {  // 페어링된 장치 없는 경우
-                            Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }else{      // 연결안함
-                try {
-                    BTSend.interrupt();  // 데이터 송신 쓰레드 종료
-                    inputStream.close();
-                    outputStream.close();
-                    bluetoothSocket.close();
-                    isChecked = false;
-                    Toast.makeText(getApplicationContext(),"모듈과 연결을 끊습니다.",Toast.LENGTH_SHORT).show();
-                } catch (Exception ignored){ }
-            }
-
-            btn_regi.setClickable(isChecked);
-        }
-    }
-
-
-
-    // 블루투스 장치 이름을 리스트로 작성해서 AlertDialog 띄움
-    public void selectDevice() {
-        devices = bluetoothAdapter.getBondedDevices();
-        final int pairedDeviceCount = devices.size();
-
-        if(pairedDeviceCount == 0) {
-            // 페어링 된 장치가 없는 경우
-            Toast.makeText(getApplicationContext(), "장치를 페어링 해주세요", Toast.LENGTH_SHORT).show();
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("블루투스 장치 선택");
-
-        // 페어링 된 블루투스 장치 이름 목록 작성
-        List<String> listItems = new ArrayList<>();
-        for(BluetoothDevice device : devices) {
-            listItems.add(device.getName());
-        }
-        listItems.add("취소");     // 취소 항목 추가
-
-        final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
-
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int item) {
-                if(item == pairedDeviceCount) {
-                    // 연결할 장치를 선택하지 않고 취소 누른 경우
-                    finish();
-                } else {
-                    // 연결할 장치를 선택한 경우
-                    // 선택한 장치와 연결을 시도
-                    connectToSelectedDevice(items[item].toString());
-                }
+                //mBluetoothLeService.disconnect();
+                Intent intent1 = new Intent(getApplicationContext(), DeviceScanActivity.class);
+                startActivity(intent1);
+                // finish();
             }
         });
 
-        builder.setCancelable(false);   // 뒤로 가기 버튼 사용 금지 ... 왜 ? 나중에 실행 때 직접 확인하기
-        AlertDialog alert = builder.create();
-        alert.show();
+
+
+        //식물 아이템 등록 버튼
+        btn_regi = findViewById(R.id.btn_regi);
+        btn_regi.setOnClickListener(this);
+
     }
-
-    // 블루투스 연결
-    public void connectToSelectedDevice(final String selectedDeviceName){
-        bluetoothDevice = getDeviceFromBondedList(selectedDeviceName);
-
-        // Progress Dialog
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("블루투스 연결중 ...");
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-
-        Thread BTConnect = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");  // 모듈 UUID 입력하는 곳 현재는 예시로 넣어놨습니다.(HC-06 UUID)
-                    // 소켓 생성
-                    bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
-
-                    // RFCOMM 채널을 통한 연결
-                    bluetoothSocket.connect();
-
-                    // 데이터 송수신을 위한 스트림 열기
-                    outputStream = bluetoothSocket.getOutputStream();
-                    inputStream = bluetoothSocket.getInputStream();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),selectedDeviceName + " 연결 완료", Toast.LENGTH_LONG).show();
-                            progressDialog.dismiss();
-                        }
-                    });
-
-                    btn_connect.setChecked(true);
-
-                } catch (Exception e) {
-                    // 블루투스 연결 중 오류 발생
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"블루투스 연결 오류",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        });
-        BTConnect.start();
-    }
-
-    public BluetoothDevice getDeviceFromBondedList(String name){
-        BluetoothDevice selectedDevice = null;
-
-        for(BluetoothDevice device : devices) {
-            if(name.equals(device.getName())) {
-                selectedDevice = device;
-                break;
-            }
+    //모듈과의 연결이 확인되면 등록버튼 활성화
+    private void checkConnectState(boolean check) {
+        //모듈 연결 코드 필요
+        if (check) {
+            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+        }else {
+            btn_regi.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary3));
         }
-        return selectedDevice;
+        btn_regi.setClickable(check);
     }
 
-    // 블루투스 데이터 송신
-    Thread BTSend = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            try {
-                outputStream.write(sendByte);
-            }catch (Exception e) {
-                // 문자열 전송 도중 오류가 발생한 경우
-            }
-        }
-    });
-
-    // 4byte 프로토콜의 데이터 송신이 가능
-    // 프로토콜을 아두이노에 송신하는 메소드
-    public void sendByteData(int btLightPercent) throws IOException {
-        byte[] bytes = new byte[4];
-        bytes[0] = (byte) 0xa5;
-        bytes[1] = (byte) 0x5a;
-        bytes[2] = 1;   // command
-        bytes[3] = (byte) btLightPercent;
-        sendByte = bytes;
-        BTSend.run();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -467,13 +279,199 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isAccessFineLocation = true;
+        } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isAccessCoarseLocation = true;
+        }
+        if (isAccessFineLocation && isAccessCoarseLocation) {
+            isPermission = true;
+        }
+    }
+    private void callPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_ACCESS_FINE_LOCATION);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_ACCESS_COARSE_LOCATION);
+        } else {
+            isPermission = true;
+        }
+    }
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                //Log.e(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+            mBluetoothLeService.connect(mDeviceAddress);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+                mConnected = true;
+                Toast.makeText(context, "DEVICE CONNECTED", Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                // mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                mConnected = false;
+                Toast.makeText(context, "DEVICE DISCONNECTED", Toast.LENGTH_LONG).show();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                invalidateOptionsMenu();
+                //  clearUI();
+            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                // Show all the supported services and characteristics on the user interface.
+                displayGattServices(mBluetoothLeService.getSupportedGattServices());
+                mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                displayData(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
+            }
+        }
+    };
+    private void displayData(String data) {         //데이터 받아와서 텍스트 뷰에 뿌려줌
+        if (data != null) {
+
+            String AT[] = data.split("\n");
+            Log.d("받는 값 1: ",AT[0]);
+            Log.d("받는 값 2: ",AT[1]);
+
+        }
+    }
+    public boolean Check_ble_state() {
+        boolean state = mConnected;
+        state = !state;
+        Log.d("체크 함수 커넥 상태", "Connect request result=" + state);
+        return state;
+    }
+
+    public void initial_btn() {
+
+    }
+
+    public void check_Connect_Device() {
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(RegiPlantActivity.this);
+        alertDialogBuilder.setTitle("모듈 연결확인 불가");
+        alertDialogBuilder.setMessage("연결 터치시 연결 페이지 이동").setCancelable(false).setPositiveButton("연결",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mBluetoothLeService.disconnect();
+                        Intent intent1 = new Intent(getApplicationContext(), DeviceScanActivity.class);
+                        startActivity(intent1);
+                    }
+                })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                dialog.cancel();
+                                //    autos_witch.setChecked(false);
+                                //     openBtn.setEnabled(true);
+                                //     closeBtn.setEnabled(true);
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d("커넥 상태", "Connect request result=" + result);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    private void displayGattServices(List<BluetoothGattService> gattServices) {
+        if (gattServices == null) return;
+        String uuid = null;
+        String unknownServiceString = getResources().getString(R.string.unknown_service);
+        ArrayList<HashMap<String, String>> gattServiceData = new ArrayList<HashMap<String, String>>();
+
+        for (BluetoothGattService gattService : gattServices) {
+            HashMap<String, String> currentServiceData = new HashMap<String, String>();
+            uuid = gattService.getUuid().toString();
+            currentServiceData.put(LIST_NAME, SampleGattAttributes.lookup(uuid, unknownServiceString));
+
+            currentServiceData.put(LIST_UUID, uuid);
+            gattServiceData.add(currentServiceData);
+
+            characteristicTX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
+            characteristicRX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
+        }
+    }
+    private void makeChange(String msg) {
+        String str = msg;
+        // Log.d(TAG, "Sending result=" + str);
+        final byte[] tx = str.getBytes();
+        if (mConnected) {
+            characteristicTX.setValue(tx);
+            mBluetoothLeService.writeCharacteristic(characteristicTX);
+            mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+        }
+    }
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
+
 
     final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
-
     //태그 확인
     boolean familyKorNm = false;
     boolean plantPilbkNo = false;
-
     void getEncyclopediaNum(String str){
         try {
             Log.d("RegiPlantActivity","검색어  => "+str);
@@ -482,10 +480,9 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
             urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 3 : 국문명일치)
             urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
-            //한 페이지에 아이템 갯수
             int numOfRows = 1;
             urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
-            //로드할 페이지 번호
+
             int pageNo = 1;
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
 
@@ -574,14 +571,86 @@ public class RegiPlantActivity extends AppCompatActivity implements CompoundButt
 
     }
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+    public void onClick(View v) {
+        if(v.getId()==R.id.btn_regi){
+
+            final String plant_kind = txt_kindplant.getText().toString();
+            if(plant_kind.length()<1){
+                Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    getEncyclopediaNum(plant_kind);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                        }
+                    });
+
+                }
+            }).start();
+
+            //토양의 종류
+            spinner_soil = findViewById(R.id.spinner_soil);
+            final int soil_kind = spinner_soil.getSelectedItemPosition();
+
+                /*
+                //화분의 사이즈
+                spinner_pot = findViewById(R.id.spinner_pot);
+                final int pot_size = spinner_pot.getSelectedItemPosition();
+                */
+
+
+            //등록버튼 클릭 당시 날짜를 받아서 저장함
+            final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Uri uri = new Uri.Builder().build().parse(LIST_URI);
+                    if(uri!=null) {
+                        ContentValues values = new ContentValues();
+                        values.put("kind", plant_kind);
+                        values.put("date", reg_date);
+                        values.put("soil", soil_kind);
+                        //values.put("size", pot_size);
+                        values.put("num", plant_idx);
+                        String last_date = txt_lastwaterdate.getText().toString();
+                        values.put("lastdate", last_date);
+
+                        for(int i =0 ;i< plantList.size();i++){
+                            if(plantList.get(i).getPname().equals(plant_kind)) {
+                                int humid = plantList.get(i).getPwater();
+                                values.put("humidity", humid);
+                                int period = plantList.get(i).getPtime();
+                                values.put("period", period);
+                                break;
+                            }
+                        }
+
+
+                        if(plant_img!=null && path!=null){
+                            values.put("image", plant_img);
+                            values.put("path", path);
+                        }
+
+                        uri = getContentResolver().insert(uri,values);
+                        Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
+                    }
+
+                    setResult(RESULT_OK);
+                    Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
+            },800);
+
         }
-        return super.onOptionsItemSelected(item);
     }
-
-
 }

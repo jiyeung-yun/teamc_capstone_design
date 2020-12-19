@@ -26,13 +26,8 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
     public static final String PLANT_NUM = "num"; //식물의 도감 번호
     public static final String PLANT_IMAGE = "image"; //식물 사진 파일명
     public static final String PLANT_IMAGE_PATH = "path"; //식물 사진 저장 경로
-    public static final String PLANT_MODULE = "module"; //모듈 번호
-    public static final String PLANT_HUMIDITY = "humidity";
-    public static final String PLANT_TIME = "time";
-    public static final String PLANT_PERIOD = "period";
 
-    public static final String[] ALL_COLUMS ={PLANT_ID,PLANT_KIND,PLANT_DATE,PLANT_SOIL,PLANT_LAST_DATE,PLANT_NUM,
-            PLANT_IMAGE,PLANT_IMAGE_PATH,PLANT_MODULE,PLANT_HUMIDITY,PLANT_TIME,PLANT_PERIOD};
+    public static final String[] ALL_COLUMS ={PLANT_ID,PLANT_KIND,PLANT_DATE,PLANT_SOIL,PLANT_LAST_DATE,PLANT_NUM,PLANT_IMAGE,PLANT_IMAGE_PATH};
     private static final String CREATE_TABLE ="CREATE TABLE IF NOT EXISTS "+TABLE_NAME
             +"("+PLANT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
             +PLANT_KIND+" TEXT,"
@@ -41,11 +36,7 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
             +PLANT_LAST_DATE+" TEXT,"
             +PLANT_NUM+" INTEGER,"
             +PLANT_IMAGE+" TEXT,"
-            +PLANT_IMAGE_PATH+" TEXT,"
-            +PLANT_MODULE+" TEXT,"
-            +PLANT_HUMIDITY+" INTEGER,"
-            +PLANT_TIME+" INTEGER DEFAULT 8,"
-            +PLANT_PERIOD+" INTEGER"
+            +PLANT_IMAGE_PATH+" TEXT"
             + ")";
 
     public DatabaseHelpter(Context context){

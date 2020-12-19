@@ -8,10 +8,6 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.capstone.plantplant.db.PlantDBAdapter;
-
-import static com.capstone.plantplant.ListActivity.plantList;
-
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -22,37 +18,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
+                finish();
 
-        if(plantList==null){
-            //데이터 베이스 내 식물 정보 로드
-            initLoadDB();
-        }else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            }, delay);
-        }
-
+            }
+        }, delay);
 
     }
-    private void initLoadDB() {
-        PlantDBAdapter mDbHelper = new PlantDBAdapter(getApplicationContext());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
 
-        plantList = mDbHelper.getTableData();
-
-        // DB 닫기
-        mDbHelper.close();
-
-        Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-        startActivity(intent);
-        finish();
-
-    }
 }
