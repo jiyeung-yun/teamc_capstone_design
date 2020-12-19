@@ -549,7 +549,7 @@ public class RegiPlantActivity extends AppCompatActivity {
     }
     public void check_Connect_Device() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(RegiPlantActivity.this);
-        alertDialogBuilder.setTitle("미세빅 연결확인 불가");
+        alertDialogBuilder.setTitle("모듈 연결확인 불가");
         alertDialogBuilder.setMessage("연결 터치시 연결 페이지 이동").setCancelable(false).setPositiveButton("연결",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

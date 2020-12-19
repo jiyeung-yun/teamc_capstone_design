@@ -138,7 +138,7 @@ public class DeviceScanActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {                 //블루투스 커넥시 화면 전환
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         if (device == null) return;
-        final Intent intent = new Intent(this, ControlActivity.class);
+        final Intent intent = new Intent(this, ItemActivity.class);
         intent.putExtra(ControlActivity.EXTRAS_DEVICE_NAME, device.getName());
         intent.putExtra(ControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
 
