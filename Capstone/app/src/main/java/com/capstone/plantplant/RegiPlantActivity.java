@@ -107,6 +107,28 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     private boolean isPermission = false;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d("커넥 상태", "Connect request result=" + result);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
@@ -212,8 +234,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-
-
         //식물 아이템 등록 버튼
         btn_regi = findViewById(R.id.btn_regi);
         btn_regi.setOnClickListener(this);
@@ -277,14 +297,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             }
 
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -402,26 +414,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d("커넥 상태", "Connect request result=" + result);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -600,13 +592,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             spinner_soil = findViewById(R.id.spinner_soil);
             final int soil_kind = spinner_soil.getSelectedItemPosition();
 
-                /*
-                //화분의 사이즈
-                spinner_pot = findViewById(R.id.spinner_pot);
-                final int pot_size = spinner_pot.getSelectedItemPosition();
-                */
-
-
             //등록버튼 클릭 당시 날짜를 받아서 저장함
             final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
@@ -619,7 +604,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                         values.put("kind", plant_kind);
                         values.put("date", reg_date);
                         values.put("soil", soil_kind);
-                        //values.put("size", pot_size);
                         values.put("num", plant_idx);
                         String last_date = txt_lastwaterdate.getText().toString();
                         values.put("lastdate", last_date);
@@ -652,5 +636,13 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             },800);
 
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
