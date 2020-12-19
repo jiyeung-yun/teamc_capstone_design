@@ -507,31 +507,7 @@ public class RegiPlantActivity extends AppCompatActivity {
             String AT[] = data.split("\n");
             Log.d("받는 값 1: ",AT[0]);
             Log.d("받는 값 2: ",AT[1]);
-           // double ppm = Double.valueOf(AT[2]);
-            //ppm /= 100;
-            //AT[2] = Double.toString(ppm);
-            //degree.setText(AT[0]);
-           // wetness.setText(AT[1]);
 
-           // sensor_pm25 = Double.parseDouble(AT[2]);
-           // sensor_pm100 = Double.parseDouble(AT[3]);
-
-          //  Gas.setText(AT[2] + "PPM");
-          //  PM25.setText(AT[3] + "㎍/㎥");        //미세먼지
-          //  PM100.setText(AT[4] + "㎍/㎥");       //초미세먼지
-/*
-            if (Double.parseDouble(AT[2]) > 30.0 || Double.parseDouble(AT[3]) > 36.0 || Double.parseDouble(AT[4]) > 81.0) {
-                //나쁨
-           //     image_dust.setImageResource(R.drawable.roundedred);
-            } else if (Double.parseDouble(AT[2]) >= 10.0 | Double.parseDouble(AT[3]) >= 16.0 || Double.parseDouble(AT[4]) >= 31.0) {
-                //보통
-           //     image_dust.setBackgroundResource(R.drawable.roundedorange);
-            } else {
-                //좋음
-             //   image_dust.setBackgroundResource(R.drawable.roundedgreen);
-            }
-
- */
         }
     }
     public boolean Check_ble_state() {
@@ -542,11 +518,9 @@ public class RegiPlantActivity extends AppCompatActivity {
     }
 
     public void initial_btn() {
-      //  sendmsg = "2";  //정지
-      //  makeChange(sendmsg);
-      //  closeBtn.setText("CLOSE");
-      //  openBtn.setText("OPEN");
+
     }
+
     public void check_Connect_Device() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(RegiPlantActivity.this);
         alertDialogBuilder.setTitle("모듈 연결확인 불가");
@@ -591,26 +565,13 @@ public class RegiPlantActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*
-        unbindService(mServiceConnection);
-        mBluetoothLeService = null;
-
-         */
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.gatt_services, menu);
-        if (mConnected) {
-            menu.findItem(R.id.menu_connect).setVisible(false);
-            menu.findItem(R.id.menu_disconnect).setVisible(true);
-
-        } else {
-            menu.findItem(R.id.menu_connect).setVisible(true);
-            menu.findItem(R.id.menu_disconnect).setVisible(false);
-        }
         return true;
     }
+
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
         String uuid = null;
