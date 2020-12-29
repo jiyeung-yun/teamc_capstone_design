@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,20 +32,22 @@ public class ItemActivity extends AppCompatActivity {
     Toolbar toolbar_item;
 
     String plant_kind,soil_kind;
-    TextView main_plant_name,main_regi_date,main_soil_kind,main_txt_humity;
+    TextView main_plant_name,main_regi_date,main_soil_kind;
     ImageView main_plant_image;
 
-    Button btn_information,btn_water_information,btn_setting;
-    CheckBox ckb_waterlevel;
+    ImageButton btn_setting;
+    Button btn_information;
 
     int index;
+
+    TextView txt_prev_date,txt_prev_vol;
 
     @Override
     protected void onStart() {
         super.onStart();
 
         //상태정보 블록을 초기화하는 메소드
-        initStateBlock(48,true);
+        initStateBlock(48,26,true);
     }
 
     @Override
@@ -71,7 +74,6 @@ public class ItemActivity extends AppCompatActivity {
 
         while(cursor.moveToNext()){
             //식물의 종류
-
             plant_kind = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[1]));
             Log.d("ItemActivity",cursor.getColumnName(1)+" : "+plant_kind);
 
@@ -84,6 +86,7 @@ public class ItemActivity extends AppCompatActivity {
             main_regi_date.setText(date);
             Log.d("ItemActivity",cursor.getColumnName(2)+" : "+date);
 
+            /*
             //토양 종류
             main_soil_kind = findViewById(R.id.main_soil_kind);
             int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[3]));
@@ -94,20 +97,7 @@ public class ItemActivity extends AppCompatActivity {
             String[] arr = getResources().getStringArray(R.array.soil_array);
             soil_kind = arr[soil_kind_pos];
             main_soil_kind.setText(soil_kind);
-
-            /*
-            //화분 사이즈
-            main_pot_size = findViewById(R.id.main_pot_size);
-            int pot_size_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[4]));
-            Log.d("ItemActivity",cursor.getColumnName(4)+" : "+pot_size_pos);
-
-
-            String[] arr2 = getResources().getStringArray(R.array.pot_array);
-            String pot_size = arr2[pot_size_pos];
-            main_pot_size.setText(pot_size);
-            */
-
-
+*/
             String filename = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[6]));
             Log.d("ItemActivity",cursor.getColumnName(6)+" : "+filename);
 
@@ -156,84 +146,32 @@ public class ItemActivity extends AppCompatActivity {
         });
 
 
-        //급수 정보 액티비티 버튼
-        btn_water_information = findViewById(R.id.btn_water_information);
-        btn_water_information.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent info = new Intent(getApplicationContext(),WaterActivity.class);
-                info.putExtra("index",index);
-                startActivity(info);
-            }
-        });
     }
 
-
-    //토양습도 물방을
-    ImageView main_drop1,main_drop2,main_drop3,main_drop4,main_drop5;
+    TextView main_txt_humity,main_txt_temp,main_txt_water_vol;
+    ImageView main_img_water_vol;
 
     //상태정보 블록을 초기화하는 메소드
-    private void initStateBlock(int humity,boolean isEnough){
+    private void initStateBlock(int humity,int temp,boolean isEnough){
         //토양 습도 센서로부터 받은 값 초기화
-        viewDropImage(humity);
+        main_txt_humity = findViewById(R.id.main_txt_humity);
+        main_txt_humity.setText(humity+"%");
+
+        //온도 센서로부터 받은 값 초기화
+        main_txt_temp = findViewById(R.id.main_txt_temp);
+        main_txt_temp.setText(temp+"ºC");
 
         //수위 센서로부터 받은 값 초기화
-        ckb_waterlevel = findViewById(R.id.ckb_waterlevel);
-        ckb_waterlevel.setClickable(false);
-        ckb_waterlevel.setChecked(isEnough);
+        main_img_water_vol = findViewById(R.id.main_img_water_vol);
+        main_txt_water_vol = findViewById(R.id.main_txt_water_vol);
         if(isEnough){
-            ckb_waterlevel.setText("물이 충분해요!");
+            main_img_water_vol.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_sentiment_satisfied_24px));
+            main_txt_water_vol.setText("충분");
         }else {
-            ckb_waterlevel.setText("물이 부족해요ㅠ");
+            main_img_water_vol.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_sentiment_dissatisfied_24px));
+            main_txt_water_vol.setText("부족");
         }
     }
-
-
-
-    //토양습도를 물방울 이미지로 표현하는 메소드
-    private void viewDropImage(int percent){
-        main_txt_humity = findViewById(R.id.main_txt_humity);
-        main_txt_humity.setText(percent+"%");
-
-        int invaild = ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary3);
-
-        main_drop1 = findViewById(R.id.main_drop1);
-        main_drop1.setColorFilter(invaild);
-
-        main_drop2 = findViewById(R.id.main_drop2);
-        main_drop2.setColorFilter(invaild);
-
-        main_drop3 = findViewById(R.id.main_drop3);
-        main_drop3.setColorFilter(invaild);
-
-        main_drop4 = findViewById(R.id.main_drop4);
-        main_drop4.setColorFilter(invaild);
-
-        main_drop5 = findViewById(R.id.main_drop5);
-        main_drop5.setColorFilter(invaild);
-
-        int vaild = ContextCompat.getColor(getApplicationContext(),R.color.colorAccent);
-       if(percent>=20){
-           main_drop5.setColorFilter(vaild);
-       }
-       if(percent>=40){
-           main_drop4.setColorFilter(vaild);
-       }
-       if(percent>=60){
-           main_drop3.setColorFilter(vaild);
-       }
-       if(percent>=80){
-           main_drop2.setColorFilter(vaild);
-       }
-       if(percent>=100){
-           main_drop1.setColorFilter(vaild);
-
-       }
-    }
-
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
