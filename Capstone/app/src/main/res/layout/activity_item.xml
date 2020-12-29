@@ -40,9 +40,8 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:src="@drawable/ic_settings_24px"
-                        android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/block_content_font_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:tint="@color/colorVectorIcon" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -113,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        app:cardBackgroundColor="@color/colorPrimaryDark"
+                        app:cardBackgroundColor="@color/colorAccentDark"
                         app:cardCornerRadius="@dimen/block_edge"
                         app:cardElevation="0dp">
 
@@ -557,7 +556,15 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:gravity="center"
+                android:padding="@dimen/editbox_padding"
+                android:text="꽃부기\n부경대학교 it융합응용공학과"
+                android:textColor="@color/colorSubTitleFont"
+                android:textSize="@dimen/block_content_font_size" />
         </LinearLayout>
     </ScrollView>
 
