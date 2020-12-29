@@ -61,10 +61,6 @@
         <!-- 식물 아이템 상세 액티비티 -->
         <activity android:name="com.capstone.plantplant.ItemActivity"/>
 
-        <!-- 급수정보를 보여주는 액티비티 -->
-        <activity android:name="com.capstone.plantplant.WaterActivity"
-            android:theme="@style/PopUpActivityTheme"/>
-
         <!-- 급수 컨트롤 액티비티 -->
         <activity android:name="com.capstone.plantplant.ControlActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
