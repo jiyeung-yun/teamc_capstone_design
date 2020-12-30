@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="실시간"
+            android:text="실시간 화분상황"
             android:textColor="@color/colorTitleFont"
             android:textSize="@dimen/activity_title_font_size"
             android:textStyle="bold" />

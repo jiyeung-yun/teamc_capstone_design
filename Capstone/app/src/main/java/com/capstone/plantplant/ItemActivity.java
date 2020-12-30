@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,7 +85,7 @@ public class ItemActivity extends AppCompatActivity {
             main_regi_date.setText(date);
             Log.d("ItemActivity",cursor.getColumnName(2)+" : "+date);
 
-            /*
+
             //토양 종류
             main_soil_kind = findViewById(R.id.main_soil_kind);
             int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[3]));
@@ -97,7 +96,7 @@ public class ItemActivity extends AppCompatActivity {
             String[] arr = getResources().getStringArray(R.array.soil_array);
             soil_kind = arr[soil_kind_pos];
             main_soil_kind.setText(soil_kind);
-*/
+
             String filename = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[6]));
             Log.d("ItemActivity",cursor.getColumnName(6)+" : "+filename);
 
@@ -139,7 +138,7 @@ public class ItemActivity extends AppCompatActivity {
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent set = new Intent(getApplicationContext(),ControlActivity.class);
+                Intent set = new Intent(getApplicationContext(), SettingActivity.class);
                 set.putExtra("index",index);
                 startActivityForResult(set,REQUEST_CODE_CONTROL);
             }

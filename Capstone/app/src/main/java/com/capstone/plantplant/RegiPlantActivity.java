@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -79,6 +80,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     DatePickerDialog calender;
 
     ImageView reg_plant_image;
+    ImageButton btn_regi_img;
 
     Spinner spinner_pot,spinner_soil;
 
@@ -182,7 +184,8 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
 
         //식물의 사진을 입력받는 버튼
         reg_plant_image = findViewById(R.id.reg_plant_image);
-        reg_plant_image.setOnClickListener(new View.OnClickListener() {
+        btn_regi_img = findViewById(R.id.btn_regi_img);
+        btn_regi_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent img = new Intent(getApplicationContext(),StorageActivity.class);

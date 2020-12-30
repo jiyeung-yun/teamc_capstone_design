@@ -3,7 +3,10 @@ package com.capstone.plantplant.model;
 public class ItemList {
     private int index;
     private String name;
-    private String date;
+    private String path;
+    private String filename;
+
+
 
     public int getIndex() {
         return index;
@@ -21,22 +24,19 @@ public class ItemList {
         this.name = name;
     }
 
-    public String getDate() {
-        return date;
+    public String getPath() {
+        return path;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-    /*
-    private String soid;
-
-    public String getSoid() {
-        return soid;
+    public void setPath(String date) {
+        this.path = date;
     }
 
-    public void setSoid(String soid) {
-        this.soid = soid;
+    public String getFilename() {
+        return filename;
     }
-    */
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 }

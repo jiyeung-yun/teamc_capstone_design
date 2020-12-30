@@ -84,7 +84,7 @@ public class ListActivity extends AppCompatActivity {
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         if(uri!=null){
 
-            String[] colums = {"_index","kind","date"};
+            String[] colums = {"_index","kind","image","path"};
             Cursor cursor = getContentResolver().query(uri,colums,null,null,null);
 
             int count =  cursor.getCount();
@@ -99,9 +99,12 @@ public class ListActivity extends AppCompatActivity {
                     String kind = cursor.getString(cursor.getColumnIndex(colums[1]));
                     item.setName(kind);
 
-                    //식물 날짜
-                    String date =  cursor.getString(cursor.getColumnIndex(colums[2]));
-                    item.setDate(date);
+
+                    String filename =  cursor.getString(cursor.getColumnIndex(colums[2]));
+                    item.setFilename(filename);
+
+                    String path =  cursor.getString(cursor.getColumnIndex(colums[3]));
+                    item.setPath(path);
 
                     adapter.addItem(item);
 

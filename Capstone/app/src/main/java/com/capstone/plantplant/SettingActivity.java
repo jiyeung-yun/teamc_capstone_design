@@ -45,7 +45,7 @@ import static com.capstone.plantplant.ListActivity.LIST_URI;
 import static com.capstone.plantplant.ListActivity.plantList;
 
 
-public class ControlActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     Toolbar toolbar_control;
 
     private String mDeviceName;
@@ -126,7 +126,7 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_control);
+        setContentView(R.layout.activity_setting);
 
         /*액션바 => 툴바로 적용*/
         toolbar_control = findViewById(R.id.toolbar_control);

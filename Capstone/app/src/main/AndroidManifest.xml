@@ -62,7 +62,7 @@
         <activity android:name="com.capstone.plantplant.ItemActivity"/>
 
         <!-- 급수 컨트롤 액티비티 -->
-        <activity android:name="com.capstone.plantplant.ControlActivity"
+        <activity android:name="com.capstone.plantplant.SettingActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             android:configChanges="screenSize|orientation"/>
 

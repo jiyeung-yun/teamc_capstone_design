@@ -140,8 +140,8 @@ public class DeviceScanActivity extends ListActivity {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         if (device == null) return;
         final Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(ControlActivity.EXTRAS_DEVICE_NAME, device.getName());
-        intent.putExtra(ControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+        intent.putExtra(SettingActivity.EXTRAS_DEVICE_NAME, device.getName());
+        intent.putExtra(SettingActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
 
         Log.d("디바이스 이름 :", device.getName());
         Log.d("디바이스 주소 :", device.getAddress());

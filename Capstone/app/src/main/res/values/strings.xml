@@ -2,8 +2,8 @@
     <string name="app_name">꽃부기</string>
     <string name="plant">식물</string>
     <string name="soil">토양</string>
-    <string name="register">START</string>
-    <string name="setting">SETTING</string>
+    <string name="register">등록</string>
+    <string name="save">저장</string>
 
     <string name="pot">화분</string>
     <string name="state">상태</string>

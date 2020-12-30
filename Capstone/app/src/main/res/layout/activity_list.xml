@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlockBackground"
+    android:background="#F5F8EE"
     android:orientation="vertical">
 
 
@@ -92,7 +92,7 @@
         android:layout_height="56dip"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/side_padding"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorAccentDark"
         android:clickable="true"
         android:tint="@android:color/white"
         app:srcCompat="@drawable/ic_add_24px" />

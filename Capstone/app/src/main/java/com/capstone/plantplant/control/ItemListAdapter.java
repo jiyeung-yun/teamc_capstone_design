@@ -1,8 +1,11 @@
 package com.capstone.plantplant.control;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.plantplant.R;
 import com.capstone.plantplant.model.ItemList;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> implements OnAdapterItemClickListener{
@@ -57,13 +63,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txt_listitem_name,txt_listitem_date;
+        TextView txt_listitem_name;
+        ImageView img_listitem;
 
         public ViewHolder(View itemView, final OnAdapterItemClickListener listener) {
             super(itemView);
             txt_listitem_name = itemView.findViewById(R.id.txt_listitem_name);
-            txt_listitem_date = itemView.findViewById(R.id.txt_listitem_date);
 
+            img_listitem = itemView.findViewById(R.id.img_listitem);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,7 +83,21 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         }
         public void setItem(final ItemList item) {
             txt_listitem_name.setText(item.getName());
-            txt_listitem_date.setText(item.getDate());
+
+            String path = item.getPath();
+            String filename = item.getFilename();
+
+            if(filename!=null && path!=null){
+                try {
+                    File file=new File(path, filename);
+                    Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                    img_listitem.setImageBitmap(bitmap);
+                    img_listitem.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                }
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

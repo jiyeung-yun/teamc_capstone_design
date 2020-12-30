@@ -7,7 +7,7 @@
     <dimen name="editbox_padding">10dp</dimen>
 
     <dimen name="sub_title_font_size">12sp</dimen>
-    <dimen name="activity_title_font_size">17sp</dimen>
+    <dimen name="activity_title_font_size">18sp</dimen>
     <dimen name="block_content_font_size">15sp</dimen>
     <dimen name="block_accent_font_size">16sp</dimen>
 
@@ -17,4 +17,5 @@
     <dimen name="divide_line_size">1dp</dimen>
     <dimen name="list_item_height">100dp</dimen>
 
+    <dimen name="list_item_img_size">45dp</dimen>
 </resources>

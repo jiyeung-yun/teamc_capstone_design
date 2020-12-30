@@ -3,8 +3,6 @@ package com.capstone.plantplant;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,18 +22,7 @@ import com.capstone.plantplant.db.PlantDBAdapter;
 import com.capstone.plantplant.model.Plant;
 
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static com.capstone.plantplant.ListActivity.plantList;
 
@@ -62,7 +49,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         window.setStatusBarColor(Color.TRANSPARENT);
         /*상단 작업표시줄 투명하게 만드는 코드*/
 
-        setContentView(R.layout.activity_search_plant);
+        setContentView(R.layout.activity_searchplant);
 
         //닫기 버튼
         btn_info_close3 = findViewById(R.id.btn_info_close3);
