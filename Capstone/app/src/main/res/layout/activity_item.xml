@@ -55,6 +55,7 @@
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
                     android:layout_gravity="center"
+                    app:cardBackgroundColor="#CCFFFFFF"
                     app:cardCornerRadius="@dimen/block_edge"
                     app:cardElevation="2dp"
                     app:cardPreventCornerOverlap="false"
@@ -65,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="식물 사진 보이는 곳"
-                        android:textColor="@color/colorDeviderLine"
+                        android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/block_content_font_size" />
 
                     <ImageView
@@ -73,6 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:clickable="true"
                         android:cropToPadding="true"
                         android:scaleType="center"
                         app:srcCompat="@null" />
@@ -90,20 +92,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="종류 보이는 곳"
+                        android:hint="종류 보이는 곳"
                         android:textColor="@color/colorTitleFont"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/main_regi_date"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:gravity="top"
-                        android:hint="2020-00-00"
+                        android:hint="날짜 보이는 곳"
                         android:textColor="@color/colorTitleFont"
-                        android:textColorHint="@color/colorVectorIcon"
                         android:textSize="@dimen/block_accent_font_size"
                         android:textStyle="bold"
                         app:layout_gravity="right|center_vertical|end" />
@@ -114,9 +114,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="top"
-                        android:hint="토양의 종류"
+                        android:hint="토양 종류 보이는 곳"
                         android:textColor="@color/colorTitleFont"
-                        android:textColorHint="@color/colorVectorIcon"
                         android:textSize="@dimen/block_accent_font_size"
                         android:textStyle="bold"
                         app:layout_gravity="right|center_vertical|end" />
@@ -182,7 +181,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="상태 정보"
+                            android:text="상태"
                             android:textColor="@color/colorTitleFont"
                             android:textSize="@dimen/activity_title_font_size"
                             android:textStyle="bold" />
@@ -194,7 +193,7 @@
                         android:layout_marginLeft="@dimen/block_title_padding"
                         android:layout_marginBottom="@dimen/editbox_padding"
                         android:layout_weight="1"
-                        android:text="현재 식물의 상태 정보를 확인하실 수 있습니다."
+                        android:text="현재 식물의 상태 정보를 확인하실 수 있습니다"
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
 
@@ -208,8 +207,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#80E4F7BA"
+                            app:cardBackgroundColor="@color/colorStateBackground"
                             app:cardCornerRadius="@dimen/block_edge"
+                            app:cardElevation="1dp"
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
@@ -262,8 +262,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#80E4F7BA"
+                            app:cardBackgroundColor="@color/colorStateBackground"
                             app:cardCornerRadius="@dimen/block_edge"
+                            app:cardElevation="1dp"
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
@@ -316,8 +317,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#80E4F7BA"
+                            app:cardBackgroundColor="@color/colorStateBackground"
                             app:cardCornerRadius="@dimen/block_edge"
+                            app:cardElevation="1dp"
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
@@ -420,7 +422,7 @@
                         android:layout_marginLeft="@dimen/block_title_padding"
                         android:layout_marginBottom="@dimen/editbox_padding"
                         android:layout_weight="1"
-                        android:text="다음 급수 정보는 [설정]에서 변경할 수 있습니다"
+                        android:text="가장 최근 급수 정보를 확인하실 수 있습니다"
                         android:textColor="@color/colorSubTitleFont"
                         android:textSize="@dimen/sub_title_font_size" />
 
@@ -527,17 +529,6 @@
                         android:layout_marginLeft="@dimen/block_title_padding"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/block_title_padding"
-                            android:layout_weight="1"
-                            android:drawableTint="@color/colorVectorIcon"
-                            android:gravity="center_vertical"
-                            android:text="@string/title_supply_prev"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_content_font_size" />
-
                         <LinearLayout
                             android:id="@+id/view_prev_watering"
                             android:layout_width="match_parent"
@@ -562,18 +553,11 @@
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="@dimen/block_title_padding"
-                                    app:srcCompat="@drawable/ic_today_24px"
-                                    app:tint="@color/colorVectorIcon" />
-
                                 <TextView
                                     android:id="@+id/txt_prev_date"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="2020-00-00"
+                                    android:hint="날짜보이는 곳"
                                     android:textColor="@color/colorTitleFont"
                                     android:textSize="@dimen/block_accent_font_size"
                                     android:textStyle="bold" />
