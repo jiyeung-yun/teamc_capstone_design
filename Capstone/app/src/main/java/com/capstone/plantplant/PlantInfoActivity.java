@@ -209,7 +209,6 @@ public class PlantInfoActivity extends AppCompatActivity {
     //데이터베이스에 저장된 토양 관련 데이터 전부 List에 저장
     List<Soil> soils;
 
-
     private void initLoadDB() {
         SoilDBAdapter mDbHelper = new SoilDBAdapter(getApplicationContext());
         mDbHelper.createDatabase();
@@ -247,9 +246,7 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     }
 
-
-
-
+    
     //식물 종류에 따른 종류를 api에서 응답받아 로드
     private void LoadPlantInformation(final int plant_idx){
         new Thread(new Runnable() {
