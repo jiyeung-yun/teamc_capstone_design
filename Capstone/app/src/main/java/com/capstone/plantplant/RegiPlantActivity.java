@@ -39,10 +39,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.capstone.plantplant.model.Plant;
 import com.capstone.plantplant.util.BluetoothLeService;
 import com.capstone.plantplant.util.SampleGattAttributes;
 
@@ -82,14 +84,13 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     ImageView reg_plant_image;
     ImageButton btn_regi_img;
 
-    Spinner spinner_pot,spinner_soil;
+    Spinner spinner_soil;
 
     ToggleButton btn_connect;
     Button btn_regi;
 
-    int plant_idx;
-    String plant_img; //사진 파일 이름
-    String path; //사진 파일 경로
+    Plant plant;
+    String plant_img, path; //사진 파일 경로
 
 
     private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
@@ -241,6 +242,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
         //식물 아이템 등록 버튼
         btn_regi = findViewById(R.id.btn_regi);
         btn_regi.setOnClickListener(this);
+        checkConnectState(true);
 
     }
     //모듈과의 연결이 확인되면 등록버튼 활성화
@@ -261,7 +263,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
 
         switch (requestCode){
             case REQUEST_IMAGE:{
-
 
                 if(resultCode==RESULT_OK){
 
@@ -294,15 +295,18 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             case REQUEST_PLANT_KIND:{
 
                 if(resultCode==RESULT_OK){
-                    String  result_kind = data.getStringExtra("result_kind");
-                    txt_kindplant.setText(result_kind);
+                    plant = new Plant();
+
+                    plant.setCntntsNo(data.getStringExtra("result_kind_num"));
+                    plant.setCntntsSj(data.getStringExtra("result_kind_name"));
+
+                    txt_kindplant.setText(plant.getCntntsSj());
                 }
                 break;
             }
 
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -314,6 +318,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             isPermission = true;
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void callPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -461,108 +466,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-
-    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
-    //태그 확인
-    boolean familyKorNm = false;
-    boolean plantPilbkNo = false;
-    void getEncyclopediaNum(String str){
-        try {
-            Log.d("RegiPlantActivity","검색어  => "+str);
-
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrSearch");
-            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
-            urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 3 : 국문명일치)
-            urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
-            int numOfRows = 1;
-            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
-
-            int pageNo = 1;
-            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
-
-            URL url = new URL(urlBuilder.toString());
-            Log.d("RegiPlantActivity","URI 주소 => "+url);
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-type", "application/json");
-
-
-            BufferedReader rd;
-            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else {
-                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            }
-
-            try{
-                XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-                XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-                xmlPullParser.setInput(rd);
-
-                int eventType = xmlPullParser.getEventType();
-
-                while (eventType != XmlPullParser.END_DOCUMENT){
-
-
-                    switch (eventType){
-                        case XmlPullParser.START_DOCUMENT:{
-                            Log.d("RegiPlantActivity","API 파싱 => 시작");
-
-                            break;
-                        }
-                        case XmlPullParser.START_TAG:{
-                            String string = xmlPullParser.getName();
-                            if(string.equals("item")){
-                                Log.d("RegiPlantActivity","<item>");
-                            }
-                            if(string.equals("familyKorNm")){
-                                familyKorNm = true;
-                            }
-                            if(string.equals("plantPilbkNo")){
-                                plantPilbkNo = true;
-                            }
-                            break;
-                        }
-                        case XmlPullParser.TEXT:{
-                            if(familyKorNm){
-                                String s = xmlPullParser.getText();
-                                Log.d("RegiPlantActivity","국문명 => "+s);
-                                familyKorNm = false;
-                            }
-                            if(plantPilbkNo){
-                                String s = xmlPullParser.getText();
-                                Log.d("RegiPlantActivity","도감 번호 => "+s);
-
-                                plant_idx= Integer.parseInt(s);
-                                plantPilbkNo = false;
-                            }
-                            break;
-                        }
-                        case XmlPullParser.END_TAG:{
-                            break;
-                        }
-                    }
-
-                    eventType = xmlPullParser.next();
-
-                }
-            }catch (XmlPullParserException e){
-                Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
-            }
-
-
-            rd.close();
-            conn.disconnect();
-            Log.d("RegiPlantActivity","API 파싱 => 끝");
-
-
-        } catch (Exception e) {
-            Log.d("RegiPlantActivity","API 파싱 실패=> "+ e.getMessage());
-        }
-
-    }
-
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btn_regi){
@@ -573,21 +476,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                 return;
             }
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    getEncyclopediaNum(plant_kind);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // TODO Auto-generated method stub
-                        }
-                    });
-
-                }
-            }).start();
-
             //토양의 종류
             spinner_soil = findViewById(R.id.spinner_soil);
             final int soil_kind = spinner_soil.getSelectedItemPosition();
@@ -595,46 +483,31 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             //등록버튼 클릭 당시 날짜를 받아서 저장함
             final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Uri uri = new Uri.Builder().build().parse(LIST_URI);
-                    if(uri!=null) {
-                        ContentValues values = new ContentValues();
-                        values.put("kind", plant_kind);
-                        values.put("date", reg_date);
-                        values.put("soil", soil_kind);
-                        values.put("num", plant_idx);
-                        String last_date = txt_lastwaterdate.getText().toString();
-                        values.put("lastdate", last_date);
+            Uri uri = new Uri.Builder().build().parse(LIST_URI);
+            if(uri!=null) {
+                ContentValues values = new ContentValues();
+                values.put("kind", plant.getCntntsSj());
+                values.put("date", reg_date);
+                values.put("soil", soil_kind);
+                int num = Integer.parseInt(plant.getCntntsNo());
+                values.put("num", num);
+                String last_date = txt_lastwaterdate.getText().toString();
+                values.put("lastdate", last_date);
+                //values.put("humidity", humid);
+                //values.put("period", period);
 
-                        for(int i =0 ;i< plantList.size();i++){
-                            if(plantList.get(i).getPname().equals(plant_kind)) {
-                                int humid = plantList.get(i).getPwater();
-                                values.put("humidity", humid);
-                                int period = plantList.get(i).getPtime();
-                                values.put("period", period);
-                                break;
-                            }
-                        }
-
-
-                        if(plant_img!=null && path!=null){
-                            values.put("image", plant_img);
-                            values.put("path", path);
-                        }
-
-                        uri = getContentResolver().insert(uri,values);
-                        Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
-                    }
-
-                    setResult(RESULT_OK);
-                    Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
-                    finish();
-
+                if(plant_img!=null && path!=null){
+                    values.put("image", plant_img);
+                    values.put("path", path);
                 }
-            },800);
 
+                uri = getContentResolver().insert(uri,values);
+                Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
+            }
+
+            setResult(RESULT_OK);
+            Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 

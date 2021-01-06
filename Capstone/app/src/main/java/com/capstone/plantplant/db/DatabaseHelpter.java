@@ -23,7 +23,7 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
     public static final String PLANT_DATE= "date"; //등록 날짜
     public static final String PLANT_SOIL = "soil"; //토양 종류
     public static final String PLANT_LAST_DATE = "lastdate"; //마지막으로 급수한 날짜
-    public static final String PLANT_NUM = "num"; //식물의 도감 번호
+    public static final String PLANT_NUM = "num"; //식물의 컨텐츠 번호
     public static final String PLANT_IMAGE = "image"; //식물 사진 파일명
     public static final String PLANT_IMAGE_PATH = "path"; //식물 사진 저장 경로
 

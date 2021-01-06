@@ -2,7 +2,10 @@ package com.capstone.plantplant;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,12 +22,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.control.KindSearchAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
-import com.capstone.plantplant.db.PlantDBAdapter;
 import com.capstone.plantplant.model.Plant;
 
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import static com.capstone.plantplant.ListActivity.APIKEY;
 import static com.capstone.plantplant.ListActivity.plantList;
 
 
@@ -39,6 +52,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ProgressBar progressBar_plant;
     FrameLayout fy_progressBar;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +82,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         search_kind.onActionViewExpanded();
         search_kind.setOnQueryTextListener(this);
 
-        //데이터 베이스 내 식물 정보 로드
-        initLoadDB();
-
 
         //검색된 식물의 결과를 보여주는 리스트
         ry_search_list=findViewById(R.id.ry_search_list);
@@ -82,9 +93,9 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 if(position<items.size()){
-                    String result = items.get(position).getPname();
                     Intent intent = new Intent(getApplicationContext(),RegiPlantActivity.class);
-                    intent.putExtra("result_kind",result);
+                    intent.putExtra("result_kind_num",items.get(position).getCntntsNo());
+                    intent.putExtra("result_kind_name",items.get(position).getCntntsSj());
                     setResult(RESULT_OK,intent);
                     loadingPrograss(false);
                     finish();
@@ -110,7 +121,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         }
         progressBar_plant.setIndeterminate(load);
     }
-
+    int pageNo = 0;
     @Override
     public boolean onQueryTextSubmit(final String query) {
         loadingPrograss(true);
@@ -120,7 +131,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             kindSearchAdapter.clear();
         }
 
-        /*
+
         pageNo = 1;
         totalPageCount = 0;
 
@@ -139,62 +150,45 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
             }
         }).start();
-        */
 
-        for(int i=0;i<plantList.size();i++){
-            Plant plant = plantList.get(i);
-            if(plant.getPname().contains(query)){
-                items.add(plant);
-            }
-        }
-
-        //데이터베이스 내 식물 종류와 비교한 후 어뎁터에 아이템 추가
-        ry_search_list.post(new Runnable() {
-            @Override
-            public void run() {
+        while(true){
+            if(isfinish){
                 ry_search_list.getAdapter().notifyDataSetChanged();
                 loadingPrograss(false);
+                break;
             }
-        });
-
+        }
         return false;
     }
-    private void initLoadDB() {
-        PlantDBAdapter mDbHelper = new PlantDBAdapter(getApplicationContext());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
 
-        plantList = mDbHelper.getTableData();
+    boolean isfinish = false;
 
-        // DB 닫기
-        mDbHelper.close();
-    }
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
     }
 
-     /*
-    final String ServiceKey = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D"; //인증키
 
-    //한 페이지에 아이템 갯수
-    int numOfRows = 100;
    //검색어 관련 전체 폐이지갯수
     int totalPageCount = 0;
 
     //태그 확인
-    boolean systemkorname = false;
-    boolean totalcount = false;
+    boolean cntntsNo = false;
+    boolean cntntsSj = false;
     void getXmlData(String str,int pageNo){
         try {
             Log.d("SearchPlantActivity","검색어  => "+str);
 
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/KpniService/systemSearch");
-            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+ServiceKey); //공공데이터포털에서 받은 인증키
-            urlBuilder.append("&" + URLEncoder.encode("st","UTF-8") + "=" + 1); //검색어 구분 (st = 1 : 분류군국문명)
-            urlBuilder.append("&" + URLEncoder.encode("sw","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8")); // 검색어
-            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + numOfRows); // 한 페이지 결과 수
+            StringBuilder urlBuilder = new StringBuilder("http://api.nongsaro.go.kr/service/garden/gardenList");
+            urlBuilder.append("?" + URLEncoder.encode("apiKey","UTF-8") + "="+APIKEY); //공공데이터포털에서 받은 인증키
+
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + pageNo); //페이지 번호
+
+            urlBuilder.append("&" + URLEncoder.encode("sType","UTF-8") + "=" + URLEncoder.encode("sCntntsSj","UTF-8"));
+            urlBuilder.append("&" + URLEncoder.encode("sText","UTF-8") + "=" + URLEncoder.encode(str, "UTF-8"));
+            urlBuilder.append("&" + URLEncoder.encode("wordType","UTF-8") + "=" + URLEncoder.encode("cntntsSj", "UTF-8"));
+
+
 
             URL url = new URL(urlBuilder.toString());
             Log.d("SearchPlantActivity","URI 주소 =>"+url);
@@ -220,7 +214,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 int eventType = xmlPullParser.getEventType();
 
                 while (eventType != XmlPullParser.END_DOCUMENT){
-
                     switch (eventType){
                         case XmlPullParser.START_DOCUMENT:{
                             Log.d("SearchPlantActivity","API 파싱 => 성공");
@@ -231,28 +224,31 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                             if(string.equals("item")){
                                 Log.d("API DATA PARSING","--------------------<item>--------------------");
                             }
-                            if(string.equals("systemkorname")){
-                                systemkorname = true;
+                            if(string.equals("cntntsNo")){
+                                cntntsNo = true;
                             }
-                            if(string.equals("totalCount")){
-                                totalcount = true;
+                            if(string.equals("cntntsSj")){
+                                cntntsSj = true;
                             }
                             break;
                         }
                         case XmlPullParser.TEXT:{
-                            if(systemkorname){
-                                String s = xmlPullParser.getText();
-                                items.add(s);
-                                Log.d("SearchPlantActivity","국문명 => "+s);
-                                systemkorname = false;
+                            Plant p = new Plant();
+
+                            if(cntntsNo){
+                                String s1 = xmlPullParser.getText();
+                                p.setCntntsNo(s1);
+                                Log.d("SearchPlantActivity","시리얼넘버 => "+s1);
+                                cntntsNo = false;
                             }
-                            if(totalcount){
-                                String s = xmlPullParser.getText();
-                                Log.d("SearchPlantActivity","전체 아이템 갯수 => "+s);
-                                //전체 카운트
-                                int totalCount = Integer.parseInt(s);
-                                totalPageCount = totalCount/numOfRows;
-                                totalcount = false;
+                            if(cntntsSj){
+                                String s2 = xmlPullParser.getText();
+                                p.setCntntsSj(s2);
+
+                                Log.d("SearchPlantActivity","이름 => "+s2);
+                                cntntsSj = false;
+
+                                items.add(p);
                             }
                             break;
                         }
@@ -268,7 +264,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
                 }
 
-
             }catch (XmlPullParserException e){
                 Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
             }
@@ -277,14 +272,11 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             rd.close();
             conn.disconnect();
 
-
         } catch (Exception e) {
             Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
 
         }
-
+        isfinish = true;
     }
 
-    int pageNo = 0;
-*/
 }

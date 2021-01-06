@@ -264,13 +264,7 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         editText_waterhumidity = findViewById(R.id.editText_waterhumidity);
-        for(int i =0 ;i< plantList.size();i++){
-           if(plantList.get(i).getPname().equals(kind)) {
-               int humid = plantList.get(i).getPwater();
-               editText_waterhumidity.setText(Integer.toString(humid));
-               break;
-           }
-        }
+
 
 
         editText_waterhumidity.addTextChangedListener(new TextWatcher() {

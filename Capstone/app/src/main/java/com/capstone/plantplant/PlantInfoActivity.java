@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.plantplant.model.Soil;
@@ -38,6 +40,7 @@ import java.util.List;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
+import static com.capstone.plantplant.ListActivity.APIKEY;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class PlantInfoActivity extends AppCompatActivity {
@@ -87,6 +90,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         txt_plantinfo_type.setMovementMethod(new ScrollingMovementMethod());
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,20 +270,16 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     }
 
-
-
-    //공공데이터포털에서 받은 인증키
-    final String SERVICE_KEY = "Xzd9L81I4P%2F%2FI6OaxEbY9FmvA5KUOJDEsk82pe396jZY0MfLk0IQn1BYbpv1JYnxu4kZ7pRf38PjCqsaOd2DwQ%3D%3D";
-
     boolean brdMthdDesc = false,farmSpftDesc = false,grwEvrntDesc=false,smlrPlntDesc = false,useMthdDesc = false;
 
     void getPlantInformation(final int q1){
         try {
-            Log.d("PlantInfoActivity","검색할 도감번호 => "+q1);
+            Log.d("PlantInfoActivity","검색할 컨텐츠 번호 => "+q1);
 
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.nature.go.kr/openapi/service/rest/PlantService/plntIlstrInfo");
-            urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+SERVICE_KEY);
-            urlBuilder.append("&" + URLEncoder.encode("q1","UTF-8")+"="+ q1);
+            StringBuilder urlBuilder = new StringBuilder("http://api.nongsaro.go.kr/service/garden/gardenDtl");
+            urlBuilder.append("?" + URLEncoder.encode("apiKey","UTF-8") + "="+APIKEY); //공공데이터포털에서 받은 인증키
+            urlBuilder.append("&" + URLEncoder.encode("cntntsNo","UTF-8") + "=" + q1);
+
 
             URL url = new URL(urlBuilder.toString());
             Log.d("PlantInfoActivity","URI 주소 =>"+url);

@@ -1,49 +1,24 @@
 package com.capstone.plantplant.model;
 
 public class Plant {
-    private int PID;
-    private String Pname;
-    private String Pexp;
-    private int Pwater;
-    private int Ptime;
+    //식물 명
+    private String cntntsSj;
+    //컨텐츠 번호
+    private String cntntsNo;
 
-    public int getPID() {
-        return PID;
+    public String getCntntsSj() {
+        return cntntsSj;
     }
 
-    public void setPID(int PID) {
-        this.PID = PID;
+    public void setCntntsSj(String cntntsSj) {
+        this.cntntsSj = cntntsSj;
     }
 
-    public String getPname() {
-        return Pname;
+    public String getCntntsNo() {
+        return cntntsNo;
     }
 
-    public void setPname(String pname) {
-        Pname = pname;
-    }
-
-    public String getPexp() {
-        return Pexp;
-    }
-
-    public void setPexp(String pexp) {
-        Pexp = pexp;
-    }
-
-    public int getPwater() {
-        return Pwater;
-    }
-
-    public void setPwater(int pwater) {
-        Pwater = pwater;
-    }
-
-    public int getPtime() {
-        return Ptime;
-    }
-
-    public void setPtime(int ptime) {
-        Ptime = ptime;
+    public void setCntntsNo(String cntntsNo) {
+        this.cntntsNo = cntntsNo;
     }
 }

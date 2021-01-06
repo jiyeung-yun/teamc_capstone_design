@@ -9,7 +9,7 @@
     <color name="colorAccent">#86C0F2</color>
     <color name="colorAccentDark">#6989B2</color>
 
-    <color name="colorBlockBackground">#FFFFFF</color>
+    <color name="colorBlockBackground">#FFFDFFFA</color>
     <color name="colorSoil">#825821</color>
     <color name="colorVectorIcon">#666666</color>
     <color name="colorDeviderLine">#F3F3F3</color>

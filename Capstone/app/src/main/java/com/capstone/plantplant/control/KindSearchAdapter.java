@@ -78,7 +78,7 @@ public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.Vi
             });
         }
         public void setItem(final Plant item) {
-            txt_kind_string.setText(item.getPname());
+            txt_kind_string.setText(item.getCntntsSj());
 
         }
     }

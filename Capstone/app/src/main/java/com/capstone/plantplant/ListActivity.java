@@ -21,6 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
+    static final String APIKEY = "20201230U305ZJZS6YJFNRMABTDW"; //인증키
+
     public static final String LIST_URI = "content://com.capstone.plantplant/list";
     private final int REGI_PLANT_REQUEST_CODE = 2011;
 
@@ -41,9 +43,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_list);
-
 
         //식물리스트에 식물아이템을 추가하는 버튼
         btn_add_item = findViewById(R.id.btn_add_item);
