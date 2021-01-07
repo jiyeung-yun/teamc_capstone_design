@@ -43,6 +43,7 @@ import java.util.UUID;
 
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 import static com.capstone.plantplant.ListActivity.plantList;
+import static com.capstone.plantplant.db.ListDBHelper.ALL_COLUMS;
 
 
 public class SettingActivity extends AppCompatActivity {
@@ -76,7 +77,6 @@ public class SettingActivity extends AppCompatActivity {
     int index;
 
     Uri uri = new Uri.Builder().build().parse(LIST_URI);
-    String[] colums = {"kind","soil"};
 
     String kind;
 
@@ -292,31 +292,15 @@ public class SettingActivity extends AppCompatActivity {
         index = intent.getIntExtra("index",0);
 
         //DB에서 아이템 식물 정보를 불러옴
-        Cursor cursor = getContentResolver().query(uri,colums,"_index="+index,null,null);
+        Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
         while(cursor.moveToNext()) {
             //식물 종류
-            kind = cursor.getString(cursor.getColumnIndex(colums[0]));
+            kind = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[1]));
 
             //토양 종류
             spinner_control_soil = findViewById(R.id.spinner_control_soil);
-            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(colums[1]));
+            int soil_kind_pos = cursor.getInt(cursor.getColumnIndex(ALL_COLUMS[3]));
             spinner_control_soil.setSelection(soil_kind_pos);
-
-
-            int humidity = cursor.getInt(cursor.getColumnIndex(colums[2]));
-            editText_waterhumidity.setText(Integer.toString(humidity));
-
-            int time = cursor.getInt(cursor.getColumnIndex(colums[3]));
-            if(time>12){
-                cont_spinner_time.setSelection(1);
-                editText_watertime.setText(Integer.toString(time-12));
-            }else{
-                cont_spinner_time.setSelection(0);
-                editText_watertime.setText(Integer.toString(time));
-            }
-
-            int date = cursor.getInt(cursor.getColumnIndex(colums[4]));
-            editText_waterdate.setText(Integer.toString(date));
         }
 
         //입력한 정보 저장

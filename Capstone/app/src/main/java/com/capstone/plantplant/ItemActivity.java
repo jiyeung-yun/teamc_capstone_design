@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static com.capstone.plantplant.db.DatabaseHelpter.ALL_COLUMS;
+import static com.capstone.plantplant.db.ListDBHelper.ALL_COLUMS;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
 
 public class ItemActivity extends AppCompatActivity {
@@ -127,7 +127,7 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent info = new Intent(getApplicationContext(),PlantInfoActivity.class);
-                info.putExtra("plant_kind",plant_kind);
+                info.putExtra("index",index);
                 info.putExtra("soil_kind",soil_kind);
                 startActivity(info);
             }
@@ -143,7 +143,6 @@ public class ItemActivity extends AppCompatActivity {
                 startActivityForResult(set,REQUEST_CODE_CONTROL);
             }
         });
-
 
     }
 

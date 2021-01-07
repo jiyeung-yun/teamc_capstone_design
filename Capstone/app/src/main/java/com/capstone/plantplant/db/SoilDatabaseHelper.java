@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SoilDatabaseHelpter extends SQLiteOpenHelper {
+public class SoilDatabaseHelper extends SQLiteOpenHelper {
     public static final String SOIL_DATABASE_NAME = "Soil.db";
 
     public final String DB_PATH;
@@ -22,7 +22,7 @@ public class SoilDatabaseHelpter extends SQLiteOpenHelper {
     public Context hcontext;
     private SQLiteDatabase mDataBase;
 
-    public SoilDatabaseHelpter(Context context){
+    public SoilDatabaseHelper(Context context){
         super(context,SOIL_DATABASE_NAME,null,1);
         DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
 

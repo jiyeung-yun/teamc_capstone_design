@@ -12,9 +12,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.capstone.plantplant.db.DatabaseHelpter;
-
-public class DBProvider extends ContentProvider {
+public class ListDBProvider extends ContentProvider {
     private static final String AUTHORITY ="com.capstone.plantplant";
     private static final String LIST_PATH = "list";
     public static final Uri CONTENT_URI = Uri.parse("content://"+AUTHORITY+"/"+LIST_PATH);
@@ -31,7 +29,7 @@ public class DBProvider extends ContentProvider {
     private SQLiteDatabase db;
     @Override
     public boolean onCreate() {
-        DatabaseHelpter helpter = new DatabaseHelpter(getContext());
+        ListDBHelper helpter = new ListDBHelper(getContext());
         db = helpter.getWritableDatabase();
 
         return true;
@@ -43,7 +41,7 @@ public class DBProvider extends ContentProvider {
         Cursor cursor;
         switch (uriMatcher.match(uri)){
             case LIST:
-                cursor = db.query(DatabaseHelpter.TABLE_NAME,DatabaseHelpter.ALL_COLUMS,selection,selectionArgs,null,null,null);
+                cursor = db.query(ListDBHelper.TABLE_NAME, ListDBHelper.ALL_COLUMS,selection,selectionArgs,null,null,null);
                 break;
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);
@@ -69,7 +67,7 @@ public class DBProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         switch (uriMatcher.match(uri)){
             case LIST:
-                long id = db.insert(DatabaseHelpter.TABLE_NAME,null,values);
+                long id = db.insert(ListDBHelper.TABLE_NAME,null,values);
                 if(id>0){
                     Uri _uri = ContentUris.withAppendedId(CONTENT_URI,id);
                     getContext().getContentResolver().notifyChange(_uri,null);
@@ -87,7 +85,7 @@ public class DBProvider extends ContentProvider {
         int count = 0;
         switch (uriMatcher.match(uri)){
             case LIST:
-                count = db.delete(DatabaseHelpter.TABLE_NAME,selection,selectionArgs);
+                count = db.delete(ListDBHelper.TABLE_NAME,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);
@@ -103,7 +101,7 @@ public class DBProvider extends ContentProvider {
         int count = 0;
         switch (uriMatcher.match(uri)){
             case LIST:
-                count = db.update(DatabaseHelpter.TABLE_NAME,values,selection,selectionArgs);
+                count = db.update(ListDBHelper.TABLE_NAME,values,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("알 수 없는 경로 : "+uri);

@@ -18,11 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.capstone.plantplant.model.PInfo;
 import com.capstone.plantplant.model.Soil;
 import com.capstone.plantplant.db.SoilDBAdapter;
 
@@ -42,8 +44,11 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 import static com.capstone.plantplant.ListActivity.APIKEY;
 import static com.capstone.plantplant.ListActivity.LIST_URI;
+import static com.capstone.plantplant.db.ListDBHelper.ALL_COLUMS;
 
 public class PlantInfoActivity extends AppCompatActivity {
+    private final String TAG ="PlantInfoActivity";
+
     ImageButton btn_info_close;
 
     SegmentedGroup btn_info_title;
@@ -51,43 +56,44 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     TextView txt_plantinfo_kind,txt_plantinfo_soil;
 
-    TextView txt_brdMthdDesc,txt_farmSpftDesc,txt_grwEvrntDesc
-                            ,txt_smlrPlntDesc,txt_useMthdDesc;
+    TextView txt_fmlCodeNm, txt_orgplceInfo, txt_managedemanddo, txt_prpgtEraInfo, txt_grwhTp,
+            txt_hdCode, txt_adviseInfo, txt_frtlzrInfo, txt_fncltyInfo;
+
+    LinearLayout ly_fmlCodeNm, ly_orgplceInfo, ly_managedemanddo, ly_prpgtEraInfo, ly_grwhTp,
+            ly_hdCode, ly_adviseInfo, ly_frtlzrInfo, ly_fncltyInfo;
     TextView txt_soil_produce,txt_soil_usage,txt_soil_feature,txt_plantinfo_type;
 
-    String plant_kind , soil_kind;
+    int index;
+    String plant_kind,soil_kind;
 
     Spinner spinner_select_soil;
 
+    PInfo pInfo = new PInfo();
+
     //레이아웃 데이터 초기화
     private void InitfindViewByID(){
-        txt_brdMthdDesc = findViewById(R.id.txt_brdMthdDesc);
-        txt_brdMthdDesc.setMovementMethod(new ScrollingMovementMethod());
+        ly_fmlCodeNm = findViewById(R.id.ly_fmlCodeNm);
+        ly_orgplceInfo = findViewById(R.id.ly_orgplceInfo);
+        ly_managedemanddo = findViewById(R.id.ly_managedemanddo);
+        ly_prpgtEraInfo = findViewById(R.id.ly_prpgtEraInfo);
+        ly_grwhTp = findViewById(R.id.ly_grwhTp);
+        ly_hdCode = findViewById(R.id.ly_hdCode);
+        ly_frtlzrInfo = findViewById(R.id.ly_frtlzrInfo);
+        ly_fncltyInfo = findViewById(R.id.ly_fncltyInfo);
 
-        txt_farmSpftDesc = findViewById(R.id.txt_farmSpftDesc);
-        txt_farmSpftDesc.setMovementMethod(new ScrollingMovementMethod());
-
-        txt_grwEvrntDesc = findViewById(R.id.txt_grwEvrntDesc);
-        txt_grwEvrntDesc.setMovementMethod(new ScrollingMovementMethod());
-
-        txt_smlrPlntDesc = findViewById(R.id.txt_smlrPlntDesc);
-        txt_smlrPlntDesc.setMovementMethod(new ScrollingMovementMethod());
-
-        txt_useMthdDesc = findViewById(R.id.txt_useMthdDesc);
-        txt_useMthdDesc.setMovementMethod(new ScrollingMovementMethod());
-
+        txt_fmlCodeNm = findViewById(R.id.txt_fmlCodeNm);
+        txt_orgplceInfo = findViewById(R.id.txt_orgplceInfo);
+        txt_managedemanddo = findViewById(R.id.txt_managedemanddo);
+        txt_prpgtEraInfo = findViewById(R.id.txt_prpgtEraInfo);
+        txt_grwhTp = findViewById(R.id.txt_grwhTp);
+        txt_hdCode = findViewById(R.id.txt_hdCode);
+        txt_frtlzrInfo = findViewById(R.id.txt_frtlzrInfo);
+        txt_fncltyInfo = findViewById(R.id.txt_fncltyInfo);
 
         txt_soil_produce = findViewById(R.id.txt_soil_produce);
-        txt_soil_produce.setMovementMethod(new ScrollingMovementMethod());
-
         txt_soil_usage = findViewById(R.id.txt_soil_usage);
-        txt_soil_usage.setMovementMethod(new ScrollingMovementMethod());
-
         txt_soil_feature = findViewById(R.id.txt_soil_feature);
-        txt_soil_feature.setMovementMethod(new ScrollingMovementMethod());
-
         txt_plantinfo_type = findViewById(R.id.txt_plantinfo_type);
-        txt_plantinfo_type.setMovementMethod(new ScrollingMovementMethod());
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -140,20 +146,37 @@ public class PlantInfoActivity extends AppCompatActivity {
         btn_info_title.check(R.id.btn_plant_info);
 
         Intent intent = getIntent();
-        plant_kind = intent.getStringExtra("plant_kind");
-
+        index = intent.getIntExtra("index",0);
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         if(uri!=null){
-            String[] colums = {"num"};
-            Cursor cursor = getContentResolver().query(uri,colums,"kind='"+plant_kind+"'",null,null);
+            Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
             int count =  cursor.getCount();
             if(count > 0){
                 while(cursor.moveToNext()){
+                    plant_kind = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[1]));
                     //도감번호
-                    int plant_idx = cursor.getInt(cursor.getColumnIndex(colums[0]));
+                    final String plant_idx = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[5]));
+                    if(plant_idx==null){
+                        Toast.makeText(getApplicationContext(),"식물 정보를 불러오던 중 오류가 발생하였습니다.",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else {
+                        //API 통신을 통해 식물에 대한 정보를 받아 제공
+                        new Thread(new Runnable() {
 
-                    //API 통신을 통해 식물에 대한 정보를 받아 제공
-                    LoadPlantInformation(plant_idx);
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                getPlantInformation(plant_idx);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // TODO Auto-generated method stub
+                                    }
+                                });
+
+                            }
+                        }).start();
+                    }
                 }
             }
             cursor.close();
@@ -203,8 +226,77 @@ public class PlantInfoActivity extends AppCompatActivity {
 
         }
 
+        while(true){
+            if(isokapi){
+                String fml = pInfo.getFmlCodeNm();
+                if(fml != null && !fml.equals(" ") || !fml.equals("")){
+                    ly_fmlCodeNm.setVisibility(View.VISIBLE);
+                    txt_fmlCodeNm.setText(fml);
+                }else {
+                    ly_fmlCodeNm.setVisibility(View.GONE);
+                }
+
+                String org = pInfo.getOrgplceInfo();
+                if(org != null && !org.equals(" ") || !org.equals("")){
+                    ly_orgplceInfo.setVisibility(View.VISIBLE);
+                    txt_orgplceInfo.setText(org);
+                }else {
+                    ly_orgplceInfo.setVisibility(View.GONE);
+                }
+
+                String prp = pInfo.getPrpgtEraInfo();
+                if(prp != null && !prp.equals(" ") || !prp.equals("")){
+                    ly_prpgtEraInfo.setVisibility(View.VISIBLE);
+                    txt_prpgtEraInfo.setText(prp);
+                }else {
+                    ly_prpgtEraInfo.setVisibility(View.GONE);
+                }
+
+                String grw = pInfo.getGrwhTp();
+                if(grw != null && !grw.equals(" ") || !grw.equals("")){
+                    ly_grwhTp.setVisibility(View.VISIBLE);
+                    txt_grwhTp.setText(grw);
+                }else {
+                    ly_grwhTp.setVisibility(View.GONE);
+                }
+
+                String hdc = pInfo.getHdCode();
+                if(hdc != null && !hdc.equals(" ") || !hdc.equals("")){
+                    ly_hdCode.setVisibility(View.VISIBLE);
+                    txt_hdCode.setText(hdc);
+                }else {
+                    ly_hdCode.setVisibility(View.GONE);
+                }
+
+                String frt = pInfo.getFrtlzrInfo();
+                if(frt != null && !frt.equals(" ") || !frt.equals("")){
+                    ly_frtlzrInfo.setVisibility(View.VISIBLE);
+                    txt_frtlzrInfo.setText(frt);
+                }else {
+                    ly_frtlzrInfo.setVisibility(View.GONE);
+                }
+
+                String fnc = pInfo.getFncltyInfo();
+                if(fnc != null && !fnc.equals(" ") || !fnc.equals("")){
+                    ly_fncltyInfo.setVisibility(View.VISIBLE);
+                    txt_fncltyInfo.setText(fnc);
+                }else {
+                    ly_fncltyInfo.setVisibility(View.GONE);
+                }
+
+                String manag = pInfo.getManagedemanddo();
+                if(manag != null && !manag.equals(" ") || !manag.equals("")){
+                    ly_managedemanddo.setVisibility(View.VISIBLE);
+                    txt_managedemanddo.setText(manag);
+                }else {
+                    ly_managedemanddo.setVisibility(View.GONE);
+                }
+                break;
+            }
+        }
 
     }
+    boolean isokapi = false;
 
     //데이터베이스에 저장된 토양 관련 데이터 전부 List에 저장
     List<Soil> soils;
@@ -219,9 +311,6 @@ public class PlantInfoActivity extends AppCompatActivity {
         // DB 닫기
         mDbHelper.close();
     }
-
-
-
 
     //토양 정보 DB에서 로드
     private void LoadSoilInformation(String soild_name){
@@ -246,40 +335,20 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     }
 
-    
-    //식물 종류에 따른 종류를 api에서 응답받아 로드
-    private void LoadPlantInformation(final int plant_idx){
-        new Thread(new Runnable() {
+    boolean fmlCodeNm = false,orgplceInfo = false,prpgtEraInfo = false,grwhTpCodeNm = false,
+            hdCodeNm = false,frtlzrInfo = false,fncltyInfo = false,managedemanddoCodeNm = false;
 
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                getPlantInformation(plant_idx);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                    }
-                });
-
-            }
-        }).start();
-
-    }
-
-    boolean brdMthdDesc = false,farmSpftDesc = false,grwEvrntDesc=false,smlrPlntDesc = false,useMthdDesc = false;
-
-    void getPlantInformation(final int q1){
+    void getPlantInformation(final String q1){
         try {
             Log.d("PlantInfoActivity","검색할 컨텐츠 번호 => "+q1);
 
             StringBuilder urlBuilder = new StringBuilder("http://api.nongsaro.go.kr/service/garden/gardenDtl");
             urlBuilder.append("?" + URLEncoder.encode("apiKey","UTF-8") + "="+APIKEY); //공공데이터포털에서 받은 인증키
-            urlBuilder.append("&" + URLEncoder.encode("cntntsNo","UTF-8") + "=" + q1);
+            urlBuilder.append("&" + URLEncoder.encode("cntntsNo","UTF-8") + "=" + URLEncoder.encode(q1,"UTF-8"));
 
 
             URL url = new URL(urlBuilder.toString());
-            Log.d("PlantInfoActivity","URI 주소 =>"+url);
+            Log.d(TAG,"URI 주소 ====>"+url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
@@ -306,133 +375,119 @@ public class PlantInfoActivity extends AppCompatActivity {
 
 
                         case XmlPullParser.START_DOCUMENT:{
-                            Log.d("PlantInfoActivity","API 파싱 => 시작");
+                            Log.d("PlantInfoActivity","API 파싱 ===> 시작");
                             break;
                         }
 
 
                         case XmlPullParser.START_TAG:{
                             String string = xmlPullParser.getName();
-                            //번식방법
-                            if(string.equals("brdMthdDesc")){
-                                brdMthdDesc = true;
+                            if(string.equals("fmlCodeNm")){
+                                fmlCodeNm = true;
                             }
-                            //재배특성
-                            else if(string.equals("farmSpftDesc")){
-                                farmSpftDesc = true;
+                            else if(string.equals("orgplceInfo")){
+                                orgplceInfo = true;
                             }
-                            //생육환경설명
-                            else if(string.equals("grwEvrntDesc")){
-                                grwEvrntDesc = true;
+                            else if(string.equals("prpgtEraInfo")){
+                                prpgtEraInfo = true;
                             }
-                            //유사식물설명
-                            else if(string.equals("smlrPlntDesc")){
-                                smlrPlntDesc = true;
+                            else if(string.equals("grwhTpCodeNm")){
+                                grwhTpCodeNm = true;
                             }
-                            //사용법
-                            else if(string.equals("useMthdDesc")){
-                                useMthdDesc = true;
+                            else if(string.equals("hdCodeNm")){
+                                hdCodeNm = true;
+                            }
+                            else if(string.equals("frtlzrInfo")){
+                                frtlzrInfo = true;
+                            }
+                            else if(string.equals("fncltyInfo")){
+                                fncltyInfo = true;
+                            }
+                            else if(string.equals("managedemanddoCodeNm")){
+                                managedemanddoCodeNm = true;
                             }
                             break;
                         }
-
 
                         case XmlPullParser.TEXT:{
-                            //번식방법
-                            if(brdMthdDesc){
+                            if(fmlCodeNm){
                                 String s = xmlPullParser.getText();
-                                Log.d("PlantInfoActivity","번식방법 => "+s );
-                                if(!s.equals(" ")){
-                                    String st = txt_brdMthdDesc.getText().toString()+s;
-                                    txt_brdMthdDesc.setText(st);
-                                }
-                            }
-                            //재배특성
-                            else if(farmSpftDesc){
-                                String s = xmlPullParser.getText();
-                                Log.d("PlantInfoActivity","재배특성 => "+s );
-                                if(!s.equals(" ")){
-                                    String st = txt_farmSpftDesc.getText().toString()+s;
-                                    txt_farmSpftDesc.setText(st);
-                                }
-                            }
-                            //생육환경설명
-                            else if(grwEvrntDesc){
-                                String s = xmlPullParser.getText();
-                                if(!s.equals(" ")){
-                                    String st = txt_grwEvrntDesc.getText().toString()+s;
-                                    txt_grwEvrntDesc.setText(st);
-                                }
-                            }
-                            //유사식물설명
-                            else if(smlrPlntDesc){
-                                String s = xmlPullParser.getText();
-                                Log.d("PlantInfoActivity","유사식물설명 => "+s );
-                                if(!s.equals(" ")){
-                                    String st = txt_smlrPlntDesc.getText().toString()+s;
-                                    txt_smlrPlntDesc.setText(st);
-                                }
-                            }
-                            //사용법
-                            else if(useMthdDesc){
-                                String s = xmlPullParser.getText();
-                                Log.d("PlantInfoActivity","사용법 => "+s );
-                                if(!s.equals(" ")){
-                                    String st = txt_useMthdDesc.getText().toString()+s;
-                                    txt_useMthdDesc.setText(st);
-                                }
-                            }
-                            break;
-                        }
+                                Log.d(TAG,"과 코드명 => "+s );
+                                pInfo.setFmlCodeNm(s);
+                                fmlCodeNm = false;
 
+                            }
+                            else if(orgplceInfo){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"원산지 정보 => "+s );
+                                pInfo.setOrgplceInfo(s);
+                                orgplceInfo = false;
 
-                        case XmlPullParser.END_TAG:{
-                            String string = xmlPullParser.getName();
-                            //번식방법
-                            if(string.equals("brdMthdDesc")){
-                                brdMthdDesc = false;
                             }
-                            //재배특성
-                            else if(string.equals("farmSpftDesc")){
-                                farmSpftDesc = false;
+                            else if(prpgtEraInfo){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"번식 시기 정보 => "+s );
+                                pInfo.setPrpgtEraInfo(s);
+                                prpgtEraInfo = false;
+
                             }
-                            //생육환경설명
-                            else if(string.equals("grwEvrntDesc")){
-                                grwEvrntDesc = false;
+                            else if(grwhTpCodeNm){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"생육 온도 코드명 => "+s );
+                                pInfo.setGrwhTp(s);
+                                grwhTpCodeNm = false;
+
                             }
-                            //유사식물설명
-                            else if(string.equals("smlrPlntDesc")){
-                                smlrPlntDesc = false;
+                            else if(hdCodeNm){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"습도 코드명 => "+s );
+                                pInfo.setHdCode(s);
+                                hdCodeNm = false;
+
                             }
-                            //사용법
-                            else if(string.equals("useMthdDesc")){
-                                useMthdDesc = false;
+                            else if(frtlzrInfo){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"비료 정보 => "+s );
+                                pInfo.setFrtlzrInfo(s);
+                                frtlzrInfo = false;
+
+                            }
+                            else if(fncltyInfo){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"기능성 정보보 =>"+s );
+                                pInfo.setFncltyInfo(s);
+                                fncltyInfo = false;
+
+                            }
+                            else if(managedemanddoCodeNm){
+                                String s = xmlPullParser.getText();
+                                Log.d(TAG,"관리요구도 코드명 => "+s );
+                                pInfo.setManagedemanddo(s);
+                                managedemanddoCodeNm = false;
+
                             }
                             break;
                         }
                     }
-
-
                     eventType = xmlPullParser.next();
-
 
                 }
 
             }catch (XmlPullParserException e){
-                Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
+                Log.d(TAG,"API 파싱 실패 ===> "+ e.getMessage());
             }
 
 
             rd.close();
             conn.disconnect();
 
-            Log.d("PlantInfoActivity","API 파싱 => 끝");
+            Log.d(TAG,"API 파싱 ===> 끝");
 
 
         } catch (Exception e) {
-            Log.d("PlantInfoActivity","API 파싱 실패=> "+ e.getMessage());
+            Log.d(TAG,"API 파싱 실패 ===> "+ e.getMessage());
         }
-
+        isokapi = true;
     }
 
 }

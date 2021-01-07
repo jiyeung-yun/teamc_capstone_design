@@ -6,6 +6,16 @@ public class Plant {
     //컨텐츠 번호
     private String cntntsNo;
 
+    private String hdCode;
+
+    public String getHdCode() {
+        return hdCode;
+    }
+
+    public void setHdCode(String hdCode) {
+        this.hdCode = hdCode;
+    }
+
     public String getCntntsSj() {
         return cntntsSj;
     }

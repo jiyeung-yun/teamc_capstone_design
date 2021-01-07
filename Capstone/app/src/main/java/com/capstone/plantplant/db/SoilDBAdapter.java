@@ -19,11 +19,11 @@ public class SoilDBAdapter {
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private SoilDatabaseHelpter mDbHelper;
+    private SoilDatabaseHelper mDbHelper;
 
     public SoilDBAdapter(Context context) {
         this.mContext = context;
-        mDbHelper = new SoilDatabaseHelpter(mContext);
+        mDbHelper = new SoilDatabaseHelper(mContext);
     }
 
     public SoilDBAdapter createDatabase() throws SQLException {

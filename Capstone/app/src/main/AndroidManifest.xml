@@ -95,7 +95,7 @@
         <!--데이터베이스 관련 내용 제공자 -->
         <provider
             android:authorities="com.capstone.plantplant"
-            android:name=".db.DBProvider"
+            android:name=".db.ListDBProvider"
             android:exported="true"
             android:readPermission="com.capstone.plantplant.READ_DATABASE"
             android:writePermission="com.capstone.plantplant.WRITE_DATABASE" />

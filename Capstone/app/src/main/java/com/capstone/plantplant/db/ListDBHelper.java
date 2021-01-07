@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class DatabaseHelpter extends SQLiteOpenHelper {
+public class ListDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "list.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -34,12 +34,12 @@ public class DatabaseHelpter extends SQLiteOpenHelper {
             +PLANT_DATE+" TEXT,"
             +PLANT_SOIL+" INTEGER,"
             +PLANT_LAST_DATE+" TEXT,"
-            +PLANT_NUM+" INTEGER,"
+            +PLANT_NUM+" TEXT,"
             +PLANT_IMAGE+" TEXT,"
             +PLANT_IMAGE_PATH+" TEXT"
             + ")";
 
-    public DatabaseHelpter(Context context){
+    public ListDBHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 

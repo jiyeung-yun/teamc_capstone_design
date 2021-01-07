@@ -18,5 +18,5 @@
     <color name="colorTitleFont">#555555</color>
     <color name="colorButtonFont">#FFFFFF</color>
 
-    <color name="colorStateBackground">#4DD6E6F0</color>
+    <color name="colorStateBackground">#FFF8FCFF</color>
 </resources>

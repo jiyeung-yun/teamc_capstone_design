@@ -52,6 +52,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ProgressBar progressBar_plant;
     FrameLayout fy_progressBar;
 
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,8 +95,9 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 if(position<items.size()){
                     Intent intent = new Intent(getApplicationContext(),RegiPlantActivity.class);
-                    intent.putExtra("result_kind_num",items.get(position).getCntntsNo());
-                    intent.putExtra("result_kind_name",items.get(position).getCntntsSj());
+                    Plant p = items.get(position);
+                    intent.putExtra("result_kind_num",p.getCntntsNo());
+                    intent.putExtra("result_kind_name",p.getCntntsSj());
                     setResult(RESULT_OK,intent);
                     loadingPrograss(false);
                     finish();
@@ -172,6 +174,8 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
    //검색어 관련 전체 폐이지갯수
     int totalPageCount = 0;
 
+    Plant p;
+
     //태그 확인
     boolean cntntsNo = false;
     boolean cntntsSj = false;
@@ -233,10 +237,9 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                             break;
                         }
                         case XmlPullParser.TEXT:{
-                            Plant p = new Plant();
-
                             if(cntntsNo){
                                 String s1 = xmlPullParser.getText();
+                                p = new Plant();
                                 p.setCntntsNo(s1);
                                 Log.d("SearchPlantActivity","시리얼넘버 => "+s1);
                                 cntntsNo = false;
@@ -247,13 +250,12 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
 
                                 Log.d("SearchPlantActivity","이름 => "+s2);
                                 cntntsSj = false;
-
-                                items.add(p);
                             }
                             break;
                         }
                         case XmlPullParser.END_TAG:{
                             if(xmlPullParser.getName().equals("item")){
+                                items.add(p);
                             }
                             break;
                         }

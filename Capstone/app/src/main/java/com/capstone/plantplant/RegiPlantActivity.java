@@ -74,6 +74,8 @@ import static com.capstone.plantplant.ListActivity.LIST_URI;
 import static com.capstone.plantplant.ListActivity.plantList;
 
 public class RegiPlantActivity extends AppCompatActivity implements View.OnClickListener{
+    private final String TAG ="RegiPlantActivity_State";
+
     private static final int REQUEST_IMAGE = 1011;
     private static final int REQUEST_PLANT_KIND = 1012;
     Toolbar toolbar_regiplant;
@@ -132,6 +134,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,15 +270,15 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                 if(resultCode==RESULT_OK){
 
                     plant_img = data.getStringExtra("filename");
-                    Log.d("RegiPlantActivity","filename is "+plant_img);
+                    Log.d(TAG,"filename is "+plant_img);
 
                     path = data.getStringExtra("path");
-                    Log.d("RegiPlantActivity","file path is "+path);
+                    Log.d(TAG,"file path is "+path);
 
                     try {
                         File file=new File(path, plant_img);
                         Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
-                        Log.d("RegiPlantActivity","filename load complete");
+                        Log.d(TAG,"filename load complete");
 
                         reg_plant_image.setImageBitmap(bitmap);
                         reg_plant_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -290,17 +293,17 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             }
-
-
             case REQUEST_PLANT_KIND:{
 
                 if(resultCode==RESULT_OK){
                     plant = new Plant();
 
-                    plant.setCntntsNo(data.getStringExtra("result_kind_num"));
-                    plant.setCntntsSj(data.getStringExtra("result_kind_name"));
+                    String num = data.getStringExtra("result_kind_num");
+                    plant.setCntntsNo(num);
+                    String sj = data.getStringExtra("result_kind_name");
+                    plant.setCntntsSj(sj);
 
-                    txt_kindplant.setText(plant.getCntntsSj());
+                    txt_kindplant.setText(sj);
                 }
                 break;
             }
@@ -489,8 +492,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                 values.put("kind", plant.getCntntsSj());
                 values.put("date", reg_date);
                 values.put("soil", soil_kind);
-                int num = Integer.parseInt(plant.getCntntsNo());
-                values.put("num", num);
+                values.put("num", plant.getCntntsNo());
                 String last_date = txt_lastwaterdate.getText().toString();
                 values.put("lastdate", last_date);
                 //values.put("humidity", humid);
