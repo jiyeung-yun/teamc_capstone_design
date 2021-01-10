@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 
 public class DeviceScanActivity extends ListActivity {
-
+/*
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
@@ -266,5 +266,5 @@ public class DeviceScanActivity extends ListActivity {
         TextView deviceName;
         TextView deviceAddress;
     }
-
+*/
 }

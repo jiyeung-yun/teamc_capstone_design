@@ -175,7 +175,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/block_title_padding"
                             app:srcCompat="@drawable/ic_local_florist_24px"
-                            app:tint="@color/colorPrimaryDark" />
+                            app:tint="@color/colorPrimaryDark"
+                            tools:ignore="VectorDrawableCompat" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -191,7 +192,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/block_title_padding"
-                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_marginBottom="@dimen/edittext_inside_padding"
                         android:layout_weight="1"
                         android:text="현재 식물의 상태 정보를 확인하실 수 있습니다"
                         android:textColor="@color/colorSubTitleFont"
@@ -219,7 +220,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:padding="@dimen/editbox_padding">
+                                android:padding="@dimen/edittext_inside_padding">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -275,7 +276,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:padding="@dimen/editbox_padding">
+                                android:padding="@dimen/edittext_inside_padding">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -331,7 +332,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:padding="@dimen/editbox_padding">
+                                android:padding="@dimen/edittext_inside_padding">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -423,7 +424,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/block_title_padding"
-                        android:layout_marginBottom="@dimen/editbox_padding"
+                        android:layout_marginBottom="@dimen/edittext_inside_padding"
                         android:layout_weight="1"
                         android:text="가장 최근 급수 정보를 확인하실 수 있습니다"
                         android:textColor="@color/colorSubTitleFont"
@@ -538,7 +539,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@drawable/blank_background"
-                            android:padding="@dimen/editbox_padding">
+                            android:padding="@dimen/edittext_inside_padding">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -579,7 +580,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:gravity="center"
-                android:padding="@dimen/editbox_padding"
+                android:padding="@dimen/edittext_inside_padding"
                 android:text="꽃부기\n부경대학교 it융합응용공학과"
                 android:textColor="@color/colorSubTitleFont"
                 android:textSize="@dimen/block_content_font_size" />

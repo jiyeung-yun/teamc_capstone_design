@@ -64,6 +64,7 @@
         <!-- 급수 컨트롤 액티비티 -->
         <activity android:name="com.capstone.plantplant.SettingActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
+            android:theme="@style/PopUpActivityTheme"
             android:configChanges="screenSize|orientation"/>
 
         <!-- 식물정보를 보여주는 액티비티 -->

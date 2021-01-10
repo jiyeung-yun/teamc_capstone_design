@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
@@ -89,7 +90,7 @@
                         android:background="@drawable/blank_dot_background"
                         android:clickable="true"
                         android:hint="식물의 종류를 입력해주세요"
-                        android:padding="@dimen/editbox_padding"
+                        android:padding="@dimen/edittext_inside_padding"
                         android:textSize="@dimen/block_accent_font_size" />
 
                 </LinearLayout>
@@ -155,7 +156,7 @@
                             android:layout_gravity="center"
                             android:background="@drawable/blank_background"
                             android:clickable="false"
-                            android:padding="@dimen/editbox_padding"
+                            android:padding="@dimen/edittext_inside_padding"
                             android:scaleType="fitCenter"
                             app:srcCompat="@null" />
 
@@ -167,7 +168,8 @@
                             android:background="@null"
                             android:scaleType="fitCenter"
                             android:tint="@color/colorSubTitleFont"
-                            app:srcCompat="@drawable/ic_add_to_photos_24px" />
+                            app:srcCompat="@drawable/ic_add_to_photos_24px"
+                            tools:ignore="VectorDrawableCompat" />
                     </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
@@ -227,7 +229,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_background"
                         android:entries="@array/soil_array"
-                        android:padding="@dimen/editbox_padding"
+                        android:padding="@dimen/edittext_inside_padding"
                         android:spinnerMode="dialog" />
                 </LinearLayout>
 
@@ -273,7 +275,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_background"
                         android:entries="@array/pot_array"
-                        android:padding="@dimen/editbox_padding"
+                        android:padding="@dimen/edittext_inside_padding"
                         android:spinnerMode="dialog" />
                 </LinearLayout>
 
@@ -320,7 +322,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/blank_dot_background"
                         android:clickable="true"
-                        android:padding="@dimen/editbox_padding"
+                        android:padding="@dimen/edittext_inside_padding"
                         android:textSize="@dimen/block_accent_font_size" />
                 </LinearLayout>
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +19,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.plantplant.control.KindSearchAdapter;
+import com.capstone.plantplant.control.SearchPlantAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
 import com.capstone.plantplant.model.Plant;
 
@@ -37,7 +36,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.capstone.plantplant.ListActivity.APIKEY;
-import static com.capstone.plantplant.ListActivity.plantList;
 
 
 public class SearchPlantActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -48,7 +46,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ArrayList<Plant> items = new ArrayList<>();
 
     RecyclerView ry_search_list;
-    KindSearchAdapter kindSearchAdapter;
+    SearchPlantAdapter searchPlantAdapter;
     ProgressBar progressBar_plant;
     FrameLayout fy_progressBar;
 
@@ -89,8 +87,8 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         ry_search_list.setLayoutManager(layoutManager);
 
-        kindSearchAdapter = new KindSearchAdapter(items);
-        kindSearchAdapter.setOnItemClickListener(new OnAdapterItemClickListener() {
+        searchPlantAdapter = new SearchPlantAdapter(items);
+        searchPlantAdapter.setOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 if(position<items.size()){
@@ -104,7 +102,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 }
             }
         });
-        ry_search_list.setAdapter(kindSearchAdapter);
+        ry_search_list.setAdapter(searchPlantAdapter);
 
         //프로그래스 바 초기화
         fy_progressBar = findViewById(R.id.fy_progressBar);
@@ -128,11 +126,10 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     public boolean onQueryTextSubmit(final String query) {
         loadingPrograss(true);
 
-        if(kindSearchAdapter!=null){
+        if(searchPlantAdapter !=null){
             items.clear();
-            kindSearchAdapter.clear();
+            searchPlantAdapter.clear();
         }
-
 
         pageNo = 1;
         totalPageCount = 0;
@@ -147,23 +144,16 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
+                        ry_search_list.getAdapter().notifyDataSetChanged();
+                        loadingPrograss(false);
                     }
                 });
 
             }
         }).start();
-
-        while(true){
-            if(isfinish){
-                ry_search_list.getAdapter().notifyDataSetChanged();
-                loadingPrograss(false);
-                break;
-            }
-        }
         return false;
     }
 
-    boolean isfinish = false;
 
     @Override
     public boolean onQueryTextChange(String newText) {
@@ -270,15 +260,14 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
             }
 
-
             rd.close();
             conn.disconnect();
+            Log.d("SearchPlantActivity","API 파싱 성공 ");
 
         } catch (Exception e) {
             Log.d("SearchPlantActivity","API 파싱 실패=> "+ e.getMessage());
-
         }
-        isfinish = true;
+
     }
 
 }

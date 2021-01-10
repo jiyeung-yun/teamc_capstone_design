@@ -68,7 +68,7 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     Spinner spinner_select_soil;
 
-    PInfo pInfo = new PInfo();
+    PInfo pInfo;
 
     //레이아웃 데이터 초기화
     private void InitfindViewByID(){
@@ -105,9 +105,9 @@ public class PlantInfoActivity extends AppCompatActivity {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
-        /*상단 작업표시줄 투명하게 만드는 코드*/
 
         setContentView(R.layout.activtiy_plantinfo);
+
         //레이아웃 데이터 초기화
         InitfindViewByID();
         //데이터베이스 초기화
@@ -144,11 +144,11 @@ public class PlantInfoActivity extends AppCompatActivity {
             }
         });
         btn_info_title.check(R.id.btn_plant_info);
-
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         if(uri!=null){
+            pInfo = new PInfo();
             Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
             int count =  cursor.getCount();
             if(count > 0){
@@ -158,7 +158,6 @@ public class PlantInfoActivity extends AppCompatActivity {
                     final String plant_idx = cursor.getString(cursor.getColumnIndex(ALL_COLUMS[5]));
                     if(plant_idx==null){
                         Toast.makeText(getApplicationContext(),"식물 정보를 불러오던 중 오류가 발생하였습니다.",Toast.LENGTH_SHORT).show();
-                        finish();
                     }else {
                         //API 통신을 통해 식물에 대한 정보를 받아 제공
                         new Thread(new Runnable() {
@@ -171,6 +170,69 @@ public class PlantInfoActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         // TODO Auto-generated method stub
+                                        String fml = pInfo.getFmlCodeNm();
+                                        if(fml != null && !fml.equals(" ") || !fml.equals("")){
+                                            ly_fmlCodeNm.setVisibility(View.VISIBLE);
+                                            txt_fmlCodeNm.setText(fml);
+                                        }else {
+                                            ly_fmlCodeNm.setVisibility(View.GONE);
+                                        }
+
+                                        String org = pInfo.getOrgplceInfo();
+                                        if(org != null && !org.equals(" ") || !org.equals("")){
+                                            ly_orgplceInfo.setVisibility(View.VISIBLE);
+                                            txt_orgplceInfo.setText(org);
+                                        }else {
+                                            ly_orgplceInfo.setVisibility(View.GONE);
+                                        }
+
+                                        String prp = pInfo.getPrpgtEraInfo();
+                                        if(prp != null && !prp.equals(" ") || !prp.equals("")){
+                                            ly_prpgtEraInfo.setVisibility(View.VISIBLE);
+                                            txt_prpgtEraInfo.setText(prp);
+                                        }else {
+                                            ly_prpgtEraInfo.setVisibility(View.GONE);
+                                        }
+
+                                        String grw = pInfo.getGrwhTp();
+                                        if(grw != null && !grw.equals(" ") || !grw.equals("")){
+                                            ly_grwhTp.setVisibility(View.VISIBLE);
+                                            txt_grwhTp.setText(grw);
+                                        }else {
+                                            ly_grwhTp.setVisibility(View.GONE);
+                                        }
+
+                                        String hdc = pInfo.getHdCode();
+                                        if(hdc != null && !hdc.equals(" ") || !hdc.equals("")){
+                                            ly_hdCode.setVisibility(View.VISIBLE);
+                                            txt_hdCode.setText(hdc);
+                                        }else {
+                                            ly_hdCode.setVisibility(View.GONE);
+                                        }
+
+                                        String frt = pInfo.getFrtlzrInfo();
+                                        if(frt != null && !frt.equals(" ") || !frt.equals("")){
+                                            ly_frtlzrInfo.setVisibility(View.VISIBLE);
+                                            txt_frtlzrInfo.setText(frt);
+                                        }else {
+                                            ly_frtlzrInfo.setVisibility(View.GONE);
+                                        }
+
+                                        String fnc = pInfo.getFncltyInfo();
+                                        if(fnc != null && !fnc.equals(" ") || !fnc.equals("")){
+                                            ly_fncltyInfo.setVisibility(View.VISIBLE);
+                                            txt_fncltyInfo.setText(fnc);
+                                        }else {
+                                            ly_fncltyInfo.setVisibility(View.GONE);
+                                        }
+
+                                        String manag = pInfo.getManagedemanddo();
+                                        if(manag != null && !manag.equals(" ") || !manag.equals("")){
+                                            ly_managedemanddo.setVisibility(View.VISIBLE);
+                                            txt_managedemanddo.setText(manag);
+                                        }else {
+                                            ly_managedemanddo.setVisibility(View.GONE);
+                                        }
                                     }
                                 });
 
@@ -180,6 +242,8 @@ public class PlantInfoActivity extends AppCompatActivity {
                 }
             }
             cursor.close();
+        }else {
+            Toast.makeText(getApplicationContext(),"식물 정보를 불러오던 중 오류가 발생하였습니다.",Toast.LENGTH_SHORT).show();
         }
 
         txt_plantinfo_kind = findViewById(R.id.txt_plantinfo_kind);
@@ -219,84 +283,12 @@ public class PlantInfoActivity extends AppCompatActivity {
 
             spinner_select_soil.setVisibility(View.VISIBLE);
         }else {
-
             spinner_select_soil.setVisibility(View.GONE);
             //토양 정보를 DB에서 불러서 제공
             LoadSoilInformation(soil_kind);
 
         }
-
-        while(true){
-            if(isokapi){
-                String fml = pInfo.getFmlCodeNm();
-                if(fml != null && !fml.equals(" ") || !fml.equals("")){
-                    ly_fmlCodeNm.setVisibility(View.VISIBLE);
-                    txt_fmlCodeNm.setText(fml);
-                }else {
-                    ly_fmlCodeNm.setVisibility(View.GONE);
-                }
-
-                String org = pInfo.getOrgplceInfo();
-                if(org != null && !org.equals(" ") || !org.equals("")){
-                    ly_orgplceInfo.setVisibility(View.VISIBLE);
-                    txt_orgplceInfo.setText(org);
-                }else {
-                    ly_orgplceInfo.setVisibility(View.GONE);
-                }
-
-                String prp = pInfo.getPrpgtEraInfo();
-                if(prp != null && !prp.equals(" ") || !prp.equals("")){
-                    ly_prpgtEraInfo.setVisibility(View.VISIBLE);
-                    txt_prpgtEraInfo.setText(prp);
-                }else {
-                    ly_prpgtEraInfo.setVisibility(View.GONE);
-                }
-
-                String grw = pInfo.getGrwhTp();
-                if(grw != null && !grw.equals(" ") || !grw.equals("")){
-                    ly_grwhTp.setVisibility(View.VISIBLE);
-                    txt_grwhTp.setText(grw);
-                }else {
-                    ly_grwhTp.setVisibility(View.GONE);
-                }
-
-                String hdc = pInfo.getHdCode();
-                if(hdc != null && !hdc.equals(" ") || !hdc.equals("")){
-                    ly_hdCode.setVisibility(View.VISIBLE);
-                    txt_hdCode.setText(hdc);
-                }else {
-                    ly_hdCode.setVisibility(View.GONE);
-                }
-
-                String frt = pInfo.getFrtlzrInfo();
-                if(frt != null && !frt.equals(" ") || !frt.equals("")){
-                    ly_frtlzrInfo.setVisibility(View.VISIBLE);
-                    txt_frtlzrInfo.setText(frt);
-                }else {
-                    ly_frtlzrInfo.setVisibility(View.GONE);
-                }
-
-                String fnc = pInfo.getFncltyInfo();
-                if(fnc != null && !fnc.equals(" ") || !fnc.equals("")){
-                    ly_fncltyInfo.setVisibility(View.VISIBLE);
-                    txt_fncltyInfo.setText(fnc);
-                }else {
-                    ly_fncltyInfo.setVisibility(View.GONE);
-                }
-
-                String manag = pInfo.getManagedemanddo();
-                if(manag != null && !manag.equals(" ") || !manag.equals("")){
-                    ly_managedemanddo.setVisibility(View.VISIBLE);
-                    txt_managedemanddo.setText(manag);
-                }else {
-                    ly_managedemanddo.setVisibility(View.GONE);
-                }
-                break;
-            }
-        }
-
     }
-    boolean isokapi = false;
 
     //데이터베이스에 저장된 토양 관련 데이터 전부 List에 저장
     List<Soil> soils;
@@ -477,7 +469,6 @@ public class PlantInfoActivity extends AppCompatActivity {
                 Log.d(TAG,"API 파싱 실패 ===> "+ e.getMessage());
             }
 
-
             rd.close();
             conn.disconnect();
 
@@ -487,7 +478,6 @@ public class PlantInfoActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.d(TAG,"API 파싱 실패 ===> "+ e.getMessage());
         }
-        isokapi = true;
     }
 
 }

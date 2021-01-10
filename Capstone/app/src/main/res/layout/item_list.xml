@@ -29,7 +29,7 @@
             android:id="@+id/txt_listitem_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/block_title_padding"
+            android:layout_marginLeft="@dimen/edittext_inside_padding"
             android:layout_weight="1"
             android:textColor="@color/colorTitleFont"
             android:textSize="@dimen/activity_title_font_size"

@@ -95,44 +95,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
     String plant_img, path; //사진 파일 경로
 
 
-    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
-    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
-    private boolean isAccessFineLocation = false;
-    private boolean isAccessCoarseLocation = false;
-
-    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
-    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    private String mDeviceName;
-    private String mDeviceAddress;
-    private BluetoothLeService mBluetoothLeService;
-    private boolean mConnected = false;
-    private BluetoothGattCharacteristic characteristicTX;
-    private BluetoothGattCharacteristic characteristicRX;
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
-    private boolean isPermission = false;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d("커넥 상태", "Connect request result=" + result);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -140,7 +102,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiplant);
 
-        callPermission();
+        /*callPermission();
 
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
@@ -149,8 +111,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
             Log.d("디바이스 이름 : ", mDeviceName);
             Log.d("디바이스  addr  : ", mDeviceAddress);
         }
-
-        /*
         openBtn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View view) {
                 if (sendmsg.equals("3")) {
@@ -310,6 +270,97 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
 
         }
     }
+
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.btn_regi){
+
+            final String plant_kind = txt_kindplant.getText().toString();
+            if(plant_kind.length()<1){
+                Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //토양의 종류
+            spinner_soil = findViewById(R.id.spinner_soil);
+            final int soil_kind = spinner_soil.getSelectedItemPosition();
+
+            //등록버튼 클릭 당시 날짜를 받아서 저장함
+            final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            Uri uri = new Uri.Builder().build().parse(LIST_URI);
+            if(uri!=null) {
+                ContentValues values = new ContentValues();
+                values.put("kind", plant.getCntntsSj());
+                values.put("date", reg_date);
+                values.put("soil", soil_kind);
+                values.put("num", plant.getCntntsNo());
+                String last_date = txt_lastwaterdate.getText().toString();
+                values.put("lastdate", last_date);
+                //values.put("humidity", humid);
+                //values.put("period", period);
+
+                if(plant_img!=null && path!=null){
+                    values.put("image", plant_img);
+                    values.put("path", path);
+                }
+
+                uri = getContentResolver().insert(uri,values);
+                Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
+            }
+
+            setResult(RESULT_OK);
+            Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    /*
+
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private BluetoothLeService mBluetoothLeService;
+    private boolean mConnected = false;
+    private BluetoothGattCharacteristic characteristicTX;
+    private BluetoothGattCharacteristic characteristicRX;
+    private final String LIST_NAME = "NAME";
+    private final String LIST_UUID = "UUID";
+    private boolean isPermission = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d("커넥 상태", "Connect request result=" + result);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -468,56 +519,5 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
         return intentFilter;
     }
 
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId()==R.id.btn_regi){
-
-            final String plant_kind = txt_kindplant.getText().toString();
-            if(plant_kind.length()<1){
-                Toast.makeText(getApplicationContext(),"식물 종류를 입력해주세요!",Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            //토양의 종류
-            spinner_soil = findViewById(R.id.spinner_soil);
-            final int soil_kind = spinner_soil.getSelectedItemPosition();
-
-            //등록버튼 클릭 당시 날짜를 받아서 저장함
-            final String reg_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-            Uri uri = new Uri.Builder().build().parse(LIST_URI);
-            if(uri!=null) {
-                ContentValues values = new ContentValues();
-                values.put("kind", plant.getCntntsSj());
-                values.put("date", reg_date);
-                values.put("soil", soil_kind);
-                values.put("num", plant.getCntntsNo());
-                String last_date = txt_lastwaterdate.getText().toString();
-                values.put("lastdate", last_date);
-                //values.put("humidity", humid);
-                //values.put("period", period);
-
-                if(plant_img!=null && path!=null){
-                    values.put("image", plant_img);
-                    values.put("path", path);
-                }
-
-                uri = getContentResolver().insert(uri,values);
-                Log.d("데이터베이스;식물리스트",  "INSERT 결과 =>"+uri);
-            }
-
-            setResult(RESULT_OK);
-            Toast.makeText(getApplicationContext(),"식물이 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+*/
 }

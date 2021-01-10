@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlockBackground"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:gravity="center"
-        android:padding="@dimen/editbox_padding"
+        android:padding="@dimen/edittext_inside_padding"
         android:text="꽃부기\n부경대학교 it융합응용공학과"
         android:textColor="@color/colorSubTitleFont"
         android:textSize="@dimen/block_content_font_size" />
@@ -94,8 +95,10 @@
         android:layout_margin="@dimen/side_padding"
         android:backgroundTint="@color/colorAccentDark"
         android:clickable="true"
+        android:soundEffectsEnabled="true"
         android:tint="@android:color/white"
-        app:srcCompat="@drawable/ic_add_24px" />
+        app:srcCompat="@drawable/ic_add_24px"
+        tools:ignore="VectorDrawableCompat" />
 
 
 </FrameLayout>

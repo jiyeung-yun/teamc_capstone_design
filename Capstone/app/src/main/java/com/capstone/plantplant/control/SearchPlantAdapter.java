@@ -13,11 +13,11 @@ import com.capstone.plantplant.model.Plant;
 
 import java.util.ArrayList;
 
-public class KindSearchAdapter extends RecyclerView.Adapter<KindSearchAdapter.ViewHolder> implements OnAdapterItemClickListener{
+public class SearchPlantAdapter extends RecyclerView.Adapter<SearchPlantAdapter.ViewHolder> implements OnAdapterItemClickListener{
     ArrayList<Plant> items = new ArrayList<>();
     OnAdapterItemClickListener onAdapterItemClickListener;
 
-    public KindSearchAdapter(ArrayList<Plant> items) {
+    public SearchPlantAdapter(ArrayList<Plant> items) {
         this.items = items;
     }
 

@@ -43,7 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|top"
                 android:background="@null"
-                app:srcCompat="@drawable/ic_clear_24px" />
+                android:soundEffectsEnabled="true"
+                app:srcCompat="@drawable/ic_clear_24px"
+                tools:ignore="VectorDrawableCompat" />
         </LinearLayout>
 
         <TextView
@@ -61,7 +63,7 @@
             android:layout_marginTop="@dimen/side_padding"
             android:layout_marginBottom="@dimen/side_padding"
             android:background="@drawable/blank_background"
-            android:padding="@dimen/editbox_padding"
+            android:padding="@dimen/edittext_inside_padding"
             app:queryBackground="@android:color/white"></androidx.appcompat.widget.SearchView>
 
         <androidx.recyclerview.widget.RecyclerView

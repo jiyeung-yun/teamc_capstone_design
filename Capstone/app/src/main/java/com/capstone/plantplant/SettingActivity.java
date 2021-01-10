@@ -12,22 +12,28 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -47,23 +53,9 @@ import static com.capstone.plantplant.db.ListDBHelper.ALL_COLUMS;
 
 
 public class SettingActivity extends AppCompatActivity {
-    Toolbar toolbar_control;
-
-    private String mDeviceName;
-    private String mDeviceAddress;
-    private BluetoothLeService mBluetoothLeService;
-    private boolean mConnected = false;
-    private BluetoothGattCharacteristic characteristicTX;
-    private BluetoothGattCharacteristic characteristicRX;
-    public final static UUID HM_RX_TX = UUID.fromString(SampleGattAttributes.HM_RX_TX);
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
-    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
-    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";        //넘겨 받은거
-
-
     AlertDialog.Builder dialog;
 
+    ImageButton btn_setting_close;
     Button btn_control_save,btn_reset_data;
     Spinner cont_spinner_time;
 
@@ -73,76 +65,32 @@ public class SettingActivity extends AppCompatActivity {
     EditText editText_watertime,editText_waterdate,editText_waterhumidity;
     String watertime="",waterdate="",waterhumidity="";
 
-    Spinner spinner_control_soil,spinner_control_pot;
+    Spinner spinner_control_soil;
     int index;
 
     Uri uri = new Uri.Builder().build().parse(LIST_URI);
 
     String kind;
 
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {
-               // Log.e(TAG, "Unable to initialize Bluetooth");
-                finish();
-            }
-            mBluetoothLeService.connect(mDeviceAddress);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothLeService = null;
-        }
-    };
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                mConnected = true;
-                Toast.makeText(context, "DEVICE CONNECTED", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
-                // mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
-                Toast.makeText(context, "DEVICE DISCONNECTED", Toast.LENGTH_LONG).show();
-                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
-                invalidateOptionsMenu();
-                //  clearUI();
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-                displayGattServices(mBluetoothLeService.getSupportedGattServices());
-                mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-               // displayData(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
-            }
-        }
-    };
-
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        /*액션바 => 툴바로 적용*/
-        toolbar_control = findViewById(R.id.toolbar_control);
-        setSupportActionBar(toolbar_control);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this,R.drawable.ic_keyboard_backspace_24px));
-        /*액션바 => 툴바로 적용*/
-
+/*
         final Intent intent1 = getIntent();
         mDeviceName = intent1.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent1.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+  */
+
+        /*상단 작업표시줄 투명하게 만드는 코드*/
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.TRANSPARENT);
 
         //데이터를 삭제할 경우 보여지는 알림창 초기화
         dialog = new AlertDialog.Builder(this);
@@ -167,18 +115,19 @@ public class SettingActivity extends AppCompatActivity {
         dialog.create();
 
 
-        //모듈 전원 스위치
-        switch_module_onoff = findViewById(R.id.switch_module_onoff);
-        switch_module_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btn_setting_close = findViewById(R.id.btn_setting_close);
+        btn_setting_close.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                switch_module_water.setChecked(isChecked);
+            public void onClick(View v) {
+                finish();
             }
         });
-    //    switch_module_onoff.setChecked(true);
+        //모듈 전원 스위치
+        switch_module_onoff = findViewById(R.id.switch_module_onoff);
+
 
         //급수 제어 정보 레이아웃
-        ly_control_water = findViewById(R.id.ly_control_water);
+        //ly_control_water = findViewById(R.id.ly_control_water);
 
 
         //자동 급수 스위치
@@ -187,17 +136,24 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked && switch_module_onoff.isChecked() ){
-                    ly_control_water.setVisibility(View.VISIBLE);
+                   //ly_control_water.setVisibility(View.VISIBLE);
                 }else {
                     if(!switch_module_onoff.isChecked()){
                         Toast.makeText(getApplicationContext(),"모듈의 전원이 켜져있을 때만\n자동 급수가 가능합니다",Toast.LENGTH_SHORT).show();
                         switch_module_water.setChecked(false);
                     }
-                    ly_control_water.setVisibility(View.GONE);
+                    //ly_control_water.setVisibility(View.GONE);
                 }
             }
         });
 
+        switch_module_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch_module_water.setChecked(isChecked);
+            }
+        });
+        switch_module_onoff.setChecked(true);
 
         //데이터 삭제 버튼
         btn_reset_data = findViewById(R.id.btn_reset_data);
@@ -208,7 +164,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         //오전/오후 스피너 초기화
         cont_spinner_time = (Spinner)findViewById(R.id.control_spinner);
         String[] days = {"오전","오후"};
@@ -286,8 +242,7 @@ public class SettingActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable editable) { }
-        });
-
+        });*/
         Intent intent = getIntent();
         index = intent.getIntExtra("index",0);
 
@@ -362,6 +317,62 @@ public class SettingActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+/*
+
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private BluetoothLeService mBluetoothLeService;
+    private boolean mConnected = false;
+    private BluetoothGattCharacteristic characteristicTX;
+    private BluetoothGattCharacteristic characteristicRX;
+    public final static UUID HM_RX_TX = UUID.fromString(SampleGattAttributes.HM_RX_TX);
+    private final String LIST_NAME = "NAME";
+    private final String LIST_UUID = "UUID";
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";              //넘겨 받은거
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";        //넘겨 받은거
+
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                // Log.e(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+            mBluetoothLeService.connect(mDeviceAddress);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+                mConnected = true;
+                Toast.makeText(context, "DEVICE CONNECTED", Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                // mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                mConnected = false;
+                Toast.makeText(context, "DEVICE DISCONNECTED", Toast.LENGTH_LONG).show();
+                Log.d("블투 커넥 상태", "Connect request result=" + mConnected);
+                invalidateOptionsMenu();
+                //  clearUI();
+            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                // Show all the supported services and characteristics on the user interface.
+                displayGattServices(mBluetoothLeService.getSupportedGattServices());
+                mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                // displayData(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
+            }
+        }
+    };
+
 
     private void makeChange(String msg) {
         String str = msg;
@@ -397,7 +408,7 @@ public class SettingActivity extends AppCompatActivity {
         mBluetoothLeService = null;
     }
 
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.gatt_services, menu);
         if (mConnected) {
@@ -409,9 +420,9 @@ public class SettingActivity extends AppCompatActivity {
             menu.findItem(R.id.menu_disconnect).setVisible(false);
         }
         return true;
-    }*/
+    }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_connect:
@@ -425,7 +436,7 @@ public class SettingActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
@@ -455,5 +466,5 @@ public class SettingActivity extends AppCompatActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
-
+*/
 }
