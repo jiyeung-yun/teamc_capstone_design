@@ -118,6 +118,7 @@ public class PlantInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
         });
 
@@ -480,4 +481,9 @@ public class PlantInfoActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
+    }
 }

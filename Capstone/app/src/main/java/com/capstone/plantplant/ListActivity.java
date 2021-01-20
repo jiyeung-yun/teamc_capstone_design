@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.control.ItemListAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
-import com.capstone.plantplant.model.ItemList;
+import com.capstone.plantplant.model.ListItem;
 import com.capstone.plantplant.model.Plant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ListActivity extends AppCompatActivity {
     static final String APIKEY = "20201230U305ZJZS6YJFNRMABTDW"; //인증키
@@ -31,6 +35,7 @@ public class ListActivity extends AppCompatActivity {
     FloatingActionButton btn_add_item;
     RecyclerView ry_plant_list;
 
+    TextView txt_list_month,txt_list_day,txt_list_count;
     @Override
     protected void onStart() {
         super.onStart();
@@ -44,6 +49,22 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list);
+
+        txt_list_month = findViewById(R.id.txt_list_month);
+        txt_list_day = findViewById(R.id.txt_list_day);
+
+        Date today = new Date();
+        SimpleDateFormat sMonth = new SimpleDateFormat("MMM", new Locale("en", "US"));
+        String month = sMonth.format(today);
+        txt_list_month.setText(month);
+
+        SimpleDateFormat sDay = new SimpleDateFormat("dd");
+        String day = sDay.format(today);
+        txt_list_day.setText(day);
+
+
+        txt_list_count = findViewById(R.id.txt_list_count);
+
 
         //식물리스트에 식물아이템을 추가하는 버튼
         btn_add_item = findViewById(R.id.btn_add_item);
@@ -88,9 +109,10 @@ public class ListActivity extends AppCompatActivity {
             Cursor cursor = getContentResolver().query(uri,colums,null,null,null);
 
             int count =  cursor.getCount();
+            txt_list_count.setText("총 "+count+"개");
             if(count > 0){
                 while(cursor.moveToNext()){
-                    ItemList item = new ItemList();
+                    ListItem item = new ListItem();
                     //식별자
                     int idx = cursor.getInt(cursor.getColumnIndex(colums[0]));
                     item.setIndex(idx);

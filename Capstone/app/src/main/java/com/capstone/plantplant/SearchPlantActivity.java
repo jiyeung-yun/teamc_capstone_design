@@ -72,6 +72,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                 setResult(RESULT_CANCELED);
                 loadingPrograss(false);
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
         });
 
@@ -96,9 +97,11 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                     Plant p = items.get(position);
                     intent.putExtra("result_kind_num",p.getCntntsNo());
                     intent.putExtra("result_kind_name",p.getCntntsSj());
+
                     setResult(RESULT_OK,intent);
                     loadingPrograss(false);
                     finish();
+                    overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
                 }
             }
         });
@@ -269,5 +272,9 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         }
 
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
+    }
 }

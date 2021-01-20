@@ -105,8 +105,8 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(clearDeviceData(getIntent().getIntExtra("index",0))){
-                    setResult(RESULT_OK);
                     finish();
+                    overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
                 }
             }
         });
@@ -120,6 +120,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
         });
         //모듈 전원 스위치
@@ -267,32 +268,19 @@ public class SettingActivity extends AppCompatActivity {
                 //입력한 정보를 기기 내 DB에 업데이트 후 모듈에 전달
                 ContentValues values = new ContentValues();
 
-                //습도
-                int humidy = Integer.parseInt(editText_waterhumidity.getText().toString());
-                values.put("humidity", humidy);
-
-                //기간
-                int date = Integer.parseInt(editText_waterdate.getText().toString());
-                values.put("period", date);
-
-                //시간
-                int time = Integer.parseInt(editText_watertime.getText().toString());
-                values.put("time", time);
-
                 //토양
                 values.put("soil", spinner_control_soil.getSelectedItemPosition());
                 //values.put("size", spinner_control_pot.getSelectedItemPosition());
-
 
                 int count = getContentResolver().update(uri,values,"_index="+index,null);
                 Log.d("데이터베이스;식물리스트",  "UPDATE 결과 =>"+count+"개의 컬럼이 변경되었습니다.");
 
                 Toast.makeText(getApplicationContext(),"성공적으로 설정하였습니다.",Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
 
                 final Intent intent = new Intent(getApplicationContext(), RegiPlantActivity.class);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
         });
 
@@ -310,11 +298,10 @@ public class SettingActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
         super.onBackPressed();
+        overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
     }
 
 /*

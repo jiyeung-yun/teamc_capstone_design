@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_control"
+        android:id="@+id/toolbar_cam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"

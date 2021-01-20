@@ -1,4 +1,4 @@
-package com.capstone.plantplant;
+package com.capstone.plantplant.util;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -51,6 +51,7 @@ public class DeviceTask extends AsyncTask<Void, Void, Void> {
             long transId = IMUtil.getTransactionLongRoundKey4();
 
             Log.d(TAG, rows.toString());
+
             // 계측 데이터 HashMap 객체로 전송한다. key는 센싱태그 명 value는 계측값을 넣는다.
             connector.requestNumColecDatas(rows, new Date(), transId);
 

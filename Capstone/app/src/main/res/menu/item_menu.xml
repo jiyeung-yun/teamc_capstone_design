@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/btn_setting"
+        android:enabled="true"
         android:icon="@drawable/ic_settings_24px"
-        android:title="제어"
         android:iconTint="@color/colorTitleFont"
-        app:showAsAction="always"
-        android:enabled="true"/>
+        android:title="설정"
+        app:showAsAction="always" />
 </menu>

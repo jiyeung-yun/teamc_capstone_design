@@ -61,6 +61,9 @@
         <!-- 식물 아이템 상세 액티비티 -->
         <activity android:name="com.capstone.plantplant.ItemActivity"/>
 
+        <!-- 식물 캠 액티비티 -->
+        <activity android:name="com.capstone.plantplant.CamActivity"/>
+
         <!-- 급수 컨트롤 액티비티 -->
         <activity android:name="com.capstone.plantplant.SettingActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"

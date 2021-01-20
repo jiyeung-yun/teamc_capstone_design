@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:segmentedgroup="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:segmentedgroup="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:paddingTop="@dimen/activity_margin_top">
+    android:paddingTop="95dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,8 +29,8 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text=" SETTING"
                 android:textColor="@color/colorTitleFont"
                 android:textSize="@dimen/activity_title_font_size"
@@ -91,7 +92,8 @@
                                 android:checked="false"
                                 android:text="모듈 ON/OFF"
                                 android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size" />
+                                android:textSize="@dimen/activity_title_font_size"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -137,7 +139,8 @@
                                 android:gravity="center"
                                 android:text="물"
                                 android:textColor="@color/colorAccentDark"
-                                android:textSize="@dimen/activity_title_font_size" />
+                                android:textSize="@dimen/activity_title_font_size"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -145,7 +148,8 @@
                                 android:layout_weight="1"
                                 android:text=" 공급 설정"
                                 android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size" />
+                                android:textSize="@dimen/activity_title_font_size"
+                                android:textStyle="bold" />
 
                             <com.google.android.material.switchmaterial.SwitchMaterial
                                 android:id="@+id/switch_module_water"
@@ -414,7 +418,8 @@
                             android:layout_weight="1"
                             android:text="초기 설정 변경"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -458,7 +463,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:background="@drawable/blank_background"
+                                android:background="@drawable/blank_dot_background"
                                 android:entries="@array/soil_array"
                                 android:padding="@dimen/edittext_inside_padding"
                                 android:spinnerMode="dialog" />
@@ -512,13 +517,13 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="20dp"
                     android:background="@drawable/btn_reset"
-                    android:drawableLeft="@drawable/ic_error_24px"
-                    android:drawableTint="@color/colorVectorIcon"
+                    android:drawableLeft="@drawable/ic_delete_24px"
+                    android:drawableTint="@android:color/white"
                     android:paddingLeft="@dimen/block_title_padding"
                     android:paddingRight="@dimen/block_title_padding"
                     android:text="데이터 삭제"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="13sp" />
+                    android:textColor="@color/colorBlockBackground"
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </ScrollView>

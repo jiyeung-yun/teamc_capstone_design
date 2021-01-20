@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E4F7BA</color>
-    <color name="colorPrimary1">#B5DB92</color>
-    <color name="colorPrimary2">#A3CCA3</color>
-    <color name="colorPrimary3">#D6E6F0</color>
+    <color name="colorPrimary">#F0F0F0</color>
+    <color name="colorPrimary1">#ABDC65</color>
+    <color name="colorPrimary2">#74C600</color>
+    <color name="colorPrimary3">#61A500</color>
+    <color name="colorPrimary4">#549000</color>
 
-    <color name="colorPrimaryDark">#508221</color>
-    <color name="colorAccent">#86C0F2</color>
+    <color name="colorPrimaryDark">#264200</color>
+
+    <color name="colorAccent">#93DAFF</color>
+    <color name="colorAccent1">#96C7ED</color>
     <color name="colorAccentDark">#6989B2</color>
 
     <color name="colorBlockBackground">#FFFDFFFA</color>
@@ -14,8 +17,8 @@
     <color name="colorVectorIcon">#666666</color>
     <color name="colorDeviderLine">#F3F3F3</color>
 
-    <color name="colorSubTitleFont">#AFAFAF</color>
-    <color name="colorTitleFont">#555555</color>
+    <color name="colorSubTitleFont">#888888</color>
+    <color name="colorTitleFont">#444444</color>
     <color name="colorButtonFont">#FFFFFF</color>
 
     <color name="colorStateBackground">#FFF8FCFF</color>

@@ -64,14 +64,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/plant"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/of_kind"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
@@ -125,14 +127,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/plant"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/of_image"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
@@ -154,7 +158,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:background="@drawable/blank_background"
+                            android:background="@drawable/blank_dot_background"
                             android:clickable="false"
                             android:padding="@dimen/edittext_inside_padding"
                             android:scaleType="fitCenter"
@@ -167,7 +171,7 @@
                             android:layout_gravity="center"
                             android:background="@null"
                             android:scaleType="fitCenter"
-                            android:tint="@color/colorSubTitleFont"
+                            android:tint="@color/colorPrimary1"
                             app:srcCompat="@drawable/ic_add_to_photos_24px"
                             tools:ignore="VectorDrawableCompat" />
                     </androidx.cardview.widget.CardView>
@@ -204,14 +208,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/soil"
                             android:textColor="@color/colorSoil"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/of_kind"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size" />
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
@@ -227,7 +233,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/blank_background"
+                        android:background="@drawable/blank_dot_background"
                         android:entries="@array/soil_array"
                         android:padding="@dimen/edittext_inside_padding"
                         android:spinnerMode="dialog" />
@@ -305,7 +311,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/last_water_date"
                         android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/activity_title_font_size" />
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -323,6 +330,7 @@
                         android:background="@drawable/blank_dot_background"
                         android:clickable="true"
                         android:padding="@dimen/edittext_inside_padding"
+                        android:textColor="@color/colorTitleFont"
                         android:textSize="@dimen/block_accent_font_size" />
                 </LinearLayout>
 
@@ -351,7 +359,8 @@
                         android:layout_weight="1"
                         android:text="@string/check_connect"
                         android:textColor="@color/colorTitleFont"
-                        android:textSize="@dimen/activity_title_font_size" />
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
 
                     <ToggleButton
                         android:id="@+id/btn_connect"
@@ -378,7 +387,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary3"
+        android:background="@color/colorAccent1"
         android:text="@string/register"
         android:textColor="@color/colorButtonFont"
         android:textSize="@dimen/activity_title_font_size"

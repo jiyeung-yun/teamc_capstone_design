@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.R;
-import com.capstone.plantplant.model.ItemList;
+import com.capstone.plantplant.model.ListItem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> implements OnAdapterItemClickListener{
-    ArrayList<ItemList> items = new ArrayList<>();
+    ArrayList<ListItem> items = new ArrayList<>();
     OnAdapterItemClickListener onAdapterItemClickListener;
 
     @NonNull
@@ -33,7 +33,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        ItemList item = items.get(position);
+        ListItem item = items.get(position);
         viewHolder.itemView.setLongClickable(true);
         viewHolder.setItem(item);
     }
@@ -43,13 +43,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         return items.size();
     }
 
-    public void addItem(ItemList item) {
+    public void addItem(ListItem item) {
         items.add(item);
     }
-    public ItemList getItem(int position) {
+    public ListItem getItem(int position) {
         return items.get(position);
     }
-    public void setItems(ArrayList<ItemList> items) {
+    public void setItems(ArrayList<ListItem> items) {
         this.items = items;
     }
     public void setOnItemClickListener(OnAdapterItemClickListener listener) {
@@ -81,7 +81,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                 }
             });
         }
-        public void setItem(final ItemList item) {
+        public void setItem(final ListItem item) {
             txt_listitem_name.setText(item.getName());
 
             String path = item.getPath();

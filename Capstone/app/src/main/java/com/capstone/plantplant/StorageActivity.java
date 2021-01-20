@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -43,6 +45,8 @@ public class StorageActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"식물 사진을 등록하기 위해서는 권한허용이 필요합니다.",Toast.LENGTH_SHORT).show();
             setResult(RESULT_CANCELED);
             finish();
+            overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
+
         }
     }
 
@@ -58,6 +62,7 @@ public class StorageActivity extends AppCompatActivity {
 
     ImageButton btn_camera,btn_gallery,btn_storage_cancel;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +103,7 @@ public class StorageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 setResult(RESULT_CANCELED);
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
         });
 
@@ -156,6 +162,7 @@ public class StorageActivity extends AppCompatActivity {
                 Log.d("Storage Activity","onActivityResult => path == null");
                 setResult(RESULT_CANCELED);
                 finish();
+                overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
             }
 
             Log.d("Storage Activity","file path is "+path);
@@ -166,6 +173,7 @@ public class StorageActivity extends AppCompatActivity {
             setResult(RESULT_OK,intent);
 
             finish();
+            overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
 
         }
 
@@ -173,6 +181,7 @@ public class StorageActivity extends AppCompatActivity {
 
         setResult(RESULT_CANCELED);
         finish();
+        overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
 
     }
     private String saveToInternalStorage(Bitmap bitmapImage){
@@ -208,7 +217,11 @@ public class StorageActivity extends AppCompatActivity {
 
         return directory.getAbsolutePath();
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(getChangingConfigurations(),R.anim.slide_down);
+    }
 
 
 }

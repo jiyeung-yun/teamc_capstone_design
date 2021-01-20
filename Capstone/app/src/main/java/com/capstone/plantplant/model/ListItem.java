@@ -1,12 +1,10 @@
 package com.capstone.plantplant.model;
 
-public class ItemList {
+public class ListItem {
     private int index;
     private String name;
     private String path;
     private String filename;
-
-
 
     public int getIndex() {
         return index;

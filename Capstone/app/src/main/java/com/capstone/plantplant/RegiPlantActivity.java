@@ -248,9 +248,7 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                     }
 
                 }
-                else{
-                    Toast.makeText(getApplicationContext(),"이미지 로드를 실패하였습니다",Toast.LENGTH_SHORT).show();
-                }
+
                 break;
             }
             case REQUEST_PLANT_KIND:{
@@ -298,8 +296,6 @@ public class RegiPlantActivity extends AppCompatActivity implements View.OnClick
                 values.put("num", plant.getCntntsNo());
                 String last_date = txt_lastwaterdate.getText().toString();
                 values.put("lastdate", last_date);
-                //values.put("humidity", humid);
-                //values.put("period", period);
 
                 if(plant_img!=null && path!=null){
                     values.put("image", plant_img);
