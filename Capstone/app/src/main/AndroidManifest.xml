@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.capstone.plantplant">
 
     <!--식물정보 다운로드 시 필요??-->
@@ -10,9 +11,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--카메라로 사진 업로드 시 필요 -->
     <uses-permission android:name="android.permission.CAMERA"/>
-    <!--블루투스 기능 사용시 필요 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!--블루투스 기능 사용시 필요
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -30,7 +35,10 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:theme="@style/AppTheme">
+        android:screenOrientation="portrait"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
 
         <!-- 어플리케이션 구동시 보이는 첫 화면-->
 
@@ -42,6 +50,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.capstone.plantplant.DriveActivity"
+            android:theme="@style/PopUpActivityTheme"/>
 
         <!--사용자 식물 등록할 수 있는 액티비티 -->
         <activity android:name="com.capstone.plantplant.RegiPlantActivity"
@@ -59,10 +69,16 @@
         <activity android:name="com.capstone.plantplant.ListActivity"/>
 
         <!-- 식물 아이템 상세 액티비티 -->
-        <activity android:name="com.capstone.plantplant.ItemActivity"/>
+        <activity android:name="com.capstone.plantplant.ItemActivity"
+            android:parentActivityName=".ListActivity"/>
 
         <!-- 식물 캠 액티비티 -->
         <activity android:name="com.capstone.plantplant.CamActivity"/>
+
+        <!-- 서버에 등록된 기기목록 액티비티 -->
+        <activity android:name="com.capstone.plantplant.DeviceActivity"
+            android:theme="@style/PopUpActivityTheme">
+        </activity>
 
         <!-- 급수 컨트롤 액티비티 -->
         <activity android:name="com.capstone.plantplant.SettingActivity"

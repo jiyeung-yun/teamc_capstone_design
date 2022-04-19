@@ -22,21 +22,23 @@ public class ListDBHelper extends SQLiteOpenHelper {
     public static final String PLANT_KIND= "kind"; //식물의 종류
     public static final String PLANT_DATE= "date"; //등록 날짜
     public static final String PLANT_SOIL = "soil"; //토양 종류
-    public static final String PLANT_LAST_DATE = "lastdate"; //마지막으로 급수한 날짜
+    public static final String PLANT_WATER = "water"; //급수 기준
     public static final String PLANT_NUM = "num"; //식물의 컨텐츠 번호
     public static final String PLANT_IMAGE = "image"; //식물 사진 파일명
     public static final String PLANT_IMAGE_PATH = "path"; //식물 사진 저장 경로
+    public static final String PLANT_DEVICE_NUMBER = "device"; //해당 식물의 디바이스 넘버
 
-    public static final String[] ALL_COLUMS ={PLANT_ID,PLANT_KIND,PLANT_DATE,PLANT_SOIL,PLANT_LAST_DATE,PLANT_NUM,PLANT_IMAGE,PLANT_IMAGE_PATH};
+    public static final String[] ALL_COLUMS ={PLANT_ID,PLANT_KIND,PLANT_DATE,PLANT_SOIL,PLANT_WATER,PLANT_NUM,PLANT_IMAGE,PLANT_IMAGE_PATH,PLANT_DEVICE_NUMBER};
     private static final String CREATE_TABLE ="CREATE TABLE IF NOT EXISTS "+TABLE_NAME
             +"("+PLANT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
             +PLANT_KIND+" TEXT,"
             +PLANT_DATE+" TEXT,"
             +PLANT_SOIL+" INTEGER,"
-            +PLANT_LAST_DATE+" TEXT,"
+            +PLANT_WATER+" INTEGER,"
             +PLANT_NUM+" TEXT,"
             +PLANT_IMAGE+" TEXT,"
-            +PLANT_IMAGE_PATH+" TEXT"
+            +PLANT_IMAGE_PATH+" TEXT,"
+            +PLANT_DEVICE_NUMBER+" INTEGER"
             + ")";
 
     public ListDBHelper(Context context){

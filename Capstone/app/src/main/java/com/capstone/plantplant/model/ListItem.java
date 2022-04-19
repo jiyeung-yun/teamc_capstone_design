@@ -5,6 +5,15 @@ public class ListItem {
     private String name;
     private String path;
     private String filename;
+    private boolean problem = false;
+
+    public boolean isProblem() {
+        return problem;
+    }
+
+    public void setProblem(boolean problem) {
+        this.problem = problem;
+    }
 
     public int getIndex() {
         return index;

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginTop="@dimen/frame_margin_top"
-        android:background="@drawable/pop_primary_background"
+        android:background="@drawable/pop_white_background"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/side_padding">
@@ -66,28 +66,11 @@
             android:padding="@dimen/content_padding"
             app:queryBackground="@android:color/white"></androidx.appcompat.widget.SearchView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="검색 결과"
-            android:textColor="@color/colorTitleFont"
-            android:textSize="@dimen/block_accent_font_size"
-            android:textStyle="bold" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divide_line_size"
-            android:layout_marginTop="@dimen/block_title_padding"
-            android:layout_marginBottom="@dimen/block_title_padding"
-            android:background="@color/colorPrimaryDark">
-
-        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ry_search_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/blank_background" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

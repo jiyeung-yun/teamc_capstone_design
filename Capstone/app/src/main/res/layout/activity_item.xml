@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorBackground"
     tools:context=".ItemActivity">
 
     <ScrollView
@@ -22,6 +22,7 @@
                 android:id="@+id/toolbar_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorBlockBackground"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:contentInsetStart="0dp">
@@ -32,80 +33,409 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/image_icon_size"
-                        android:layout_height="@dimen/image_icon_size"
+                    <TextView
+                        android:id="@+id/main_plant_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center|center_horizontal|center_vertical"
-                        app:srcCompat="@drawable/icon_plant"
-                        app:tint="@color/colorPrimary1" />
+                        android:text="My Plant"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/side_padding"
-                android:layout_marginRight="@dimen/side_padding"
-                android:layout_marginBottom="@dimen/side_padding"
-                app:cardBackgroundColor="@color/colorBlockBackground"
-                app:cardCornerRadius="@dimen/block_edge"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/block_title_padding"
+                        app:srcCompat="@drawable/ic_timeline_24px"
+                        app:tint="@color/colorTitleFont"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="상태"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/item_refresh_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:tint="@color/colorVectorIcon"
+                        app:srcCompat="@drawable/ic_cached_black_24dp"
+                        tools:ignore="VectorDrawableCompat" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/block_title_padding"
+                    android:layout_marginBottom="@dimen/edittext_inside_padding"
+                    android:layout_weight="1"
+                    android:text="현재 식물의 상태 정보를 확인하실 수 있습니다"
+                    android:textColor="@color/colorSubTitleFont"
+                    android:textSize="@dimen/sub_title_font_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/content_padding"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/colorBlockBackground"
+                        app:cardCornerRadius="@dimen/block_edge"
+                        app:cardElevation="@dimen/block_elevation"
+                        app:cardPreventCornerOverlap="false"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:id="@+id/ly_main_humity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/edittext_inside_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/block_title_padding"
+                                android:gravity="center|center_vertical"
+                                android:text="습 도"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="@dimen/block_title_padding"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/ic_blood_droplet_icon"
+                                    app:tint="@color/colorAccentDark"
+                                    tools:ignore="VectorDrawableCompat" />
+
+                                <TextView
+                                    android:id="@+id/main_txt_humity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="-"
+                                    android:textColor="@color/colorTitleFont"
+                                    android:textSize="@dimen/block_accent_font_size"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/content_padding"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/colorBlockBackground"
+                        app:cardCornerRadius="@dimen/block_edge"
+                        app:cardElevation="@dimen/block_elevation"
+                        app:cardPreventCornerOverlap="false"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:id="@+id/ly_main_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/edittext_inside_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/block_title_padding"
+                                android:gravity="center|center_vertical"
+                                android:text="온 도"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="@dimen/block_title_padding"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/ic_thermometer_icon"
+                                    app:tint="#D3613D"
+                                    tools:ignore="VectorDrawableCompat" />
+
+                                <TextView
+                                    android:id="@+id/main_txt_temp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="-"
+                                    android:textColor="@color/colorTitleFont"
+                                    android:textSize="@dimen/block_accent_font_size"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/content_padding"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/colorBlockBackground"
+                        app:cardCornerRadius="@dimen/block_edge"
+                        app:cardElevation="@dimen/block_elevation"
+                        app:cardPreventCornerOverlap="false"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:id="@+id/ly_main_water_vol"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/edittext_inside_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/block_title_padding"
+                                android:gravity="center|center_vertical"
+                                android:text="@string/block_title_waterlevel"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/main_img_water_vol"
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="@dimen/block_title_padding"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/ic_sentiment_satisfied_24px"
+                                    app:tint="@color/colorPrimaryDark"
+                                    tools:ignore="VectorDrawableCompat" />
+
+                                <TextView
+                                    android:id="@+id/main_txt_water_vol"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="-"
+                                    android:textColor="@color/colorTitleFont"
+                                    android:textSize="@dimen/block_accent_font_size"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/side_padding">
+                    android:layout_marginTop="@dimen/block_inside_padding"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_icon_size"
+                        android:layout_height="@dimen/image_icon_size"
+                        android:layout_marginRight="@dimen/block_title_padding"
+                        app:srcCompat="@drawable/ic_miscellaneous_services_24px"
+                        app:tint="@color/colorTitleFont"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/watering"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/block_title_padding"
+                    android:layout_marginBottom="@dimen/edittext_inside_padding"
+                    android:layout_weight="1"
+                    android:text="가장 최근 급수 정보를 확인하실 수 있습니다"
+                    android:textColor="@color/colorSubTitleFont"
+                    android:textSize="@dimen/sub_title_font_size" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/colorBlockBackground"
+                    app:cardCornerRadius="@dimen/block_edge"
+                    app:cardElevation="@dimen/block_elevation"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/block_title_padding"
-                            app:srcCompat="@drawable/ic_local_florist_24px"
-                            app:tint="@color/colorPrimaryDark"
-                            tools:ignore="VectorDrawableCompat" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/edittext_inside_padding">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="정보"
+                            android:text="날짜"
                             android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/block_accent_font_size" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txt_prev_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="-"
+                                android:padding="@dimen/content_padding"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_accent_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txt_diff_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="-"
+                                android:padding="@dimen/content_padding"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/block_inside_padding"
+                android:layout_marginRight="@dimen/block_inside_padding"
+                android:layout_marginBottom="@dimen/block_inside_padding"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/block_title_padding"
+                        app:srcCompat="@drawable/ic_local_florist_24px"
+                        app:tint="@color/colorPrimaryDark"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/block_title_padding"
-                        android:layout_marginBottom="@dimen/edittext_inside_padding"
                         android:layout_weight="1"
-                        android:text="클릭하시면 자세한 정보를 확인하실 수 있습니다"
-                        android:textColor="@color/colorSubTitleFont"
-                        android:textSize="@dimen/sub_title_font_size" />
+                        android:text="정보"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/block_title_padding"
+                    android:layout_marginBottom="@dimen/edittext_inside_padding"
+                    android:text="등록하신 정보를 확인하실 수 있습니다"
+                    android:textColor="@color/colorSubTitleFont"
+                    android:textSize="@dimen/sub_title_font_size" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ly_state_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorBlockBackground"
+                    app:cardCornerRadius="@dimen/block_edge"
+                    app:cardElevation="@dimen/block_elevation"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="vertical"
+                        android:padding="@dimen/side_padding">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/ly_item_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/image_size"
                             android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/side_padding"
                             android:layout_weight="1"
                             android:visibility="visible"
                             app:cardBackgroundColor="#CCFFFFFF"
                             app:cardCornerRadius="@dimen/block_edge"
-                            app:cardElevation="1dp"
+                            app:cardElevation="0dp"
                             app:cardPreventCornerOverlap="false"
                             app:cardUseCompatPadding="false">
 
@@ -135,41 +465,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:clickable="true"
-                            android:orientation="vertical"
-                            android:padding="@dimen/edittext_inside_padding">
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/content_padding"
+                                android:layout_marginBottom="@dimen/side_padding"
                                 android:background="@drawable/blank_background"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="식물의 종류"
-                                    android:textColor="@color/colorTitleFont" />
-
-                                <TextView
-                                    android:id="@+id/main_plant_name"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="종류 보이는 곳"
-                                    android:padding="@dimen/content_padding"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/content_padding"
-                                android:background="@drawable/blank_background"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -192,9 +495,9 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/side_padding"
                                 android:background="@drawable/blank_background"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -218,422 +521,23 @@
 
                         </LinearLayout>
 
-                    </LinearLayout>
 
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/side_padding"
-                android:layout_marginRight="@dimen/side_padding"
-                android:layout_marginBottom="@dimen/side_padding"
-                app:cardBackgroundColor="@color/colorBlockBackground"
-                app:cardCornerRadius="@dimen/block_edge"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/block_inside_padding"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/block_title_padding"
-                            app:srcCompat="@drawable/ic_timeline_24px"
-                            app:tint="@color/colorTitleFont"
-                            tools:ignore="VectorDrawableCompat" />
-
-                        <TextView
+                        <Button
+                            android:id="@+id/btn_item_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="상태"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/block_title_padding"
-                        android:layout_marginBottom="@dimen/edittext_inside_padding"
-                        android:layout_weight="1"
-                        android:text="현재 식물의 상태 정보를 확인하실 수 있습니다"
-                        android:textColor="@color/colorSubTitleFont"
-                        android:textSize="@dimen/sub_title_font_size" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="#FDFFFB"
-                            app:cardCornerRadius="@dimen/block_edge"
-                            app:cardElevation="1dp"
-                            app:cardPreventCornerOverlap="false"
-                            app:cardUseCompatPadding="true">
-
-                            <LinearLayout
-                                android:id="@+id/ly_main_humity"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/block_title_padding"
-                                    android:gravity="center|center_vertical"
-                                    android:text="습 도"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="35dp"
-                                        android:layout_height="35dp"
-                                        android:layout_marginBottom="@dimen/block_title_padding"
-                                        android:layout_weight="1"
-                                        app:srcCompat="@drawable/ic_blood_droplet_icon"
-                                        app:tint="@color/colorAccent1"
-                                        tools:ignore="VectorDrawableCompat" />
-
-                                    <TextView
-                                        android:id="@+id/main_txt_humity"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:hint="습도"
-                                        android:textColor="@color/colorTitleFont"
-                                        android:textSize="@dimen/block_accent_font_size"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="#FDFFFB"
-                            app:cardCornerRadius="@dimen/block_edge"
-                            app:cardElevation="1dp"
-                            app:cardPreventCornerOverlap="false"
-                            app:cardUseCompatPadding="true">
-
-                            <LinearLayout
-                                android:id="@+id/ly_main_temp"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/block_title_padding"
-                                    android:gravity="center|center_vertical"
-                                    android:text="온 도"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="35dp"
-                                        android:layout_height="35dp"
-                                        android:layout_marginBottom="@dimen/block_title_padding"
-                                        android:layout_weight="1"
-                                        app:srcCompat="@drawable/ic_thermometer_icon"
-                                        app:tint="@color/colorSoil"
-                                        tools:ignore="VectorDrawableCompat" />
-
-                                    <TextView
-                                        android:id="@+id/main_txt_temp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:hint="온도"
-                                        android:textColor="@color/colorTitleFont"
-                                        android:textSize="@dimen/block_accent_font_size"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="#FDFFFB"
-                            app:cardCornerRadius="@dimen/block_edge"
-                            app:cardElevation="1dp"
-                            app:cardPreventCornerOverlap="false"
-                            app:cardUseCompatPadding="true">
-
-                            <LinearLayout
-                                android:id="@+id/ly_main_water_vol"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:padding="@dimen/edittext_inside_padding">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/block_title_padding"
-                                    android:gravity="center|center_vertical"
-                                    android:text="@string/block_title_waterlevel"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:id="@+id/main_img_water_vol"
-                                        android:layout_width="35dp"
-                                        android:layout_height="35dp"
-                                        android:layout_marginBottom="@dimen/block_title_padding"
-                                        android:layout_weight="1"
-                                        app:srcCompat="@drawable/ic_sentiment_satisfied_24px"
-                                        app:tint="@color/colorPrimary3"
-                                        tools:ignore="VectorDrawableCompat" />
-
-                                    <TextView
-                                        android:id="@+id/main_txt_water_vol"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:hint="수위"
-                                        android:textColor="@color/colorTitleFont"
-                                        android:textSize="@dimen/block_accent_font_size"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/side_padding"
-                android:layout_marginRight="@dimen/side_padding"
-                android:layout_marginBottom="@dimen/block_inside_padding"
-                app:cardBackgroundColor="@color/colorBlockBackground"
-                app:cardCornerRadius="@dimen/block_edge"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/pop_white_background"
-                    android:orientation="vertical"
-                    android:padding="@dimen/side_padding">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/image_icon_size"
-                            android:layout_height="@dimen/image_icon_size"
-                            android:layout_marginRight="@dimen/block_title_padding"
-                            app:srcCompat="@drawable/ic_water_tap_faucet_drop_drip_eco_ecology_icon"
-                            app:tint="@color/colorAccentDark"
-                            tools:ignore="VectorDrawableCompat" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/watering"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
+                            android:layout_marginTop="@dimen/block_title_padding"
+                            android:background="@drawable/btn_connect"
+                            android:text="관련정보 더보기"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/block_content_font_size"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/block_title_padding"
-                        android:layout_marginBottom="@dimen/edittext_inside_padding"
-                        android:layout_weight="1"
-                        android:text="가장 최근 급수 정보를 확인하실 수 있습니다"
-                        android:textColor="@color/colorSubTitleFont"
-                        android:textSize="@dimen/sub_title_font_size" />
-
-                    <!--
-                <LinearLayout
-            android:id="@+id/view_next_watering"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/side_padding"
-            android:background="@drawable/blank_background"
-            android:orientation="vertical"
-            android:padding="@dimen/side_padding">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/side_padding"
-                android:layout_weight="1"
-                android:drawableTint="@color/colorVectorIcon"
-                android:gravity="center_vertical"
-                android:text="@string/title_supply_next"
-                android:textColor="@color/colorTitleFont"
-                android:textSize="@dimen/activity_title_font_size"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/block_title_padding"
-                android:layout_weight="1"
-                android:text="날짜"
-                android:textColor="@color/colorTitleFont"
-                android:textSize="@dimen/block_content_font_size" />
-
-            <LinearLayout
-                android:id="@+id/ly_next_date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/block_title_padding"
-                    app:srcCompat="@drawable/ic_today_24px"
-                    app:tint="@color/colorVectorIcon" />
-
-                <TextView
-                    android:id="@+id/txt_next_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="2020-00-00"
-                    android:textColor="@color/colorTitleFont"
-                    android:textSize="@dimen/block_accent_font_size" />
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/side_padding"
-                android:layout_marginBottom="@dimen/block_title_padding"
-                android:layout_weight="1"
-                android:text="물 양"
-                android:textColor="@color/colorTitleFont"
-                android:textSize="@dimen/block_content_font_size" />
-
-            <LinearLayout
-                android:id="@+id/ly_next_vol"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/block_title_padding"
-                    app:srcCompat="@drawable/ic_straighten_24px"
-                    app:tint="@color/colorVectorIcon" />
-
-                <TextView
-                    android:id="@+id/txt_next_vol"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="50ml"
-                    android:textColor="@color/colorAccentDark"
-                    android:textSize="@dimen/block_accent_font_size" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-        -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/blank_background"
-                        android:orientation="vertical"
-                        android:padding="@dimen/edittext_inside_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="날짜"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_accent_font_size" />
-
-
-                        <TextView
-                            android:id="@+id/txt_prev_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="날짜 보이는 곳"
-                            android:padding="@dimen/content_padding"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/block_accent_font_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    app:cardUseCompatPadding="true">
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divide_line_size"
+        android:background="@color/colorDeviderLine">
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/edittext_inside_padding"
+        android:background="@color/colorBlockBackground"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/block_inside_padding">
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/list_item_img_size"
@@ -33,13 +39,20 @@
             android:id="@+id/txt_listitem_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edittext_inside_padding"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:textColor="@color/colorTitleFont"
             android:textSize="@dimen/activity_title_font_size"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/img_listitem_alarm"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@null"
+            app:tint="@color/colorVectorIcon" />
+
     </LinearLayout>
 
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/frame_margin_top"
+        android:background="@drawable/pop_white_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/side_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SERVER DEVICE"
+                android:textColor="@color/colorTitleFont"
+                android:textSize="@dimen/activity_title_font_size"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btn_info_close5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:background="@null"
+                android:soundEffectsEnabled="true"
+                app:srcCompat="@drawable/ic_clear_24px"
+                tools:ignore="VectorDrawableCompat" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginBottom="@dimen/block_inside_padding"
+            android:text="서버에 등록된 디바이스 목록을 받을 수 있습니다"
+            android:textColor="@color/colorSubTitleFont"
+            android:textSize="@dimen/sub_title_font_size" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ry_device_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/blank_background" />
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fy_dv_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_shadow_start_color"
+        android:clickable="false"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar_dv"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+
+
+</FrameLayout>

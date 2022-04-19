@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.capstone.plantplant.model.PInfo;
+import com.capstone.plantplant.model.Nongsaro;
 import com.capstone.plantplant.model.Soil;
 import com.capstone.plantplant.db.SoilDBAdapter;
 
@@ -57,18 +56,19 @@ public class PlantInfoActivity extends AppCompatActivity {
     TextView txt_plantinfo_kind,txt_plantinfo_soil;
 
     TextView txt_fmlCodeNm, txt_orgplceInfo, txt_managedemanddo, txt_prpgtEraInfo, txt_grwhTp,
-            txt_hdCode, txt_adviseInfo, txt_frtlzrInfo, txt_fncltyInfo;
+            txt_hdCode, txt_frtlzrInfo, txt_fncltyInfo;
 
     LinearLayout ly_fmlCodeNm, ly_orgplceInfo, ly_managedemanddo, ly_prpgtEraInfo, ly_grwhTp,
-            ly_hdCode, ly_adviseInfo, ly_frtlzrInfo, ly_fncltyInfo;
+            ly_hdCode, ly_frtlzrInfo, ly_fncltyInfo;
     TextView txt_soil_produce,txt_soil_usage,txt_soil_feature,txt_plantinfo_type;
 
     int index;
     String plant_kind,soil_kind;
 
     Spinner spinner_select_soil;
+    TextView txt_select_soil;
 
-    PInfo pInfo;
+    Nongsaro nongsaro;
 
     //레이아웃 데이터 초기화
     private void InitfindViewByID(){
@@ -149,7 +149,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         index = intent.getIntExtra("index",0);
         Uri uri = new Uri.Builder().build().parse(LIST_URI);
         if(uri!=null){
-            pInfo = new PInfo();
+            nongsaro = new Nongsaro();
             Cursor cursor = getContentResolver().query(uri,ALL_COLUMS,"_index="+index,null,null);
             int count =  cursor.getCount();
             if(count > 0){
@@ -171,7 +171,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         // TODO Auto-generated method stub
-                                        String fml = pInfo.getFmlCodeNm();
+                                        String fml = nongsaro.getFmlCodeNm();
                                         if(fml != null && !fml.equals(" ") || !fml.equals("")){
                                             ly_fmlCodeNm.setVisibility(View.VISIBLE);
                                             txt_fmlCodeNm.setText(fml);
@@ -179,7 +179,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_fmlCodeNm.setVisibility(View.GONE);
                                         }
 
-                                        String org = pInfo.getOrgplceInfo();
+                                        String org = nongsaro.getOrgplceInfo();
                                         if(org != null && !org.equals(" ") || !org.equals("")){
                                             ly_orgplceInfo.setVisibility(View.VISIBLE);
                                             txt_orgplceInfo.setText(org);
@@ -187,7 +187,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_orgplceInfo.setVisibility(View.GONE);
                                         }
 
-                                        String prp = pInfo.getPrpgtEraInfo();
+                                        String prp = nongsaro.getPrpgtEraInfo();
                                         if(prp != null && !prp.equals(" ") || !prp.equals("")){
                                             ly_prpgtEraInfo.setVisibility(View.VISIBLE);
                                             txt_prpgtEraInfo.setText(prp);
@@ -195,7 +195,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_prpgtEraInfo.setVisibility(View.GONE);
                                         }
 
-                                        String grw = pInfo.getGrwhTp();
+                                        String grw = nongsaro.getGrwhTp();
                                         if(grw != null && !grw.equals(" ") || !grw.equals("")){
                                             ly_grwhTp.setVisibility(View.VISIBLE);
                                             txt_grwhTp.setText(grw);
@@ -203,7 +203,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_grwhTp.setVisibility(View.GONE);
                                         }
 
-                                        String hdc = pInfo.getHdCode();
+                                        String hdc = nongsaro.getHdCode();
                                         if(hdc != null && !hdc.equals(" ") || !hdc.equals("")){
                                             ly_hdCode.setVisibility(View.VISIBLE);
                                             txt_hdCode.setText(hdc);
@@ -211,7 +211,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_hdCode.setVisibility(View.GONE);
                                         }
 
-                                        String frt = pInfo.getFrtlzrInfo();
+                                        String frt = nongsaro.getFrtlzrInfo();
                                         if(frt != null && !frt.equals(" ") || !frt.equals("")){
                                             ly_frtlzrInfo.setVisibility(View.VISIBLE);
                                             txt_frtlzrInfo.setText(frt);
@@ -219,7 +219,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_frtlzrInfo.setVisibility(View.GONE);
                                         }
 
-                                        String fnc = pInfo.getFncltyInfo();
+                                        String fnc = nongsaro.getFncltyInfo();
                                         if(fnc != null && !fnc.equals(" ") || !fnc.equals("")){
                                             ly_fncltyInfo.setVisibility(View.VISIBLE);
                                             txt_fncltyInfo.setText(fnc);
@@ -227,7 +227,7 @@ public class PlantInfoActivity extends AppCompatActivity {
                                             ly_fncltyInfo.setVisibility(View.GONE);
                                         }
 
-                                        String manag = pInfo.getManagedemanddo();
+                                        String manag = nongsaro.getManagedemanddo();
                                         if(manag != null && !manag.equals(" ") || !manag.equals("")){
                                             ly_managedemanddo.setVisibility(View.VISIBLE);
                                             txt_managedemanddo.setText(manag);
@@ -253,7 +253,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         soil_kind = intent.getStringExtra("soil_kind");
 
         spinner_select_soil = findViewById(R.id.spinner_select_soil);
-
+        txt_select_soil = findViewById(R.id.txt_select_soil);
 
         final ArrayList<String> arrayList = new ArrayList<>();
         //데이터 베이스 토양 종류 속성 값을 배열에 저장
@@ -281,10 +281,11 @@ public class PlantInfoActivity extends AppCompatActivity {
 
         String[] arr = getResources().getStringArray(R.array.soil_array);
         if(soil_kind.equals(arr[0])){
-
             spinner_select_soil.setVisibility(View.VISIBLE);
+            txt_select_soil.setVisibility(View.VISIBLE);
         }else {
             spinner_select_soil.setVisibility(View.GONE);
+            txt_select_soil.setVisibility(View.GONE);
             //토양 정보를 DB에서 불러서 제공
             LoadSoilInformation(soil_kind);
 
@@ -333,7 +334,7 @@ public class PlantInfoActivity extends AppCompatActivity {
 
     void getPlantInformation(final String q1){
         try {
-            Log.d("PlantInfoActivity","검색할 컨텐츠 번호 => "+q1);
+            //Log.d("PlantInfoActivity","검색할 컨텐츠 번호 => "+q1);
 
             StringBuilder urlBuilder = new StringBuilder("http://api.nongsaro.go.kr/service/garden/gardenDtl");
             urlBuilder.append("?" + URLEncoder.encode("apiKey","UTF-8") + "="+APIKEY); //공공데이터포털에서 받은 인증키
@@ -405,57 +406,57 @@ public class PlantInfoActivity extends AppCompatActivity {
                         case XmlPullParser.TEXT:{
                             if(fmlCodeNm){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"과 코드명 => "+s );
-                                pInfo.setFmlCodeNm(s);
+                                //Log.d(TAG,"과 코드명 => "+s );
+                                nongsaro.setFmlCodeNm(s);
                                 fmlCodeNm = false;
 
                             }
                             else if(orgplceInfo){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"원산지 정보 => "+s );
-                                pInfo.setOrgplceInfo(s);
+                                //Log.d(TAG,"원산지 정보 => "+s );
+                                nongsaro.setOrgplceInfo(s);
                                 orgplceInfo = false;
 
                             }
                             else if(prpgtEraInfo){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"번식 시기 정보 => "+s );
-                                pInfo.setPrpgtEraInfo(s);
+                                //Log.d(TAG,"번식 시기 정보 => "+s );
+                                nongsaro.setPrpgtEraInfo(s);
                                 prpgtEraInfo = false;
 
                             }
                             else if(grwhTpCodeNm){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"생육 온도 코드명 => "+s );
-                                pInfo.setGrwhTp(s);
+                                //Log.d(TAG,"생육 온도 코드명 => "+s );
+                                nongsaro.setGrwhTp(s);
                                 grwhTpCodeNm = false;
 
                             }
                             else if(hdCodeNm){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"습도 코드명 => "+s );
-                                pInfo.setHdCode(s);
+                                //Log.d(TAG,"습도 코드명 => "+s );
+                                nongsaro.setHdCode(s);
                                 hdCodeNm = false;
 
                             }
                             else if(frtlzrInfo){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"비료 정보 => "+s );
-                                pInfo.setFrtlzrInfo(s);
+                                //Log.d(TAG,"비료 정보 => "+s );
+                                nongsaro.setFrtlzrInfo(s);
                                 frtlzrInfo = false;
 
                             }
                             else if(fncltyInfo){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"기능성 정보보 =>"+s );
-                                pInfo.setFncltyInfo(s);
+                                //Log.d(TAG,"기능성 정보보 =>"+s );
+                                nongsaro.setFncltyInfo(s);
                                 fncltyInfo = false;
 
                             }
                             else if(managedemanddoCodeNm){
                                 String s = xmlPullParser.getText();
-                                Log.d(TAG,"관리요구도 코드명 => "+s );
-                                pInfo.setManagedemanddo(s);
+                                //Log.d(TAG,"관리요구도 코드명 => "+s );
+                                nongsaro.setManagedemanddo(s);
                                 managedemanddoCodeNm = false;
 
                             }

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.control.SearchPlantAdapter;
 import com.capstone.plantplant.control.OnAdapterItemClickListener;
-import com.capstone.plantplant.model.Plant;
+import com.capstone.plantplant.model.Plantcntnts;
 
 
 import org.xmlpull.v1.XmlPullParser;
@@ -43,7 +43,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
     ImageButton btn_info_close3;
     SearchView search_kind;
 
-    ArrayList<Plant> items = new ArrayList<>();
+    ArrayList<Plantcntnts> items = new ArrayList<>();
 
     RecyclerView ry_search_list;
     SearchPlantAdapter searchPlantAdapter;
@@ -60,7 +60,6 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
-        /*상단 작업표시줄 투명하게 만드는 코드*/
 
         setContentView(R.layout.activity_searchplant);
 
@@ -94,7 +93,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
             public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
                 if(position<items.size()){
                     Intent intent = new Intent(getApplicationContext(),RegiPlantActivity.class);
-                    Plant p = items.get(position);
+                    Plantcntnts p = items.get(position);
                     intent.putExtra("result_kind_num",p.getCntntsNo());
                     intent.putExtra("result_kind_name",p.getCntntsSj());
 
@@ -167,7 +166,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
    //검색어 관련 전체 폐이지갯수
     int totalPageCount = 0;
 
-    Plant p;
+    Plantcntnts p;
 
     //태그 확인
     boolean cntntsNo = false;
@@ -232,7 +231,7 @@ public class SearchPlantActivity extends AppCompatActivity implements SearchView
                         case XmlPullParser.TEXT:{
                             if(cntntsNo){
                                 String s1 = xmlPullParser.getText();
-                                p = new Plant();
+                                p = new Plantcntnts();
                                 p.setCntntsNo(s1);
                                 Log.d("SearchPlantActivity","시리얼넘버 => "+s1);
                                 cntntsNo = false;

@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.plantplant.R;
-import com.capstone.plantplant.model.Plant;
+import com.capstone.plantplant.model.Plantcntnts;
 
 import java.util.ArrayList;
 
 public class SearchPlantAdapter extends RecyclerView.Adapter<SearchPlantAdapter.ViewHolder> implements OnAdapterItemClickListener{
-    ArrayList<Plant> items = new ArrayList<>();
+    ArrayList<Plantcntnts> items = new ArrayList<>();
     OnAdapterItemClickListener onAdapterItemClickListener;
 
-    public SearchPlantAdapter(ArrayList<Plant> items) {
+    public SearchPlantAdapter(ArrayList<Plantcntnts> items) {
         this.items = items;
     }
 
@@ -25,13 +25,13 @@ public class SearchPlantAdapter extends RecyclerView.Adapter<SearchPlantAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.item_search, parent, false);
+        View itemView = inflater.inflate(R.layout.item_recycler, parent, false);
 
         return new ViewHolder(itemView,onAdapterItemClickListener);
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Plant item = items.get(position);
+        Plantcntnts item = items.get(position);
         viewHolder.itemView.setLongClickable(true);
         viewHolder.setItem(item);
     }
@@ -43,11 +43,11 @@ public class SearchPlantAdapter extends RecyclerView.Adapter<SearchPlantAdapter.
     public void clear(){
         items.clear();
     }
-    public void addItem(Plant item) {
+    public void addItem(Plantcntnts item) {
         items.add(item);
     }
 
-    public void setItems(ArrayList<Plant> items) {
+    public void setItems(ArrayList<Plantcntnts> items) {
         this.items = items;
     }
     public void setOnItemClickListener(OnAdapterItemClickListener listener) {
@@ -77,7 +77,7 @@ public class SearchPlantAdapter extends RecyclerView.Adapter<SearchPlantAdapter.
                 }
             });
         }
-        public void setItem(final Plant item) {
+        public void setItem(final Plantcntnts item) {
             txt_kind_string.setText(item.getCntntsSj());
 
         }

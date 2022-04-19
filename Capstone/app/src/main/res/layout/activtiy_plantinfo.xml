@@ -103,17 +103,29 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/txt_select_soil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/block_title_padding"
+                        android:text="아래 글자를 클릭하여 다양한 토양의 정보를 확인하실 수 있습니다."
+                        android:textColor="@color/colorSubTitleFont"
+                        android:textSize="@dimen/sub_title_font_size" />
+
                     <Spinner
                         android:id="@+id/spinner_select_soil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/blank_background"
-                        android:visibility="gone" />
+                        android:layout_marginBottom="@dimen/block_inside_padding"
 
+                        android:background="@drawable/blank_dot_background2"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/block_edge"
                         android:layout_marginBottom="@dimen/side_padding"
                         android:orientation="horizontal">
 

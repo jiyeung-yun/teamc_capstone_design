@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlockBackground"
+    android:background="@color/colorBackground"
     android:orientation="vertical">
 
 
@@ -32,6 +32,7 @@
                 android:id="@+id/toolbar_list"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorBlockBackground"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:contentInsetStart="0dp">
@@ -63,46 +64,90 @@
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
-                android:id="@+id/ly_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/colorBlockBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/side_padding">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/ic_medium_watering_agriculture_plant_plants_icon_182770"
+                    app:tint="@color/colorPrimary2"
+                    tools:ignore="VectorDrawableCompat" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/side_padding"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_list_month"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txt_list_title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/edittext_inside_padding"
-                        android:text="Fre"
+                        android:layout_marginBottom="2dp"
+                        android:text="[알림] 꽃부기에서 알려드립니다."
                         android:textColor="@color/colorTitleFont"
-                        android:textSize="28sp"
+                        android:textSize="@dimen/activity_title_font_size"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_list_day"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txt_list_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="27"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="32sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_list_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="bottom|right"
-                        android:text="count"
-                        android:textSize="@dimen/sub_title_font_size" />
-
+                        android:text="등록하고 싶은 식물을 검색하고\n사진도 등록해보세요!"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/block_accent_font_size" />
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_add_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/block_interval"
+                android:background="@color/colorBlockBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/side_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="@dimen/block_interval"
+                    app:srcCompat="@drawable/ic_add_24px"
+                    app:tint="@color/colorTitleFont"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/block_interval"
+                    android:text="@string/plant"
+                    android:textColor="@color/colorPrimary3"
+                    android:textSize="@dimen/activity_title_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="등록"
+                    android:textColor="@color/colorTitleFont"
+                    android:textSize="@dimen/activity_title_font_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -112,8 +157,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/ry_plant_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/side_padding">
+                        android:layout_height="wrap_content">
 
                     </androidx.recyclerview.widget.RecyclerView>
                 </RelativeLayout>
@@ -122,19 +166,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_item"
-        android:layout_width="56dip"
-        android:layout_height="56dip"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/side_padding"
-        android:backgroundTint="@color/colorAccentDark"
-        android:clickable="true"
-        android:soundEffectsEnabled="true"
-        android:tint="@android:color/white"
-        app:srcCompat="@drawable/ic_add_24px"
-        tools:ignore="VectorDrawableCompat" />
 
 
 </FrameLayout>

@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="95dp">
+    android:paddingTop="100dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/pop_primary_background"
+            android:background="@drawable/pop_white_background"
             android:orientation="horizontal"
             android:padding="@dimen/side_padding">
 
@@ -30,8 +31,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text=" SETTING"
+                android:text="@string/setting"
                 android:textColor="@color/colorTitleFont"
                 android:textSize="@dimen/activity_title_font_size"
                 android:textStyle="bold" />
@@ -50,125 +52,74 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorBlockBackground"
             android:fillViewport="true"
             android:soundEffectsEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="50dp">
+                android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/view_onoff"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/side_padding"
-                    android:layout_marginTop="@dimen/side_padding"
-                    android:layout_marginRight="@dimen/side_padding"
-                    android:clickable="true"
-                    app:cardBackgroundColor="@color/colorBlockBackground"
-                    app:cardCornerRadius="@dimen/block_edge"
-                    app:cardPreventCornerOverlap="false"
-                    app:cardUseCompatPadding="true">
+                    android:layout_margin="@dimen/block_inside_padding"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/side_padding">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.switchmaterial.SwitchMaterial
-                                android:id="@+id/switch_module_onoff"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:checked="false"
-                                android:text="모듈 ON/OFF"
-                                android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="모듈의 전원 상태를 변경할 수 있습니다"
-                            android:textColor="@color/colorSubTitleFont"
-                            android:textSize="@dimen/sub_title_font_size" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/view_watercontrol"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginRight="18dp"
-                    android:clickable="true"
-                    app:cardBackgroundColor="@color/colorBlockBackground"
-                    app:cardCornerRadius="@dimen/block_edge"
-                    app:cardPreventCornerOverlap="false"
-                    app:cardUseCompatPadding="true">
-
-                    <LinearLayout
+                        android:id="@+id/ly_control_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/block_inside_padding"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/ly_control_title"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="물"
-                                android:textColor="@color/colorAccentDark"
-                                android:textSize="@dimen/activity_title_font_size"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text=" 공급 설정"
-                                android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size"
-                                android:textStyle="bold" />
-
-                            <com.google.android.material.switchmaterial.SwitchMaterial
-                                android:id="@+id/switch_module_water"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:checked="false"
-                                android:textColor="@color/colorTitleFont"
-                                android:textSize="@dimen/activity_title_font_size"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                            android:gravity="center"
+                            android:text="물"
+                            android:textColor="@color/colorAccentDark"
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="자동 급수를 설정할 수 있습니다"
-                            android:textColor="@color/colorSubTitleFont"
-                            android:textSize="@dimen/sub_title_font_size" />
+                            android:layout_weight="1"
+                            android:text=" 공급 설정"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
 
-                        <!--
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_module_water"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:textColor="@color/colorTitleFont"
+                            android:textSize="@dimen/activity_title_font_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="자동 급수를 설정할 수 있습니다"
+                        android:textColor="@color/colorSubTitleFont"
+                        android:textSize="@dimen/sub_title_font_size" />
+
+                    <Button
+                        android:id="@+id/btn_direct_water"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/block_inside_padding"
+                        android:background="@drawable/btn_water"
+                        android:text="직접 공급"
+                        android:textColor="@color/colorStateBackground"
+                        android:textSize="@dimen/block_accent_font_size"
+                        android:textStyle="bold" />
+
+                    <!--
                         <LinearLayout
                             android:id="@+id/ly_control_water"
                             android:layout_width="match_parent"
@@ -389,87 +340,71 @@
                        -->
 
 
-                    </LinearLayout>
+                </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/view_init_control"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginRight="18dp"
-                    android:clickable="true"
-                    app:cardBackgroundColor="@color/colorBlockBackground"
-                    app:cardCornerRadius="@dimen/block_edge"
-                    app:cardPreventCornerOverlap="false"
-                    app:cardUseCompatPadding="true">
+                    android:layout_margin="@dimen/block_inside_padding"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/block_inside_padding"
+                        android:layout_weight="1"
+                        android:text="초기 설정 변경"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/side_padding"
+                        android:text="화분의 정보를 변경할 수 있습니다"
+                        android:textColor="@color/colorSubTitleFont"
+                        android:textSize="@dimen/sub_title_font_size" />
+
+                    <LinearLayout
+                        android:id="@+id/ly_control_soil"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/block_title_padding"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="초기 설정 변경"
-                            android:textColor="@color/colorTitleFont"
-                            android:textSize="@dimen/activity_title_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/side_padding"
-                            android:text="화분의 정보를 변경할 수 있습니다"
-                            android:textColor="@color/colorSubTitleFont"
-                            android:textSize="@dimen/sub_title_font_size" />
-
                         <LinearLayout
-                            android:id="@+id/ly_control_soil"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/block_title_padding"
-                            android:layout_marginBottom="@dimen/side_padding"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="@dimen/block_title_padding"
+                            android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="@dimen/block_title_padding"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/soil"
-                                    android:textColor="@color/colorSoil"
-                                    android:textSize="@dimen/block_content_font_size" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/of_kind"
-                                    android:textColor="@color/colorTitleFont"
-                                    android:textSize="@dimen/block_content_font_size" />
-                            </LinearLayout>
-
-                            <Spinner
-                                android:id="@+id/spinner_control_soil"
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@drawable/blank_dot_background"
-                                android:entries="@array/soil_array"
-                                android:padding="@dimen/edittext_inside_padding"
-                                android:spinnerMode="dialog" />
+                                android:text="@string/soil"
+                                android:textColor="@color/colorSoil"
+                                android:textSize="@dimen/block_content_font_size" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/of_kind"
+                                android:textColor="@color/colorTitleFont"
+                                android:textSize="@dimen/block_content_font_size" />
                         </LinearLayout>
-                        <!--
+
+                        <Spinner
+                            android:id="@+id/spinner_control_soil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blank_dot_background2"
+                            android:entries="@array/soil_array"
+                            android:padding="@dimen/edittext_inside_padding"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+                    <!--
                         <LinearLayout
                             android:id="@+id/ly_control_pot"
                             android:layout_width="match_parent"
@@ -505,44 +440,80 @@
 
                         </LinearLayout>
     -->
-                    </LinearLayout>
+                </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/block_inside_padding"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_reset_data"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/btn_reset"
-                    android:drawableLeft="@drawable/ic_delete_24px"
-                    android:drawableTint="@android:color/white"
-                    android:paddingLeft="@dimen/block_title_padding"
-                    android:paddingRight="@dimen/block_title_padding"
-                    android:text="데이터 삭제"
-                    android:textColor="@color/colorBlockBackground"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="모든 데이터 지우기"
+                        android:textColor="@color/colorTitleFont"
+                        android:textSize="@dimen/activity_title_font_size"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn_reset_data"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@drawable/btn_connect"
+                        android:drawableTint="@android:color/white"
+                        android:paddingLeft="@dimen/block_title_padding"
+                        android:paddingRight="@dimen/block_title_padding"
+                        android:text="삭제"
+                        android:textColor="@color/colorBlockBackground"
+                        android:textSize="@dimen/block_content_font_size" />
+
+                    <!--
+                        <LinearLayout
+                            android:id="@+id/ly_control_pot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/block_title_padding"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/block_title_padding"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/regi_pot_size"
+                                    android:textColor="@color/colorTitleFont"
+                                    android:textSize="@dimen/block_content_font_size" />
+
+                            </LinearLayout>
+
+                            <Spinner
+                                android:id="@+id/spinner_control_pot"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/blank_background"
+                                android:entries="@array/pot_array"
+                                android:padding="@dimen/editbox_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
+    -->
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/btn_control_save"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/colorAccent"
-        android:padding="@dimen/edittext_inside_padding"
-        android:text="@string/save"
-        android:textColor="@color/colorButtonFont"
-        android:textSize="@dimen/activity_title_font_size"
-        android:textStyle="bold" />
 
 
 </FrameLayout>

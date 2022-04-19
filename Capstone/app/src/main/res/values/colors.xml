@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F0F0F0</color>
+    <color name="colorPrimary">#FFABDC65</color>
+
     <color name="colorPrimary1">#ABDC65</color>
     <color name="colorPrimary2">#74C600</color>
     <color name="colorPrimary3">#61A500</color>
@@ -12,10 +13,11 @@
     <color name="colorAccent1">#96C7ED</color>
     <color name="colorAccentDark">#6989B2</color>
 
-    <color name="colorBlockBackground">#FFFDFFFA</color>
+    <color name="colorBlockBackground">#FFFFFFFF</color>
     <color name="colorSoil">#825821</color>
     <color name="colorVectorIcon">#666666</color>
     <color name="colorDeviderLine">#F3F3F3</color>
+    <color name="colorBackground">#F6F6F6</color>
 
     <color name="colorSubTitleFont">#888888</color>
     <color name="colorTitleFont">#444444</color>

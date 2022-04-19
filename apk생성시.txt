@@ -1,5 +1,0 @@
-android key
-
-key alias : teamc
-     password : 333333
-path : Capstone\app\src\main\assert
